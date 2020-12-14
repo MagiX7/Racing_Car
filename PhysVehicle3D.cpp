@@ -140,7 +140,7 @@ void PhysVehicle3D::Turn(float degrees)
 		{
 			// Monster Trucks turn all four wheels
 			if(info.wheels[i].front == false)
-				vehicle->setSteeringValue(-degrees * 0.5, i);
+				vehicle->setSteeringValue(-degrees, i);
 			else
 				vehicle->setSteeringValue(degrees, i);
 		}
