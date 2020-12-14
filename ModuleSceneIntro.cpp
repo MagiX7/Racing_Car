@@ -46,10 +46,14 @@ update_status ModuleSceneIntro::Update(float dt)
 	p.Render();
 	p2List_item<Cube*>* itemCubes = geometryList.getFirst();
 
-	while (itemCubes != nullptr)
+	p2List_item<PhysBody3D*>* itemBodies = physBodies.getFirst();
+
+	while (itemBodies != nullptr && itemCubes != nullptr)
 	{
 		itemCubes->data->Render();
+		itemBodies->data->GetTransform(&itemCubes->data->transform);
 		itemCubes = itemCubes->next;
+		itemBodies = itemBodies->next;
 	}
 	
 
@@ -60,12 +64,14 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
 }
 
-Cube* ModuleSceneIntro::CreateCube(vec3 pos, vec3 size, Color rgb)
+Cube* ModuleSceneIntro::CreateCube(vec3 pos, vec3 size, Color rgb, float mass)
 {
 	Cube* cube = new Cube();
 	cube->SetPos(pos.x,pos.y,pos.z);
-	cube->Scale(size.x, size.y, size.z);
+	cube->size = size;
 	cube->color = rgb;
+	
+	physBodies.add(App->physics->AddBody(*cube, mass));
 	
 	return cube;
 }
@@ -84,10 +90,10 @@ Cube* ModuleSceneIntro::CreateRamp(vec3 pos, vec3 size, Color rgb, float angle, 
 
 void ModuleSceneIntro::MapCreation()
 {
-	geometryList.add(CreateCube(vec3(0, 1.0f, -173.242f), vec3(360.0f,2.0f,1.0f), Blue));
-	geometryList.add(CreateCube(vec3(-180.0f, 1.0f, 4.478f), vec3(1.0f,2.0f,355.597f), Blue));
-	geometryList.add(CreateCube(vec3(0,1.0f,181.802f), vec3(360.0f,2.0f,1.0f), Blue));
-	geometryList.add(CreateCube(vec3(179.432f,1.0f,4.478f), vec3(1.0f,2.0f,355.597f), Blue));
+	geometryList.add(CreateCube(vec3(0, 1.0f, -173.242f), vec3(360.0f,20.0f,1.0f), Blue, 100000));
+	geometryList.add(CreateCube(vec3(-180.0f, 1.0f, 4.478f), vec3(1.0f,20.0f,355.597f), Blue, 100000));
+	geometryList.add(CreateCube(vec3(0,1.0f,181.802f), vec3(360.0f,20.0f,1.0f), Blue, 100000));
+	geometryList.add(CreateCube(vec3(179.432f,1.0f,4.478f), vec3(1.0f,20.0f,355.597f), Blue, 100000));
 	//geometryList.add(CreateCube(vec3(1.581f, 0, 0), vec3(1, 0.5f, 1), Blue));
 
 
