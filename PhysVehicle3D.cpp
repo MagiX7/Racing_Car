@@ -38,18 +38,59 @@ void PhysVehicle3D::Render()
 		wheel.Render();
 	}
 
+	btQuaternion q = vehicle->getChassisWorldTransform().getRotation();
+	
 	Cube chassis(info.chassis_size.x, info.chassis_size.y, info.chassis_size.z);
 	vehicle->getChassisWorldTransform().getOpenGLMatrix(&chassis.transform);
-	btQuaternion q = vehicle->getChassisWorldTransform().getRotation();
 	btVector3 offset(info.chassis_offset.x, info.chassis_offset.y, info.chassis_offset.z);
 	offset = offset.rotate(q.getAxis(), q.getAngle());
 
 	chassis.transform.M[12] += offset.getX();
 	chassis.transform.M[13] += offset.getY();
 	chassis.transform.M[14] += offset.getZ();
+	chassis.color = White;
 
+	Cube cockpit(info.cockpit_size.x, info.cockpit_size.y, info.cockpit_size.z);
+	vehicle->getChassisWorldTransform().getOpenGLMatrix(&cockpit.transform);
+	btVector3 cp_offset(info.cockpit_offset.x, info.cockpit_offset.y, info.cockpit_offset.z);
+	cp_offset = cp_offset.rotate(q.getAxis(), q.getAngle());
+	cockpit.transform.M[12] += cp_offset.getX();
+	cockpit.transform.M[13] += cp_offset.getY();
+	cockpit.transform.M[14] += cp_offset.getZ();
+	cockpit.color = White;
+
+	Cube leftSpoilerSupport(info.spoiler_left_support_size.x, info.spoiler_left_support_size.y, info.spoiler_left_support_size.z);
+	vehicle->getChassisWorldTransform().getOpenGLMatrix(&leftSpoilerSupport.transform);
+	btVector3 lss_offset(info.spoiler_left_support_offset.x, info.spoiler_left_support_offset.y, info.spoiler_left_support_offset.z);
+	lss_offset = lss_offset.rotate(q.getAxis(), q.getAngle());
+	leftSpoilerSupport.transform.M[12] += lss_offset.getX();
+	leftSpoilerSupport.transform.M[13] += lss_offset.getY();
+	leftSpoilerSupport.transform.M[14] += lss_offset.getZ();
+	leftSpoilerSupport.color = White;
+
+	Cube rightSpoilerSupport(info.spoiler_right_support_size.x, info.spoiler_right_support_size.y, info.spoiler_right_support_size.z);
+	vehicle->getChassisWorldTransform().getOpenGLMatrix(&rightSpoilerSupport.transform);
+	btVector3 rss_offset(info.spoiler_right_support_offset.x, info.spoiler_right_support_offset.y, info.spoiler_right_support_offset.z);
+	rss_offset = rss_offset.rotate(q.getAxis(), q.getAngle());
+	rightSpoilerSupport.transform.M[12] += rss_offset.getX();
+	rightSpoilerSupport.transform.M[13] += rss_offset.getY();
+	rightSpoilerSupport.transform.M[14] += rss_offset.getZ();
+	rightSpoilerSupport.color = White;
+
+	Cube spoiler(info.spoiler_size.x, info.spoiler_size.y, info.spoiler_size.z);
+	vehicle->getChassisWorldTransform().getOpenGLMatrix(&spoiler.transform);
+	btVector3 s_offset(info.spoiler_offset.x, info.spoiler_offset.y, info.spoiler_offset.z);
+	s_offset = s_offset.rotate(q.getAxis(), q.getAngle());
+	spoiler.transform.M[12] += s_offset.getX();
+	spoiler.transform.M[13] += s_offset.getY();
+	spoiler.transform.M[14] += s_offset.getZ();
+	spoiler.color = Red;
 
 	chassis.Render();
+	cockpit.Render();
+	leftSpoilerSupport.Render();
+	rightSpoilerSupport.Render();
+	spoiler.Render();
 }
 
 // ----------------------------------------------------------------------------
@@ -59,7 +100,10 @@ void PhysVehicle3D::ApplyEngineForce(float force)
 	{
 		if(info.wheels[i].drive == true)
 		{
-			vehicle->applyEngineForce(force, i);
+			if (info.wheels[i].front == false)
+				vehicle->applyEngineForce(force / 1.5, i);
+			else
+				vehicle->applyEngineForce(force, i);
 		}
 	}
 }
@@ -76,6 +120,17 @@ void PhysVehicle3D::Brake(float force)
 	}
 }
 
+void PhysVehicle3D::Handbrake(float force)
+{
+	for (int i = 0; i < vehicle->getNumWheels(); ++i)
+	{
+		if (info.wheels[i].front == false)
+		{
+			vehicle->setBrake((btScalar)force, i);
+		}
+	}
+}
+
 // ----------------------------------------------------------------------------
 void PhysVehicle3D::Turn(float degrees)
 {
@@ -83,7 +138,11 @@ void PhysVehicle3D::Turn(float degrees)
 	{
 		if(info.wheels[i].steering == true)
 		{
-			vehicle->setSteeringValue(degrees, i);
+			// Monster Trucks turn all four wheels
+			if(info.wheels[i].front == false)
+				vehicle->setSteeringValue(-degrees * 0.5, i);
+			else
+				vehicle->setSteeringValue(degrees, i);
 		}
 	}
 }
