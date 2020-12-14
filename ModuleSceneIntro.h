@@ -4,6 +4,7 @@
 #include "Globals.h"
 #include "Primitive.h"
 
+
 #define MAX_SNAKE 2
 
 struct PhysBody3D;
@@ -20,6 +21,12 @@ public:
 	bool CleanUp();
 
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
+
+	Cube* CreateCube(vec3 pos, vec3 size, Color rgb);
+	Cube* CreateRamp(vec3 pos, vec3 size, Color rgb, float angle, vec3 pivot);
+
+
+	void MapCreation(); 
 
 public:
 	/*
@@ -41,4 +48,9 @@ public:
 
 	PhysMotor3D* left_wheel;
 	PhysMotor3D* right_wheel;
+
+	p2List<Cube*> geometryList;
+	p2List<PhysBody3D*> physBodies;
+
+	Cube* cube;
 };
