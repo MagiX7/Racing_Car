@@ -3,12 +3,27 @@
 #include "p2DynArray.h"
 #include "Globals.h"
 #include "Primitive.h"
-
+#include "glut/glut.h"
+#include "Light.h"
 
 #define MAX_SNAKE 2
+#define checkImageWidth 64
+#define checkImageHeight 64
+#define MAX_LIGHTS 8
 
 struct PhysBody3D;
 struct PhysMotor3D;
+
+
+struct Image {
+
+	unsigned long sizeX;
+
+	unsigned long sizeY;
+
+	char* data;
+
+};
 
 class ModuleSceneIntro : public Module
 {
@@ -25,8 +40,17 @@ public:
 	Cube* CreateCube(vec3 pos, vec3 size, Color rgb, float mass);
 	Cube* CreateRamp(vec3 pos, vec3 size, Color rgb, float angle, vec3 pivot);
 
-
 	void MapCreation(); 
+
+	void makeCheckImage(void);
+
+	int ImageLoad(char* filename, Image* image);
+
+	Image* loadTexture();
+
+	void myinit(void);
+
+	void display(void);
 
 public:
 	/*
@@ -53,4 +77,12 @@ public:
 	p2List<PhysBody3D*> physBodies;
 
 	Cube* cube;
+
+	GLuint texture[2];
+
+	typedef struct Image Image;
+
+	GLubyte checkImage[checkImageWidth][checkImageHeight][3];
+
+	Light lights[MAX_LIGHTS];
 };

@@ -1,6 +1,7 @@
 #include "PhysVehicle3D.h"
 #include "Primitive.h"
 #include "Bullet/include/btBulletDynamicsCommon.h"
+#include "glut/glut.h"
 
 // ----------------------------------------------------------------------------
 VehicleInfo::~VehicleInfo()
@@ -23,6 +24,8 @@ PhysVehicle3D::~PhysVehicle3D()
 // ----------------------------------------------------------------------------
 void PhysVehicle3D::Render()
 {
+	glDisable(GL_TEXTURE_2D);
+
 	Cylinder wheel;
 
 	wheel.color = Blue;
@@ -91,6 +94,8 @@ void PhysVehicle3D::Render()
 	leftSpoilerSupport.Render();
 	rightSpoilerSupport.Render();
 	spoiler.Render();
+
+	glEnable(GL_TEXTURE_2D);
 }
 
 // ----------------------------------------------------------------------------

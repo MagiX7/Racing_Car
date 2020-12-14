@@ -17,6 +17,11 @@ PrimitiveTypes Primitive::GetType() const
 	return type;
 }
 
+mat4x4 Primitive::GetTransform() const
+{
+	return transform;
+}
+
 // ------------------------------------------------------------
 void Primitive::Render() const
 {

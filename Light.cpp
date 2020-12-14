@@ -23,8 +23,10 @@ void Light::Render()
 {
 	if(on)
 	{
+		glDisable(GL_TEXTURE_2D);
 		float pos[] = {position.x, position.y, position.z, 1.0f};
 		glLightfv(ref, GL_POSITION, pos);
+		glEnable(GL_TEXTURE_2D);
 	}
 }
 
