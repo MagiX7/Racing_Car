@@ -2,9 +2,12 @@
 
 #include "PhysBody3D.h"
 #include "glmath.h"
+#include "Primitive.h"
 
 class btRaycastVehicle;
 struct PhysBody3D;
+class btQuaternion;
+class btVector3;
 
 struct Wheel
 {
@@ -69,8 +72,22 @@ public:
 	void Handbrake(float force);
 	void Turn(float degrees);
 	float GetKmh() const;
+	void CreateCar();
+
 public:
 
 	VehicleInfo info;
 	btRaycastVehicle* vehicle;
+	Cylinder* wheel;
+	btQuaternion* q;
+	Cube* chassis;
+	btVector3* offset;
+	Cube* cockpit;
+	btVector3* cp_offset;
+	Cube* leftSpoilerSupport;
+	btVector3* lss_offset;
+	Cube* rightSpoilerSupport;
+	btVector3* rss_offset;
+	Cube* spoiler;
+	btVector3* s_offset;
 };
