@@ -50,3 +50,16 @@ void PhysBody3D::SetLinearVelocity(float x, float y, float z)
 {
 	body->setLinearVelocity(btVector3(x, y, z));
 }
+
+void PhysBody3D::SetAsSensor(bool is_sensor)
+{
+	if (this->isSensor != is_sensor)
+	{
+		this->isSensor = is_sensor;
+
+		if (is_sensor == true)
+			body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
+		else
+			body->setCollisionFlags(body->getCollisionFlags() &~ btCollisionObject::CF_NO_CONTACT_RESPONSE);
+	}
+}

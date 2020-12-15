@@ -38,7 +38,7 @@ public:
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 
 	Cube* CreateCube(vec3 pos, vec3 size, Color rgb, float mass);
-	Cube* CreateRamp(vec3 pos, vec3 size, Color rgb, float angle, vec3 pivot);
+	Cube* CreateRamp(vec3 pos, vec3 size, Color rgb, float angle, vec3 pivot, float mass);
 
 	void MapCreation(); 
 

@@ -72,7 +72,11 @@ public:
 	void Handbrake(float force);
 	void Turn(float degrees);
 	float GetKmh() const;
+
 	void CreateCar();
+
+	vec3 GetPos();
+
 
 public:
 

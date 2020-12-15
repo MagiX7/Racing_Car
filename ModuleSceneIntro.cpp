@@ -52,6 +52,7 @@ update_status ModuleSceneIntro::Update(float dt)
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
+
 }
 
 Cube* ModuleSceneIntro::CreateCube(vec3 pos, vec3 size, Color rgb, float mass)
@@ -62,11 +63,12 @@ Cube* ModuleSceneIntro::CreateCube(vec3 pos, vec3 size, Color rgb, float mass)
 	cube->color = rgb;
 	
 	physBodies.add(App->physics->AddBody(*cube, mass));
+    
 	
 	return cube;
 }
 
-Cube* ModuleSceneIntro::CreateRamp(vec3 pos, vec3 size, Color rgb, float angle, vec3 pivot)
+Cube* ModuleSceneIntro::CreateRamp(vec3 pos, vec3 size, Color rgb, float angle, vec3 pivot, float mass)
 {
 
 	Cube* cube = new Cube();
@@ -74,20 +76,21 @@ Cube* ModuleSceneIntro::CreateRamp(vec3 pos, vec3 size, Color rgb, float angle, 
 	cube->SetPos(pos.x, pos.y, pos.z);
 	cube->size = size;
 	cube->color = rgb;
+    physBodies.add(App->physics->AddBody(*cube, mass));
 	
 	return cube;
 }
 
 void ModuleSceneIntro::MapCreation()
 {
-	geometryList.add(CreateCube(vec3(0, 1.0f, -173.242f), vec3(360.0f,20.0f,1.0f), Blue, 100000));
-	geometryList.add(CreateCube(vec3(-180.0f, 1.0f, 4.478f), vec3(1.0f,20.0f,355.597f), Blue, 100000));
-	geometryList.add(CreateCube(vec3(0,1.0f,181.802f), vec3(360.0f,20.0f,1.0f), Blue, 100000));
-	geometryList.add(CreateCube(vec3(179.432f,1.0f,4.478f), vec3(1.0f,20.0f,355.597f), Blue, 100000));
+	geometryList.add(CreateCube(vec3(0, 1.0f, -173.242f), vec3(360.0f,20.0f,1.0f), Blue, 0));
+	geometryList.add(CreateCube(vec3(-180.0f, 1.0f, 4.478f), vec3(1.0f,20.0f,355.597f), Blue, 0));
+	geometryList.add(CreateCube(vec3(0,1.0f,181.802f), vec3(360.0f,20.0f,1.0f), Blue, 0));
+	geometryList.add(CreateCube(vec3(179.432f,1.0f,4.478f), vec3(1.0f,20.0f,355.597f), Blue, 0));
 	//geometryList.add(CreateCube(vec3(1.581f, 0, 0), vec3(1, 0.5f, 1), Blue));
 
 
-	//geometryList.add(CreateRamp(vec3(1, 1, 1), vec3(5, 5, 1), Red, 45, vec3(1, 0, 0)));
+	geometryList.add(CreateRamp(vec3(1, 1, 1), vec3(10, 5, 1), Red, 45, vec3(1, 0, 0),0));
 
 }
 

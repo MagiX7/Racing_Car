@@ -143,6 +143,7 @@ float PhysVehicle3D::GetKmh() const
 	return vehicle->getCurrentSpeedKmHour();
 }
 
+
 void PhysVehicle3D::CreateCar()
 {
 	wheel = new Cylinder();
@@ -163,3 +164,19 @@ void PhysVehicle3D::CreateCar()
 	spoiler = new Cube(info.spoiler_size.x, info.spoiler_size.y, info.spoiler_size.z);
 	spoiler->color = Red;
 }
+
+vec3 PhysVehicle3D::GetPos()
+{
+	vec3 position;
+
+	Cube chassis(info.chassis_size.x, info.chassis_size.y, info.chassis_size.z);
+	vehicle->getChassisWorldTransform().getOpenGLMatrix(&chassis.transform);
+
+	position.x = chassis.transform.M[12];
+	position.y = chassis.transform.M[13];
+	position.z = chassis.transform.M[14];
+
+	
+	return position;
+}
+
