@@ -47,13 +47,13 @@ bool ModulePlayer::Start()
 	car.spoiler_size.Set(2.5, 0.05, 0.3);
 	car.spoiler_offset.Set(0, 3.3, -2.1);
 
-	car.mass = 1000.0f;
+	car.mass = 800.0f;
 	car.suspensionStiffness = 100.88f;
-	car.suspensionCompression = 0.83f;
+	car.suspensionCompression = 0.5f;
 	car.suspensionDamping = 20.88f;
 	car.maxSuspensionTravelCm = 500.0f;
 	car.frictionSlip = 50.5;
-	car.maxSuspensionForce = 10000.0f;
+	car.maxSuspensionForce = 6000.0f;
 
 	// Wheel properties ---------------------------------------
 	float connection_height = 1.2f;
@@ -162,7 +162,7 @@ update_status ModulePlayer::Update(float dt)
 		handbrake = HANDBRAKE_POWER;
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT && vehicle->GetKmh() > -140)
 	{
 		acceleration = -MAX_ACCELERATION;
 	}
