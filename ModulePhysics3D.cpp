@@ -220,7 +220,7 @@ PhysBody3D* ModulePhysics3D::AddBody(const Sphere& sphere, float mass)
 
 
 // ---------------------------------------------------------
-PhysBody3D* ModulePhysics3D::AddBody(const Cube& cube, float mass, bool setSensor)
+PhysBody3D* ModulePhysics3D::AddBody(const Cube& cube, float mass, bool setSensor, SString name)
 {
 	btCollisionShape* colShape = new btBoxShape(btVector3(cube.size.x*0.5f, cube.size.y*0.5f, cube.size.z*0.5f));
 	shapes.add(colShape);
@@ -239,6 +239,7 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cube& cube, float mass, bool setSenso
 	btRigidBody* body = new btRigidBody(rbInfo);
 	PhysBody3D* pbody = new PhysBody3D(body);
 
+	pbody->name = name;
 	body->setUserPointer(pbody);
 	world->addRigidBody(body);
 	pbody->SetAsSensor(setSensor);

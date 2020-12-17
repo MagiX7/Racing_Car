@@ -53,26 +53,31 @@ update_status ModuleSceneIntro::Update(float dt)
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
-    
+    if (body1->IsSensor())
+    {
+        LOG("Body1: Im a sensor my name is %s", body1->name.GetString());
+    }
+    else if (body2->IsSensor())
+    {
+        LOG("Body2: Im a sensor my name is %s", body2->name.GetString());
+    }
     
 
 }
 
-Cube* ModuleSceneIntro::CreateCube(vec3 pos, vec3 size, Color rgb, float mass, bool isSensor)
+Cube* ModuleSceneIntro::CreateCube(vec3 pos, vec3 size, Color rgb, float mass, SString name, bool isSensor)
 {
 	Cube* cube = new Cube();
 	cube->SetPos(pos.x,pos.y,pos.z);
 	cube->size = size;
 	cube->color = rgb;
 	
-	physBodies.add(App->physics->AddBody(*cube, mass, isSensor));
-    
-    
-	
+	physBodies.add(App->physics->AddBody(*cube, mass, isSensor, name));
+
 	return cube;
 }
 
-Cube* ModuleSceneIntro::CreateRamp(vec3 pos, vec3 size, Color rgb, float angle, vec3 pivot, float mass)
+Cube* ModuleSceneIntro::CreateRamp(vec3 pos, vec3 size, Color rgb, float angle, vec3 pivot, SString name ,float mass)
 {
 
 	Cube* cube = new Cube();
@@ -80,7 +85,7 @@ Cube* ModuleSceneIntro::CreateRamp(vec3 pos, vec3 size, Color rgb, float angle, 
 	cube->SetPos(pos.x, pos.y, pos.z);
 	cube->size = size;
 	cube->color = rgb;
-    physBodies.add(App->physics->AddBody(*cube, mass, false));
+    physBodies.add(App->physics->AddBody(*cube, mass, false, name));
 	
 	return cube;
 }
@@ -88,36 +93,36 @@ Cube* ModuleSceneIntro::CreateRamp(vec3 pos, vec3 size, Color rgb, float angle, 
 void ModuleSceneIntro::MapCreation()
 {
     // Testing Sensor cube
-    //geometryList.add(CreateCube(vec3(0.0f, 2.0f, 20.0f), vec3(4.0f, 4.0f, 4.0f), Black, 0, true));
+    geometryList.add(CreateCube(vec3(0.0f, 2.0f, 20.0f), vec3(4.0f, 4.0f, 4.0f), Black, 0, "sensor" ,true));
     
     // Walls
-	geometryList.add(CreateCube(vec3(0, 1.0f, -173.242f), vec3(360.0f,100.0f,1.0f), Blue, 0));
-	geometryList.add(CreateCube(vec3(-180.0f, 1.0f, 4.478f), vec3(1.0f,100.0f,355.597f), Blue, 0));
-	geometryList.add(CreateCube(vec3(0,1.0f,181.802f), vec3(360.0f,100.0f,1.0f), Blue, 0));
-	geometryList.add(CreateCube(vec3(179.432f,1.0f,4.478f), vec3(1.0f,100.0f,355.597f), Blue, 0));
+	geometryList.add(CreateCube(vec3(0, 1.0f, -173.242f), vec3(360.0f,100.0f,1.0f), Blue,0, "Wall1", true));
+	geometryList.add(CreateCube(vec3(-180.0f, 1.0f, 4.478f), vec3(1.0f,100.0f,355.597f), Blue, 0, "Wall2", true));
+	geometryList.add(CreateCube(vec3(0,1.0f,181.802f), vec3(360.0f,100.0f,1.0f), Blue, 0, "Wall3", true));
+	geometryList.add(CreateCube(vec3(179.432f,1.0f,4.478f), vec3(1.0f,100.0f,355.597f), Blue, 0, "Wall4", true));
 	
-    // First double ramp
-	geometryList.add(CreateCube(vec3(67.407f,5.594f,0), vec3(14.431f,12.265f,83.72f), Red, 0));
-    geometryList.add(CreateRamp(vec3(54.391f,4.978f,-0.384f), vec3(1.409f,17.848f,82.1f), Red, -45, vec3(0, 0, 1), 0));
-    geometryList.add(CreateRamp(vec3(80.352f,4.978f,-0.384f), vec3(1.409f,17.848f,82.1f), Red, 45, vec3(0, 0, 1), 0));
+ //   // First double ramp
+	//geometryList.add(CreateCube(vec3(67.407f,5.594f,0), vec3(14.431f,12.265f,83.72f), Red, 0));
+ //   geometryList.add(CreateRamp(vec3(54.391f,4.978f,-0.384f), vec3(1.409f,17.848f,82.1f), Red, -45, vec3(0, 0, 1), 0));
+ //   geometryList.add(CreateRamp(vec3(80.352f,4.978f,-0.384f), vec3(1.409f,17.848f,82.1f), Red, 45, vec3(0, 0, 1), 0));
 
-    // Second double ramp
-    geometryList.add(CreateCube(vec3(-70.473f, 5.594f, 0), vec3(14.431f, 12.265f, 83.72f), Red, 0));
-    geometryList.add(CreateRamp(vec3(-83.489f, 4.978f, -0.384f), vec3(1.409f, 17.848f, 82.1f), Red, -45, vec3(0, 0, 1), 0));
-    geometryList.add(CreateRamp(vec3(-57.528f, 4.978f, -0.384f), vec3(1.409f, 17.848f, 82.1f), Red, 45, vec3(0, 0, 1), 0));
-	
-    // Starting ramp
-    geometryList.add(CreateRamp(vec3(1.0f, 1.0f, 45.0f), vec3(20.0f, 30.0f, 1.0f), Red, 45, vec3(1, 0, 0),0));
+ //   // Second double ramp
+ //   geometryList.add(CreateCube(vec3(-70.473f, 5.594f, 0), vec3(14.431f, 12.265f, 83.72f), Red, 0));
+ //   geometryList.add(CreateRamp(vec3(-83.489f, 4.978f, -0.384f), vec3(1.409f, 17.848f, 82.1f), Red, -45, vec3(0, 0, 1), 0));
+ //   geometryList.add(CreateRamp(vec3(-57.528f, 4.978f, -0.384f), vec3(1.409f, 17.848f, 82.1f), Red, 45, vec3(0, 0, 1), 0));
+	//
+ //   // Starting ramp
+ //   geometryList.add(CreateRamp(vec3(1.0f, 1.0f, 45.0f), vec3(20.0f, 30.0f, 1.0f), Red, 45, vec3(1, 0, 0),0));
 
 
-    // Single Ramp with cube
-    geometryList.add(CreateCube(vec3(-19.003f,5.187f,132.797f), vec3(14.431f,10.756f,13.135f), Red, 0));
-    geometryList.add(CreateRamp(vec3(-33.173f,4.978f,132.721f), vec3(1.408f,17.748f,13.142f), Red, -55.444f, vec3(0, 0, 1), 0));
+ //   // Single Ramp with cube
+ //   geometryList.add(CreateCube(vec3(-19.003f,5.187f,132.797f), vec3(14.431f,10.756f,13.135f), Red, 0));
+ //   geometryList.add(CreateRamp(vec3(-33.173f,4.978f,132.721f), vec3(1.408f,17.748f,13.142f), Red, -55.444f, vec3(0, 0, 1), 0));
 
-    // Outside ramp and build
-    geometryList.add(CreateCube(vec3(0.0f,6.895f,-151.363f), vec3(279.942f,18.513f,21.03f), Red, 0));
-    geometryList.add(CreateRamp(vec3(-72.099f,6.866f,-133.19f), vec3(37.045f,2.187f,23.893f), White, 45, vec3(1, 0, 0), 0));
-    geometryList.add(CreateRamp(vec3(66.429f,6.866f,-133.19f), vec3(37.045f,2.187f,23.893f), White, 45, vec3(1, 0, 0), 0));
+ //   // Outside ramp and build
+ //   geometryList.add(CreateCube(vec3(0.0f,6.895f,-151.363f), vec3(279.942f,18.513f,21.03f), Red, 0));
+ //   geometryList.add(CreateRamp(vec3(-72.099f,6.866f,-133.19f), vec3(37.045f,2.187f,23.893f), White, 45, vec3(1, 0, 0), 0));
+ //   geometryList.add(CreateRamp(vec3(66.429f,6.866f,-133.19f), vec3(37.045f,2.187f,23.893f), White, 45, vec3(1, 0, 0), 0));
     
 }
 

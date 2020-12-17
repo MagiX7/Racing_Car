@@ -80,6 +80,7 @@ void PhysVehicle3D::Render()
 	spoiler.transform.M[12] += s_offset.getX();
 	spoiler.transform.M[13] += s_offset.getY();
 	spoiler.transform.M[14] += s_offset.getZ();
+	spoiler.color = Red;
 
 	chassis.Render();
 	cockpit.Render();

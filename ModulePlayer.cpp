@@ -123,6 +123,10 @@ bool ModulePlayer::Start()
 	vehicle = App->physics->AddVehicle(car);
 	vehicle->SetPos(0, 5, 10);
 
+	vehicle->collision_listeners.add(App->scene_intro);
+
+	vehicle->vehicle->getRigidBody()->setUserPointer(vehicle);
+
 	return true;
 }
 

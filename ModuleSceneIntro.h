@@ -5,6 +5,7 @@
 #include "Primitive.h"
 #include "glut/glut.h"
 #include "Light.h"
+#include "SString.h"
 
 #define MAX_SNAKE 2
 #define checkImageWidth 64
@@ -37,8 +38,8 @@ public:
 
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 
-	Cube* CreateCube(vec3 pos, vec3 size, Color rgb, float mass, bool isSensor = false);
-	Cube* CreateRamp(vec3 pos, vec3 size, Color rgb, float angle, vec3 pivot, float mass);
+	Cube* CreateCube(vec3 pos, vec3 size, Color rgb, float mass, SString name, bool isSensor = false);
+	Cube* CreateRamp(vec3 pos, vec3 size, Color rgb, float angle, vec3 pivot, SString name, float mass);
 
 	void MapCreation(); 
 
