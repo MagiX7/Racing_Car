@@ -19,6 +19,7 @@ bool ModuleSceneIntro::Start()
 
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
+    
 
 	MapCreation();
 
@@ -52,17 +53,20 @@ update_status ModuleSceneIntro::Update(float dt)
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
+    
+    
 
 }
 
-Cube* ModuleSceneIntro::CreateCube(vec3 pos, vec3 size, Color rgb, float mass)
+Cube* ModuleSceneIntro::CreateCube(vec3 pos, vec3 size, Color rgb, float mass, bool isSensor)
 {
 	Cube* cube = new Cube();
 	cube->SetPos(pos.x,pos.y,pos.z);
 	cube->size = size;
 	cube->color = rgb;
 	
-	physBodies.add(App->physics->AddBody(*cube, mass));
+	physBodies.add(App->physics->AddBody(*cube, mass, isSensor));
+    
     
 	
 	return cube;
@@ -76,13 +80,16 @@ Cube* ModuleSceneIntro::CreateRamp(vec3 pos, vec3 size, Color rgb, float angle, 
 	cube->SetPos(pos.x, pos.y, pos.z);
 	cube->size = size;
 	cube->color = rgb;
-    physBodies.add(App->physics->AddBody(*cube, mass));
+    physBodies.add(App->physics->AddBody(*cube, mass, false));
 	
 	return cube;
 }
 
 void ModuleSceneIntro::MapCreation()
 {
+    // Testing Sensor cube
+    //geometryList.add(CreateCube(vec3(0.0f, 2.0f, 20.0f), vec3(4.0f, 4.0f, 4.0f), Black, 0, true));
+    
     // Walls
 	geometryList.add(CreateCube(vec3(0, 1.0f, -173.242f), vec3(360.0f,100.0f,1.0f), Blue, 0));
 	geometryList.add(CreateCube(vec3(-180.0f, 1.0f, 4.478f), vec3(1.0f,100.0f,355.597f), Blue, 0));
