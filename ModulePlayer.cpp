@@ -47,23 +47,23 @@ bool ModulePlayer::Start()
 	car.spoiler_size.Set(2.5, 0.05, 0.3);
 	car.spoiler_offset.Set(0, 3.3, -2.1);
 
-	car.mass = 800.0f;
+	car.mass = 600.0f;
 	car.suspensionStiffness = 100.88f;
 	car.suspensionCompression = 0.5f;
 	car.suspensionDamping = 20.88f;
-	car.maxSuspensionTravelCm = 500.0f;
+	car.maxSuspensionTravelCm = 400.0f;
 	car.frictionSlip = 50.5;
 	car.maxSuspensionForce = 6000.0f;
 
 	// Wheel properties ---------------------------------------
 	float connection_height = 1.2f;
-	float wheel_radius = 1.3f;
-	float wheel_width = 1.2f;
+	float wheel_radius = 1.5f;
+	float wheel_width = 1.5f;
 	float suspensionRestLength = 1.9f;
 
 	// Don't change anything below this line ------------------
 
-	float half_width = car.chassis_size.x * 0.65f;
+	float half_width = car.chassis_size.x * 0.8f;
 	float half_length = car.chassis_size.z * 0.5f;
 	
 	vec3 direction(0,-1,0);
@@ -121,9 +121,10 @@ bool ModulePlayer::Start()
 	car.wheels[3].steering = true;
 
 	vehicle = App->physics->AddVehicle(car);
-	vehicle->SetPos(0, 0, 10);
+	vehicle->SetPos(0, 5, 10);
 	vehicle->CreateCar();
-	
+		
+
 	return true;
 }
 

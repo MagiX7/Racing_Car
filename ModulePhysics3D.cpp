@@ -279,14 +279,22 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info)
 	btCompoundShape* comShape = new btCompoundShape();
 	shapes.add(comShape);
 
-	btCollisionShape* colShape = new btBoxShape(btVector3(info.chassis_size.x*0.5f, info.chassis_size.y*0.5f, info.chassis_size.z*0.5f));
-	shapes.add(colShape);
+	btCollisionShape* chassisShape = new btBoxShape(btVector3(info.chassis_size.x*0.5f, info.chassis_size.y*0.5f, info.chassis_size.z*0.5f));
+	shapes.add(chassisShape);
 
-	btTransform trans;
-	trans.setIdentity();
-	trans.setOrigin(btVector3(info.chassis_offset.x, info.chassis_offset.y, info.chassis_offset.z));
+	btCollisionShape* cockpitShape = new btBoxShape(btVector3(info.cockpit_size.x * 0.5f, info.chassis_size.y * 0.5f, info.chassis_size.z * 0.5f));
+	shapes.add(cockpitShape);
 
-	comShape->addChildShape(trans, colShape);
+	btTransform chassisTrans;
+	chassisTrans.setIdentity();
+	chassisTrans.setOrigin(btVector3(info.chassis_offset.x, info.chassis_offset.y, info.chassis_offset.z));
+
+	btTransform cockpitTrans;
+	cockpitTrans.setIdentity();
+	cockpitTrans.setOrigin(btVector3(info.cockpit_offset.x, info.cockpit_offset.y, info.cockpit_offset.z));
+
+	comShape->addChildShape(chassisTrans, chassisShape);
+	comShape->addChildShape(cockpitTrans, cockpitShape);
 
 	btTransform startTransform;
 	startTransform.setIdentity();

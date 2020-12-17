@@ -94,4 +94,6 @@ public:
 	btVector3* rss_offset;
 	Cube* spoiler;
 	btVector3* s_offset;
+
+	p2List<Primitive*> carComponents;
 };
