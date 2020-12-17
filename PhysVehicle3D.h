@@ -73,8 +73,6 @@ public:
 	void Turn(float degrees);
 	float GetKmh() const;
 
-	void CreateCar();
-
 	vec3 GetPos();
 
 
@@ -82,7 +80,7 @@ public:
 
 	VehicleInfo info;
 	btRaycastVehicle* vehicle;
-	Cylinder* wheel;
+	/*Cylinder* wheel;
 	btQuaternion* q;
 	Cube* chassis;
 	btVector3* offset;
@@ -93,7 +91,7 @@ public:
 	Cube* rightSpoilerSupport;
 	btVector3* rss_offset;
 	Cube* spoiler;
-	btVector3* s_offset;
+	btVector3* s_offset;*/
 
-	p2List<Primitive*> carComponents;
+	//p2List<Primitive*> carComponents;
 };
