@@ -20,6 +20,9 @@ bool ModuleSceneIntro::Start()
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
     
+    donut.SetVar(2, 8, 50, 50);
+    donut.SetPos(1, 30, 65);
+    //donut.color.Set(1.0f, 0, 0, 1.0f);
 
 	MapCreation();
 
@@ -328,7 +331,7 @@ Image* ModuleSceneIntro::loadTexture() {
 
     }
 
-    if (!ImageLoad("arena5.bmp", image1)) {
+    if (!ImageLoad("sand.bmp", image1)) {
 
         exit(1);
 
@@ -429,6 +432,9 @@ void ModuleSceneIntro::display(void) {
         itemCubes = itemCubes->next;
         itemBodies = itemBodies->next;
     }
+    
+    donut.Render();
+
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, texture[0]);
 

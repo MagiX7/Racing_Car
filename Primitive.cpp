@@ -280,3 +280,26 @@ void Plane::InnerRender() const
 
 	glEnd();
 }
+
+Torus::Torus() : Primitive(), innerRadius(2), outerRadius(8), sides(50), rings(50)
+{
+	type = PrimitiveTypes::Primitive_Torus;
+}
+
+Torus::Torus(double innerRadius, double outerRadius, int sides, int rings) : Primitive(), innerRadius(innerRadius), outerRadius(outerRadius), sides(sides), rings(rings)
+{
+	type = PrimitiveTypes::Primitive_Torus;
+}
+
+void Torus::SetVar(double inner, double outer, int s, int r)
+{
+	innerRadius = innerRadius;
+	outerRadius = outer;
+	sides = s;
+	rings = r;
+}
+
+void Torus::InnerRender() const
+{
+	glutSolidTorus(innerRadius, outerRadius, sides, rings);
+}

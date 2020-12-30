@@ -10,7 +10,8 @@ enum PrimitiveTypes
 	Primitive_Plane,
 	Primitive_Cube,
 	Primitive_Sphere,
-	Primitive_Cylinder
+	Primitive_Cylinder,
+	Primitive_Torus
 };
 
 class Primitive
@@ -93,4 +94,18 @@ public:
 public:
 	vec3 normal;
 	float constant;
+};
+
+class Torus : public Primitive
+{
+public:
+	Torus();
+	Torus(double innerRadius, double outerRadius, int sides, int rings);
+	void InnerRender() const;
+	void SetVar(double innerRadius, double outerRadius, int sides, int rings);
+public:
+	double innerRadius;
+	double outerRadius;
+	int sides;
+	int rings;
 };

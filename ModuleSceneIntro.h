@@ -86,4 +86,6 @@ public:
 	GLubyte checkImage[checkImageWidth][checkImageHeight][3];
 
 	Light lights[MAX_LIGHTS];
+
+	Torus donut;
 };
