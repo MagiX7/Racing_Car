@@ -105,7 +105,7 @@ void ModuleSceneIntro::MapCreation()
 	//geometryList.add(CreateCube(vec3(179.432f,1.0f,4.478f), vec3(1.0f,100.0f,355.597f), Blue, 0, "Wall4", true));
 
     // Start sensor
-    geometryList.add(CreateCube(vec3(-150.387f, 1.904f, -18.939f), vec3(1.0f, 3.53f, 28.847f), White, 0, "start", true));
+    geometryList.add(CreateCube(vec3(-150.387f, 1.904f, -18.939f), vec3(1.0f, 3.53f, 28.847f), Red, 0, "start", true));
 
 
     // Circuit walls
@@ -476,7 +476,10 @@ void ModuleSceneIntro::display(void) {
 
     while (itemBodies != nullptr && itemCubes != nullptr)
     {
-        itemCubes->data->Render();
+        if (itemBodies->data->IsSensor() != true)
+        {
+            itemCubes->data->Render();
+        }
         itemBodies->data->GetTransform(&itemCubes->data->transform);
         itemCubes = itemCubes->next;
         itemBodies = itemBodies->next;
