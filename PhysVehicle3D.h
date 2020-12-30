@@ -29,22 +29,30 @@ struct VehicleInfo
 	
 	vec3 chassis_size;
 	vec3 chassis_offset;
-	/*vec3 spoiler_size;
+	vec3 front_chassis_size;
+	vec3 front_chassis_offset;
+	vec3 spoiler_size;
 	vec3 spoiler_offset;
-	vec3 left_skirt_size;
-	vec3 left_skirt_offset;	
-	vec3 right_skirt_size;
-	vec3 right_skirt_offset;
-	vec3 front_bumper_size;
-	vec3 front_bumper_offset;*/
-	vec3 cockpit_size;
+	vec3 front_wing_right_support_size;
+	vec3 front_wing_right_support_offset;
+	vec3 front_wing_left_support_size;
+	vec3 front_wing_left_support_offset;
+	vec3 front_wing_size;
+	vec3 front_wing_offset;
+	vec3 front_wing_right_size;
+	vec3 front_wing_right_offset;
+	vec3 front_wing_left_size;
+	vec3 front_wing_left_offset;
+
+
+	/*vec3 cockpit_size;
 	vec3 cockpit_offset;
 	vec3 spoiler_left_support_size;
 	vec3 spoiler_left_support_offset;
 	vec3 spoiler_right_support_size;
 	vec3 spoiler_right_support_offset;
 	vec3 spoiler_size;
-	vec3 spoiler_offset;
+	vec3 spoiler_offset;*/
 
 
 	float mass;
