@@ -110,7 +110,7 @@ void ModuleSceneIntro::MapCreation()
 
     // Circuit walls
    
-    geometryList.add(CreateCube(vec3(-181.0f, 6.5f, -411.212f), vec3(1.0f, 13.0f, -815.0f), White, 0, "wall1"));
+    geometryList.add(CreateCube(vec3(-181.0f, 6.5f, -411.212f), vec3(1.0f, 13.0f, 815.0f), White, 0, "wall1"));
     geometryList.add(CreateCube(vec3(-151.028f, 6.5f, -394.152f), vec3(1.0f, 13.0f, 719.176f), White, 0, "wall2"));
 
   

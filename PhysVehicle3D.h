@@ -29,31 +29,48 @@ struct VehicleInfo
 	
 	vec3 chassis_size;
 	vec3 chassis_offset;
+
 	vec3 front_chassis_size;
 	vec3 front_chassis_offset;
+
 	vec3 spoiler_size;
 	vec3 spoiler_offset;
+
 	vec3 front_wing_right_support_size;
 	vec3 front_wing_right_support_offset;
+
 	vec3 front_wing_left_support_size;
 	vec3 front_wing_left_support_offset;
+
 	vec3 front_wing_size;
 	vec3 front_wing_offset;
+
 	vec3 front_wing_right_size;
 	vec3 front_wing_right_offset;
+
 	vec3 front_wing_left_size;
 	vec3 front_wing_left_offset;
 
-
-	/*vec3 cockpit_size;
+	vec3 cockpit_size;
 	vec3 cockpit_offset;
-	vec3 spoiler_left_support_size;
-	vec3 spoiler_left_support_offset;
-	vec3 spoiler_right_support_size;
-	vec3 spoiler_right_support_offset;
-	vec3 spoiler_size;
-	vec3 spoiler_offset;*/
 
+	vec3 back_cockpit_size;
+	vec3 back_cockpit_offset;
+
+	vec3 right_spoiler_support_size;
+	vec3 right_spoiler_support_offset;
+
+	vec3 left_spoiler_support_size;
+	vec3 left_spoiler_support_offset;
+
+	vec3 t_base_size;
+	vec3 t_base_offset;
+
+	vec3 t_up_size;
+	vec3 t_up_offset;
+
+	vec3 antenna_size;
+	vec3 antenna_offset;
 
 	float mass;
 	float suspensionStiffness; // default to 5.88 / 10.0 offroad / 50.0 sports car / 200.0 F1 car
@@ -73,6 +90,8 @@ struct PhysVehicle3D : public PhysBody3D
 public:
 	PhysVehicle3D(btRigidBody* body, btRaycastVehicle* vehicle, const VehicleInfo& info);
 	~PhysVehicle3D();
+
+	Cube CreateCube(vec3 size, vec3 offset, Color color);
 
 	void Render();
 	void ApplyEngineForce(float force);

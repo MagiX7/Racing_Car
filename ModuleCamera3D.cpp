@@ -98,13 +98,25 @@ update_status ModuleCamera3D::Update(float dt)
 		Position = Reference + Z * length(Position);
 	}
 
-	/*Position.x = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() - 15 * App->player->vehicle->vehicle->getForwardVector().getX();
+	/*
+	float angle = App->player->vehicle->vehicle->getChassisWorldTransform().getRotation().getAngle();
+
+	vec3 cameraPosition = App->player->vehicle->GetPos() + vec3(10, 5, 10);//vec3(20 * cos(angle), 10, 20 * sin(angle));
+	vec3 cameraTarget = App->player->vehicle->GetPos();
+
+	Position = cameraPosition;
+	LookAt(cameraTarget);
+	*/
+
+	/*
+	Position.x = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() - 15 * App->player->vehicle->vehicle->getForwardVector().getX();
 	Position.y = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() + 10 * App->player->vehicle->vehicle->getUpAxis();
 	Position.z = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() - 20 * App->player->vehicle->vehicle->getForwardVector().getZ();
 	float x_value = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() + 10 * App->player->vehicle->vehicle->getForwardVector().getX();
 	float z_value = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() + 10 * App->player->vehicle->vehicle->getForwardVector().getZ();
 	LookAt(vec3(x_value, App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY(), z_value));
-	*/
+		*/
+	
 	// Recalculate matrix -------------
 	CalculateViewMatrix();
 
