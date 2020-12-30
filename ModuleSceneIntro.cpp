@@ -104,10 +104,58 @@ void ModuleSceneIntro::MapCreation()
 	//geometryList.add(CreateCube(vec3(0,1.0f,181.802f), vec3(360.0f,100.0f,1.0f), Blue, 0, "Wall3", true));
 	//geometryList.add(CreateCube(vec3(179.432f,1.0f,4.478f), vec3(1.0f,100.0f,355.597f), Blue, 0, "Wall4", true));
 
-    geometryList.add(CreateCube(vec3(155.566f,0.0f,-158.853f), vec3(55.445f,20.333f,1.0f), Blue, 0, "Final", true));
+    // Start sensor
+    geometryList.add(CreateCube(vec3(-150.387f, 1.904f, -18.939f), vec3(1.0f, 3.53f, 28.847f), White, 0, "start", true));
+
+
+    // Circuit walls
+   
+    geometryList.add(CreateCube(vec3(-181.0f, 6.5f, -411.212f), vec3(1.0f, 13.0f, -815.0f), White, 0, "wall1"));
+    geometryList.add(CreateCube(vec3(-151.028f, 6.5f, -394.152f), vec3(1.0f, 13.0f, 719.176f), White, 0, "wall2"));
+
+  
+    geometryList.add(CreateCube(vec3(-21.028f, 6.5f, -34.393f), vec3(260.0f, 13.0f,1.0f), White, 0, "wall3"));
+    geometryList.add(CreateCube(vec3(-21.033f, 6.5f, -4.0f), vec3(320.0f, 13.0f, 1.0f), White, 0, "wall4"));
+
+    geometryList.add(CreateCube(vec3(108.972f, 6.5f, -94.708f), vec3(1.0f, 13.0f, 120.0f), White, 0, "wall5"));
+    geometryList.add(CreateCube(vec3(138.972f, 6.5f, -64.0f), vec3(1.0f, 13.0f, 120.249f), White, 0, "wall6"));
+
+    geometryList.add(CreateCube(vec3(188.9742f, 6.5f, -154.393f), vec3(159.915f, 13.0f, 1.0f), White, 0, "wall7"));
+    geometryList.add(CreateCube(vec3(218.972f, 6.5f, -124.0f), vec3(159.969f, 13.0f, 1.0f), White, 0, "wall8"));
+
+    geometryList.add(CreateCube(vec3(269.213f, 6.5f, -169.227f), vec3(1.0f, 13.0f, 30.537f), White, 0, "wall9"));
+    geometryList.add(CreateCube(vec3(298.409f, 6.5f, -139.388f), vec3(1.0f, 13.0f, 30.412f), White, 0, "wall10"));
+
+    geometryList.add(CreateCube(vec3(379.085f, 6.5f, -184.393f), vec3(220.666f, 13.0f, 1.0f), White, 0, "wall11"));
+    geometryList.add(CreateCube(vec3(375.748f, 6.5f, -154.119f), vec3(155.0f, 13.0f, 1.0f), White, 0, "wall12"));
+
+    geometryList.add(CreateCube(vec3(488.907f, 6.5f, 73.447f), vec3(1.0f, 13.0f, 515.0f), White, 0, "wall13"));
+    geometryList.add(CreateCube(vec3(452.223f, 6.5f, 67.09f), vec3(1.0f, 13.0f, 441.031f), White, 0, "wall14"));
+
+    geometryList.add(CreateCube(vec3(359.075f, 6.5f, 288.042f), vec3(187.778f, 13.0f, 1.0f), White, 0, "wall15"));
+    geometryList.add(CreateCube(vec3(349.358f, 6.5f, 330.812f), vec3(279.98f, 13.0f, 1.0f), White, 0, "wall16"));
+
+    geometryList.add(CreateCube(vec3(210.847f, 6.5f, 111.2f), vec3(1.0f, 13.0f, 441.031f), White, 0, "wall17"));
+    geometryList.add(CreateCube(vec3(264.689f, 6.5f, 93.014f), vec3(1.0f, 13.0f, 389.896f), White, 0, "wall18"));
+
+    geometryList.add(CreateCube(vec3(205.705f, 6.5f, -335.4f), vec3(1.0f, 13.0f, 361.872f), White, 0, "wall19"));
+    geometryList.add(CreateCube(vec3(268.817f, 6.5f, -347.152f), vec3(1.0f, 13.0f, 325.405f), White, 0, "wall20"));
+
+    geometryList.add(CreateCube(vec3(124.496f, 6.5f, -688.935f), vec3(1.0f, 13.0f, 129.394f), White, 0, "wall21"));
+    geometryList.add(CreateCube(vec3(194.752f, 6.5f, -723.446f), vec3(1.0f, 13.0f, 192.205f), White, 0, "wall22"));
+
+    geometryList.add(CreateCube(vec3(-13.058f, 6.5f, -753.415f), vec3(276.0f, 13.0f, 1.0f), White, 0, "wall23"));
+    geometryList.add(CreateCube(vec3(6.763f, 6.5f, -818.984f), vec3(376.0f, 13.0f, 1.0f), White, 0, "wall24"));
+
+    
+
+    // Circuit Ramps
+    geometryList.add(CreateRamp(vec3(237.65f, 13.418f, -49.115f), vec3(48.89f, 57.7f, 1.0f), Red, -60.0f, vec3(1, 0, 0), "firstramp", 0));
+    geometryList.add(CreateRamp(vec3(237.282f, 27.814f, -138.095f), vec3(47.0f, 1.082f, 128.9f), Red, 0, vec3(1, 0, 0), "secondramp", 0));
+    geometryList.add(CreateRamp(vec3(237.551f, 13.049f, -227.619f), vec3(47.549f, 58.977f, 1.0f), Red, 60.0f, vec3(1, 0, 0), "thirdramp", 0));
+    
 	
-    // First double ramp
-	//geometryList.add(CreateCube(vec3(67.407f,5.594f,0), vec3(14.431f,12.265f,83.72f), Red, 0));
+    // Loop Geometry
     geometryList.add(CreateRamp(vec3(237.65f, 0.0f,-531.34f), vec3(55.445f, 20.333f,1.0f), Red, -90.0f, vec3(1, 0, 0), "Ramp", 0));
     geometryList.add(CreateRamp(vec3(231.879f,1.897f,-553.9f), vec3(67.319f,0.953f,13.055f), Red, 14.018f, vec3(1, 0, 0), "Ramp", 0));
     geometryList.add(CreateRamp(vec3(230.907f,5.594f,-565.905f), vec3(67.319f, 0.953f, 13.055f), Red, 20.258f, vec3(1, 0, 0), "Ramp", 0));
@@ -140,6 +188,7 @@ void ModuleSceneIntro::MapCreation()
     geometryList.add(CreateRamp(vec3(159.46f,8.354f,-595.88f), vec3(70.707f, 0.953f, 13.055f), Red, 352.906f, vec3(1, 0, 0), "Ramp", 0));
     geometryList.add(CreateRamp(vec3(159.46f,6.471f,-608.888f), vec3(70.707f, 0.953f, 13.055f), Red, 353.537f, vec3(1, 0, 0), "Ramp", 0));
     geometryList.add(CreateRamp(vec3(159.46f,4.609f,-621.843f), vec3(70.707f, 0.953f, 13.055f), Red, 353.537f, vec3(1, 0, 0), "Ramp", 0));
+
 
  //   // Second double ramp
  //   geometryList.add(CreateCube(vec3(-70.473f, 5.594f, 0), vec3(14.431f, 12.265f, 83.72f), Red, 0));

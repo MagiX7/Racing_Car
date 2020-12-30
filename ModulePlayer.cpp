@@ -162,7 +162,7 @@ update_status ModulePlayer::Update(float dt)
 {
 	turn = acceleration = brake = handbrake = 0.0f;
 
-	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && vehicle->GetKmh() < 140)
+	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && vehicle->GetKmh() < 300)
 	{
 		acceleration = MAX_ACCELERATION;
 	}
