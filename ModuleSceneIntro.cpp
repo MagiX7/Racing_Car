@@ -96,15 +96,47 @@ void ModuleSceneIntro::MapCreation()
     geometryList.add(CreateCube(vec3(0.0f, 2.0f, 20.0f), vec3(4.0f, 4.0f, 4.0f), Black, 0, "sensor" ,true));
     
     // Walls
-	geometryList.add(CreateCube(vec3(0, 1.0f, -173.242f), vec3(360.0f,100.0f,1.0f), Blue,0, "Wall1", true));
-	geometryList.add(CreateCube(vec3(-180.0f, 1.0f, 4.478f), vec3(1.0f,100.0f,355.597f), Blue, 0, "Wall2", true));
-	geometryList.add(CreateCube(vec3(0,1.0f,181.802f), vec3(360.0f,100.0f,1.0f), Blue, 0, "Wall3", true));
-	geometryList.add(CreateCube(vec3(179.432f,1.0f,4.478f), vec3(1.0f,100.0f,355.597f), Blue, 0, "Wall4", true));
+	//geometryList.add(CreateCube(vec3(0, 1.0f, -173.242f), vec3(360.0f,100.0f,1.0f), Blue,0, "Wall1", true));
+	//geometryList.add(CreateCube(vec3(-180.0f, 1.0f, 4.478f), vec3(1.0f,100.0f,355.597f), Blue, 0, "Wall2", true));
+	//geometryList.add(CreateCube(vec3(0,1.0f,181.802f), vec3(360.0f,100.0f,1.0f), Blue, 0, "Wall3", true));
+	//geometryList.add(CreateCube(vec3(179.432f,1.0f,4.478f), vec3(1.0f,100.0f,355.597f), Blue, 0, "Wall4", true));
+
+    geometryList.add(CreateCube(vec3(155.566f,0.0f,-158.853f), vec3(55.445f,20.333f,1.0f), Blue, 0, "Final", true));
 	
- //   // First double ramp
+    // First double ramp
 	//geometryList.add(CreateCube(vec3(67.407f,5.594f,0), vec3(14.431f,12.265f,83.72f), Red, 0));
- //   geometryList.add(CreateRamp(vec3(54.391f,4.978f,-0.384f), vec3(1.409f,17.848f,82.1f), Red, -45, vec3(0, 0, 1), 0));
- //   geometryList.add(CreateRamp(vec3(80.352f,4.978f,-0.384f), vec3(1.409f,17.848f,82.1f), Red, 45, vec3(0, 0, 1), 0));
+    geometryList.add(CreateRamp(vec3(237.65f, 0.0f,-531.34f), vec3(55.445f, 20.333f,1.0f), Red, -90.0f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(231.879f,1.897f,-553.9f), vec3(67.319f,0.953f,13.055f), Red, 14.018f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(230.907f,5.594f,-565.905f), vec3(67.319f, 0.953f, 13.055f), Red, 20.258f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(230.004f,11.401f,-576.966f), vec3(67.319f, 0.953f, 13.055f), Red, 37.067f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(228.828f,19.481f,-586.252f), vec3(67.319f, 0.953f, 13.055f), Red, 45.018f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(227.432f,29.843f,-593.885f), vec3(67.319f, 0.953f, 13.055f), Red, 62.58f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(225.969f,41.755f,-598.69f), vec3(67.319f, 0.953f, 13.055f), Red, 74.222f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(224.359f,53.108f,-601.199f), vec3(67.319f, 0.953f, 13.055f), Red, 81.058f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(222.759f,65.954f,-601.964f), vec3(67.319f, 0.953f, 13.055f), Red, 93.239f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(221.234f,78.35f,-599.545f), vec3(67.319f, 0.953f, 13.055f), Red, 109.016f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(219.914f,89.779f,-593.405f), vec3(67.319f, 0.953f, 13.055f), Red, 126.834f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(217.189f,99.005f,-584.629f), vec3(67.319f, 0.953f, 13.055f), Red, 140.501f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(213.848f,104.901f,-573.774f), vec3(67.319f, 0.953f, 13.055f), Red, 159.895f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(210.307f,107.897f,-561.694f), vec3(67.319f, 0.953f, 13.055f), Red, 170.994f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(204.38f,108.484f,-549.12f), vec3(79.457f, 0.953f, 13.055f), Red, 182.879f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(199.333f,106.716f,-537.087f), vec3(79.457f, 0.953f, 13.055f), Red, 195.692f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(187.28f,102.132f,-525.792f), vec3(70.707f, 0.953f, 13.055f), Red, 207.885f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(184.406f,95.484f,-515.291f), vec3(70.707f, 0.953f, 13.055f), Red, 217.328f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(182.464f,85.66f,-507.133f), vec3(70.707f, 0.953f, 13.055f), Red, 243.023f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(180.26f,73.535f,-503.602f), vec3(70.707f, 0.953f, 13.055f), Red, 265.401f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(178.218f,60.588f,-503.602f), vec3(70.707f, 0.953f, 13.055f), Red, 275.225f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(177.014f,48.039f,-506.307f), vec3(70.707f, 0.953f, 13.055f), Red, 290.753f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(175.114f,36.793f,-512.918f), vec3(70.707f, 0.953f, 13.055f), Red, 310.139f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(171.147f,27.66f,-521.768f), vec3(70.707f, 0.953f, 13.055f), Red, 315.61f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(169.141f,20.313f,-532.305f), vec3(70.707f, 0.953f, 13.055f), Red, 334.408f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(166.531f,15.918f,-544.363f), vec3(70.707f, 0.953f, 13.055f), Red, 344.302f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(162.573f,13.138f,-557.217f), vec3(70.707f, 0.953f, 13.055f), Red, 351.625f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(159.46f,11.319f,-569.927f), vec3(70.707f, 0.953f, 13.055f), Red, 355.566f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(159.46f,9.965f,-583.044f), vec3(70.707f, 0.953f, 13.055f), Red, 352.87f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(159.46f,8.354f,-595.88f), vec3(70.707f, 0.953f, 13.055f), Red, 352.906f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(159.46f,6.471f,-608.888f), vec3(70.707f, 0.953f, 13.055f), Red, 353.537f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(159.46f,4.609f,-621.843f), vec3(70.707f, 0.953f, 13.055f), Red, 353.537f, vec3(1, 0, 0), "Ramp", 0));
 
  //   // Second double ramp
  //   geometryList.add(CreateCube(vec3(-70.473f, 5.594f, 0), vec3(14.431f, 12.265f, 83.72f), Red, 0));
