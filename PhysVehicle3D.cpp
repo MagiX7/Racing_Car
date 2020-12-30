@@ -49,43 +49,73 @@ void PhysVehicle3D::Render()
 	chassis.transform.M[13] += offset.getY();
 	chassis.transform.M[14] += offset.getZ();
 
-	Cube cockpit(info.cockpit_size.x, info.cockpit_size.y, info.cockpit_size.z);
-	vehicle->getChassisWorldTransform().getOpenGLMatrix(&cockpit.transform);
-	btVector3 cp_offset(info.cockpit_offset.x, info.cockpit_offset.y, info.cockpit_offset.z);
-	cp_offset = cp_offset.rotate(q.getAxis(), q.getAngle());
-	cockpit.transform.M[12] += cp_offset.getX();
-	cockpit.transform.M[13] += cp_offset.getY();
-	cockpit.transform.M[14] += cp_offset.getZ();
+	Cube frontChassis(info.front_chassis_size.x, info.front_chassis_size.y, info.front_chassis_size.z);
+	vehicle->getChassisWorldTransform().getOpenGLMatrix(&frontChassis.transform);
+	btVector3 fcOffset(info.front_chassis_offset.x, info.front_chassis_offset.y, info.front_chassis_offset.z);
+	fcOffset = fcOffset.rotate(q.getAxis(), q.getAngle());
+	frontChassis.transform.M[12] += fcOffset.getX();
+	frontChassis.transform.M[13] += fcOffset.getY();
+	frontChassis.transform.M[14] += fcOffset.getZ();
 
-	Cube leftSpoilerSupport(info.spoiler_left_support_size.x, info.spoiler_left_support_size.y, info.spoiler_left_support_size.z);
-	vehicle->getChassisWorldTransform().getOpenGLMatrix(&leftSpoilerSupport.transform);
-	btVector3 lss_offset(info.spoiler_left_support_offset.x, info.spoiler_left_support_offset.y, info.spoiler_left_support_offset.z);
-	lss_offset = lss_offset.rotate(q.getAxis(), q.getAngle());
-	leftSpoilerSupport.transform.M[12] += lss_offset.getX();
-	leftSpoilerSupport.transform.M[13] += lss_offset.getY();
-	leftSpoilerSupport.transform.M[14] += lss_offset.getZ();
+	Cube frontWingRightSupport(info.front_wing_right_support_size.x, info.front_wing_right_support_size.y, info.front_wing_right_support_size.z);
+	vehicle->getChassisWorldTransform().getOpenGLMatrix(&frontWingRightSupport.transform);
+	btVector3 fwrOffset(info.front_wing_right_support_offset.x, info.front_wing_right_support_offset.y, info.front_wing_right_support_offset.z);
+	fwrOffset = fwrOffset.rotate(q.getAxis(), q.getAngle());
+	frontWingRightSupport.transform[12] += fwrOffset.getX();
+	frontWingRightSupport.transform[13] += fwrOffset.getY();
+	frontWingRightSupport.transform[14] += fwrOffset.getZ();
 
-	Cube rightSpoilerSupport(info.spoiler_right_support_size.x, info.spoiler_right_support_size.y, info.spoiler_right_support_size.z);
-	vehicle->getChassisWorldTransform().getOpenGLMatrix(&rightSpoilerSupport.transform);
-	btVector3 rss_offset(info.spoiler_right_support_offset.x, info.spoiler_right_support_offset.y, info.spoiler_right_support_offset.z);
-	rss_offset = rss_offset.rotate(q.getAxis(), q.getAngle());
-	rightSpoilerSupport.transform.M[12] += rss_offset.getX();
-	rightSpoilerSupport.transform.M[13] += rss_offset.getY();
-	rightSpoilerSupport.transform.M[14] += rss_offset.getZ();
+	Cube frontWingLeftSupport(info.front_wing_left_support_size.x, info.front_wing_left_support_size.y, info.front_wing_left_support_size.z);
+	vehicle->getChassisWorldTransform().getOpenGLMatrix(&frontWingLeftSupport.transform);
+	btVector3 fwlOffset(info.front_wing_left_support_offset.x, info.front_wing_left_support_offset.y, info.front_wing_left_support_offset.z);
+	fwlOffset = fwlOffset.rotate(q.getAxis(), q.getAngle());
+	frontWingLeftSupport.transform[12] += fwlOffset.getX();
+	frontWingLeftSupport.transform[13] += fwlOffset.getY();
+	frontWingLeftSupport.transform[14] += fwlOffset.getZ();
+
+	Cube frontWing(info.front_wing_size.x, info.front_wing_size.y, info.front_wing_size.z);
+	vehicle->getChassisWorldTransform().getOpenGLMatrix(&frontWing.transform);
+	btVector3 fwOffset(info.front_wing_offset.x, info.front_wing_offset.y, info.front_wing_offset.z);
+	fwOffset = fwOffset.rotate(q.getAxis(), q.getAngle());
+	frontWing.transform[12] += fwOffset.getX();
+	frontWing.transform[13] += fwOffset.getY();
+	frontWing.transform[14] += fwOffset.getZ();
+	frontWing.color = Black;
+
+	Cube frontWingRight(info.front_wing_right_size.x, info.front_wing_right_size.y, info.front_wing_right_size.z);
+	vehicle->getChassisWorldTransform().getOpenGLMatrix(&frontWingRight.transform);
+	btVector3 fwROffset(info.front_wing_right_offset.x, info.front_wing_right_offset.y, info.front_wing_right_offset.z);
+	fwROffset = fwROffset.rotate(q.getAxis(), q.getAngle());
+	frontWingRight.transform[12] += fwROffset.getX();
+	frontWingRight.transform[13] += fwROffset.getY();
+	frontWingRight.transform[14] += fwROffset.getZ();
+	frontWingRight.color = Black;
+
+	Cube frontWingLeft(info.front_wing_left_size.x, info.front_wing_left_size.y, info.front_wing_left_size.z);
+	vehicle->getChassisWorldTransform().getOpenGLMatrix(&frontWingLeft.transform);
+	btVector3 fwLOffset(info.front_wing_left_offset.x, info.front_wing_left_offset.y, info.front_wing_left_offset.z);
+	fwLOffset = fwLOffset.rotate(q.getAxis(), q.getAngle());
+	frontWingLeft.transform[12] += fwLOffset.getX();
+	frontWingLeft.transform[13] += fwLOffset.getY();
+	frontWingLeft.transform[14] += fwLOffset.getZ();
+	frontWingLeft.color = Black;
 
 	Cube spoiler(info.spoiler_size.x, info.spoiler_size.y, info.spoiler_size.z);
 	vehicle->getChassisWorldTransform().getOpenGLMatrix(&spoiler.transform);
-	btVector3 s_offset(info.spoiler_offset.x, info.spoiler_offset.y, info.spoiler_offset.z);
-	s_offset = s_offset.rotate(q.getAxis(), q.getAngle());
-	spoiler.transform.M[12] += s_offset.getX();
-	spoiler.transform.M[13] += s_offset.getY();
-	spoiler.transform.M[14] += s_offset.getZ();
-	spoiler.color = Red;
+	btVector3 cp_offset(info.spoiler_offset.x, info.spoiler_offset.y, info.spoiler_offset.z);
+	cp_offset = cp_offset.rotate(q.getAxis(), q.getAngle());
+	spoiler.transform.M[12] += cp_offset.getX();
+	spoiler.transform.M[13] += cp_offset.getY();
+	spoiler.transform.M[14] += cp_offset.getZ();
+
 
 	chassis.Render();
-	cockpit.Render();
-	leftSpoilerSupport.Render();
-	rightSpoilerSupport.Render();
+	frontChassis.Render();
+	frontWingRightSupport.Render();
+	frontWingLeftSupport.Render();
+	frontWing.Render();
+	frontWingRight.Render();
+	frontWingLeft.Render();
 	spoiler.Render();
 
 	glEnable(GL_TEXTURE_2D);
@@ -166,4 +196,3 @@ vec3 PhysVehicle3D::GetPos()
 	
 	return position;
 }
-
