@@ -1,4 +1,6 @@
 #include "Globals.h"
+#include "ModulePlayer.h"
+#include "PhysVehicle3D.h"
 #include "Application.h"
 #include "ModuleSceneIntro.h"
 #include "Primitive.h"
@@ -59,10 +61,20 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
     if (body1->IsSensor())
     {
         LOG("Body1: Im a sensor my name is %s", body1->name.GetString());
+
     }
     else if (body2->IsSensor())
     {
         LOG("Body2: Im a sensor my name is %s", body2->name.GetString());
+        if (body2->name == "sensor")
+        {
+          App->player->vehicle->SetPos(-164.75f, 1.026f, -19.035f);
+        }
+        if (body2->name == "startcheckpoint")
+        {
+            checkpointList.add(body2);
+        }
+      
     }
     
 
@@ -146,6 +158,18 @@ void ModuleSceneIntro::MapCreation()
 
     geometryList.add(CreateCube(vec3(-13.058f, 6.5f, -753.415f), vec3(276.0f, 13.0f, 1.0f), White, 0, "wall23"));
     geometryList.add(CreateCube(vec3(6.763f, 6.5f, -818.984f), vec3(376.0f, 13.0f, 1.0f), White, 0, "wall24"));
+
+    
+    // Checkpoints for the map
+       Cube* checkpoint1 = CreateCube(vec3(-150.387f, 1.904f, -18.939f), vec3(1.0f, 3.53f, 28.847f), White, 0, "startcheckpoint");
+       Cube* checkpoint2 = CreateCube(vec3(398.606f, 1.904f, -169.176f), vec3(1.0f, 3.53f, 28.847f), White, 0, "secondcheckpoint");
+       Cube* checkpoint3 = CreateCube(vec3(237.974f, 1.904f, 280.205f), vec3(51.939f, 3.53f, 2.399f), White, 0, "thirdcheckpoint");
+       Cube* checkpoint4 = CreateCube(vec3(159.448f, 1.904f, -736.108f), vec3(69.648f, 3.53f, 2.399f), White, 0, "fourthcheckpoint");
+
+       geometryList.add(checkpoint1);
+       geometryList.add(checkpoint2);
+       geometryList.add(checkpoint3);
+       geometryList.add(checkpoint4);
 
     
 
@@ -478,8 +502,8 @@ void ModuleSceneIntro::display(void) {
     {
         if (itemBodies->data->IsSensor() != true)
         {
-            itemCubes->data->Render();
         }
+            itemCubes->data->Render();
         itemBodies->data->GetTransform(&itemCubes->data->transform);
         itemCubes = itemCubes->next;
         itemBodies = itemBodies->next;

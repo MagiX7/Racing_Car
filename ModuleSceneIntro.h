@@ -77,6 +77,8 @@ public:
 	p2List<Cube*> geometryList;
 	p2List<PhysBody3D*> physBodies;
 
+	p2List<PhysBody3D*> checkpointList;
+
 	Cube* cube;
 
 	GLuint texture[2];
