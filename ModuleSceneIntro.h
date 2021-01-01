@@ -91,4 +91,6 @@ public:
 	Light lights[MAX_LIGHTS];
 
 	Torus donut;
+
+	int laps;
 };

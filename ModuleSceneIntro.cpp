@@ -26,6 +26,8 @@ bool ModuleSceneIntro::Start()
     donut.SetPos(1, 30, 65);
     //donut.color.Set(1.0f, 0, 0, 1.0f);
 
+    laps = 1;
+
 	MapCreation();
 
     myinit();
@@ -69,21 +71,29 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
         
         if (body2->name == "sensor")
         {
-          App->player->vehicle->SetPos(-164.75f, 1.026f, -19.035f);
+        App->player->vehicle->SetPos(-164.75f, 1.026f, -19.035f);
         }
         
-        if (body2->name == "startcheckpoint")
+        if (body2->name == "startcheckpoint" && checkpointList.count() == 0)
         {
             checkpointList.add(body2);
         }
         else if (body2->name == "secondcheckpoint")
         {
-            // If the first checkpoint is achieved, just add the second one to the list
-            if (checkpointList.getFirst()->data->name == "startcheckpoint")
+            if (checkpointList.count() > 0)
             {
-                checkpointList.add(body2);
+                // If the first checkpoint is achieved, just add the second one to the list
+                if (checkpointList.getLast()->data->name == "startcheckpoint")
+                {
+                    checkpointList.add(body2);
+                }
+                // If not, teleport the player to the previous checkpoint
+                if (checkpointList.getLast()->data->name != body2->name)
+                {
+                    btVector3 a = body2->GetPosition();
+                    App->player->vehicle->SetPos(a.getX(), a.getY(), a.getZ());
+                }
             }
-            // If not, teleport the player to the previous checkpoint
             else
             {
                 btVector3 a = body2->GetPosition();
@@ -93,9 +103,17 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
         }
         else if (body2->name == "thirdcheckpoint")
         {
-            if (checkpointList.find(checkpointList.getFirst()->next->data))
+            if (checkpointList.count() > 0)
             {
-                checkpointList.add(body2);
+                if (checkpointList.getLast()->data->name == "secondcheckpoint")
+                {
+                    checkpointList.add(body2);
+                }
+                if (checkpointList.getLast()->data->name != body2->name)
+                {
+                    btVector3 a = body2->GetPosition();
+                    App->player->vehicle->SetPos(a.getX(), a.getY(), a.getZ());
+                }
             }
             else
             {
@@ -105,9 +123,17 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
         }
         else if (body2->name == "fourthcheckpoint")
         {
-            if (checkpointList.find(checkpointList.getFirst()->next->next->data))
+            if (checkpointList.count() > 0)
             {
-                checkpointList.add(body2);
+                if (checkpointList.getLast()->data->name == "thirdcheckpoint")
+                {
+                    checkpointList.add(body2);
+                }
+                if (checkpointList.getLast()->data->name != body2->name)
+                {
+                    btVector3 a = body2->GetPosition();
+                    App->player->vehicle->SetPos(a.getX(), a.getY(), a.getZ());
+                }
             }
             else
             {
@@ -116,9 +142,12 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
             }
         }
 
-        if (checkpointList.getLast() != checkpointList.getFirst() && checkpointList.getLast()->data->name == "startCheckpoint")
+        if (checkpointList.count() == 4 && body2->name == "startcheckpoint")
         {
             // LAP DONE
+            checkpointList.clear();
+            laps++;
+            LOG("%d", laps);
         }
     }
 }

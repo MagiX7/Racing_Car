@@ -189,6 +189,8 @@ update_status ModulePlayer::Update(float dt)
 			acceleration = -MAX_ACCELERATION;
 	}
 
+	if (App->scene_intro->laps == 2) brake = BRAKE_POWER;
+
 	vehicle->ApplyEngineForce(acceleration);
 	vehicle->Turn(turn);
 	vehicle->Brake(brake);
