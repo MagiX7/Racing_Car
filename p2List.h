@@ -116,6 +116,22 @@ public:
 		return ret;
 	}
 
+	p2List_item<tdata>* atIndex(unsigned int index)
+	{
+		long				  pos = 0;
+		p2List_item<tdata>* pItem = start;
+
+		while (pItem != NULL)
+		{
+			if (pos++ == index)
+				break;
+
+			pItem = pItem->next;
+		}
+
+		return pItem;
+	}
+
 	/**
 	* Deletes an item from the list
 	*/

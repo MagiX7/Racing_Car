@@ -77,6 +77,7 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
         if (body2->name == "startcheckpoint" && checkpointList.count() == 0)
         {
             checkpointList.add(body2);
+            torusCheckpointList.getFirst()->data->color = Green;
         }
         else if (body2->name == "secondcheckpoint")
         {
@@ -93,6 +94,8 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
                     btVector3 a = body2->GetPosition();
                     App->player->vehicle->SetPos(a.getX(), a.getY(), a.getZ());
                 }
+                checkpointList.add(body2);
+                torusCheckpointList.atIndex(1)->data->color = Green;
             }
             else
             {
@@ -114,6 +117,8 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
                     btVector3 a = body2->GetPosition();
                     App->player->vehicle->SetPos(a.getX(), a.getY(), a.getZ());
                 }
+                checkpointList.add(body2);
+                torusCheckpointList.atIndex(2)->data->color = Green;
             }
             else
             {
@@ -134,6 +139,8 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
                     btVector3 a = body2->GetPosition();
                     App->player->vehicle->SetPos(a.getX(), a.getY(), a.getZ());
                 }
+                checkpointList.add(body2);
+                torusCheckpointList.atIndex(3)->data->color = Green;
             }
             else
             {
@@ -147,6 +154,15 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
             // LAP DONE
             checkpointList.clear();
             laps++;
+
+            p2List_item<Torus*>* restoreColor = torusCheckpointList.getFirst();
+
+            while (restoreColor != nullptr)
+            {
+                restoreColor->data->color = Blue;
+                restoreColor = restoreColor->next;
+            }
+
             LOG("%d", laps);
         }
     }
