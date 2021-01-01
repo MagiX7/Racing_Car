@@ -284,11 +284,19 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info)
 	btCollisionShape* chassisShape = new btBoxShape(btVector3(info.chassis_size.x*0.5f, info.chassis_size.y*0.5f, info.chassis_size.z*0.5f));
 	shapes.add(chassisShape);
 
+	/*btCollisionShape* frontChassisShape = new btBoxShape(btVector3(info.front_chassis_size.x, info.front_chassis_size.y, info.front_chassis_size.z));
+	shapes.add(frontChassisShape);*/
+
 	btTransform chassisTrans;
 	chassisTrans.setIdentity();
 	chassisTrans.setOrigin(btVector3(info.chassis_offset.x, info.chassis_offset.y, info.chassis_offset.z));
 
+	/*btTransform frontChassisTrans;
+	chassisTrans.setIdentity();
+	chassisTrans.setOrigin(btVector3(info.front_chassis_offset.x, info.front_chassis_offset.y, info.front_chassis_offset.z));
+	*/
 	comShape->addChildShape(chassisTrans, chassisShape);
+	//comShape->addChildShape(frontChassisTrans, frontChassisShape);
 
 	btTransform startTransform;
 	startTransform.setIdentity();

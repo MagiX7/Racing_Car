@@ -91,7 +91,7 @@ public:
 	PhysVehicle3D(btRigidBody* body, btRaycastVehicle* vehicle, const VehicleInfo& info);
 	~PhysVehicle3D();
 
-	Cube CreateCube(vec3 size, vec3 offset, Color color);
+	Cube CreateCubeComponent(vec3 size, vec3 offset, Color color);
 
 	void Render();
 	void ApplyEngineForce(float force);

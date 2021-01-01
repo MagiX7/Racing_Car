@@ -78,6 +78,7 @@ public:
 	p2List<PhysBody3D*> physBodies;
 
 	p2List<PhysBody3D*> checkpointList;
+	p2List<Torus*> torusCheckpointList;
 
 	Cube* cube;
 

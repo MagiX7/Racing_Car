@@ -22,7 +22,7 @@ PhysVehicle3D::~PhysVehicle3D()
 	delete vehicle;
 }
 
-Cube PhysVehicle3D::CreateCube(vec3 size, vec3 offset, Color color)
+Cube PhysVehicle3D::CreateCubeComponent(vec3 size, vec3 offset, Color color)
 {
 	btQuaternion q = vehicle->getChassisWorldTransform().getRotation();
 
@@ -56,18 +56,18 @@ void PhysVehicle3D::Render()
 		wheel.Render();
 	}
 
-	Cube chassis = CreateCube(info.chassis_size, info.chassis_offset, White);
-	Cube frontChassis = CreateCube(info.front_chassis_size, info.front_chassis_offset, White);
-	Cube frontWingRightSupport = CreateCube(info.front_wing_right_support_size, info.front_wing_right_support_offset, White);
-	Cube frontWingLeftSupport = CreateCube(info.front_wing_left_support_size, info.front_wing_left_support_offset, White);
-	Cube frontWing = CreateCube(info.front_wing_size, info.front_wing_offset, Black);
-	Cube frontWingRight = CreateCube(info.front_wing_right_size, info.front_wing_right_offset, Black);
-	Cube frontWingLeft = CreateCube(info.front_wing_left_size, info.front_wing_left_offset, Black);
-	Cube spoiler = CreateCube(info.spoiler_size, info.spoiler_offset, White);
-	Cube cockpit = CreateCube(info.cockpit_size, info.cockpit_offset, White);
-	Cube backCockpit = CreateCube(info.back_cockpit_size, info.back_cockpit_offset, White);
-	Cube rsspoiler = CreateCube(info.right_spoiler_support_size, info.right_spoiler_support_offset, Black);
-	Cube lsspoiler = CreateCube(info.left_spoiler_support_size, info.left_spoiler_support_offset, Black);
+	Cube chassis = CreateCubeComponent(info.chassis_size, info.chassis_offset, White);
+	Cube frontChassis = CreateCubeComponent(info.front_chassis_size, info.front_chassis_offset, White);
+	Cube frontWingRightSupport = CreateCubeComponent(info.front_wing_right_support_size, info.front_wing_right_support_offset, White);
+	Cube frontWingLeftSupport = CreateCubeComponent(info.front_wing_left_support_size, info.front_wing_left_support_offset, White);
+	Cube frontWing = CreateCubeComponent(info.front_wing_size, info.front_wing_offset, Black);
+	Cube frontWingRight = CreateCubeComponent(info.front_wing_right_size, info.front_wing_right_offset, Black);
+	Cube frontWingLeft = CreateCubeComponent(info.front_wing_left_size, info.front_wing_left_offset, Black);
+	Cube spoiler = CreateCubeComponent(info.spoiler_size, info.spoiler_offset, White);
+	Cube cockpit = CreateCubeComponent(info.cockpit_size, info.cockpit_offset, White);
+	Cube backCockpit = CreateCubeComponent(info.back_cockpit_size, info.back_cockpit_offset, White);
+	Cube rsspoiler = CreateCubeComponent(info.right_spoiler_support_size, info.right_spoiler_support_offset, Black);
+	Cube lsspoiler = CreateCubeComponent(info.left_spoiler_support_size, info.left_spoiler_support_offset, Black);
 
 	btQuaternion q = vehicle->getChassisWorldTransform().getRotation();
 	Line antena(info.antenna_size.x, info.antenna_size.y, info.antenna_size.z);

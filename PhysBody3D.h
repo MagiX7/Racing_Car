@@ -7,6 +7,7 @@
 
 class btRigidBody;
 class Module;
+class btVector3;
 
 // =================================================
 struct PhysBody3D
@@ -23,6 +24,7 @@ public:
 	void SetLinearVelocity(float x, float y, float z);
 	void SetAsSensor(bool is_sensor);
 	bool IsSensor();
+	btVector3 GetPosition();
 
 
 private:

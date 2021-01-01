@@ -61,43 +61,6 @@ update_status ModuleCamera3D::Update(float dt)
 	Position += newPos;
 	Reference += newPos;
 
-	// Mouse motion ----------------
-
-	if(App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
-	{
-		int dx = -App->input->GetMouseXMotion();
-		int dy = -App->input->GetMouseYMotion();
-
-		float Sensitivity = 0.25f;
-
-		Position -= Reference;
-
-		if(dx != 0)
-		{
-			float DeltaX = (float)dx * Sensitivity;
-
-			X = rotate(X, DeltaX, vec3(0.0f, 1.0f, 0.0f));
-			Y = rotate(Y, DeltaX, vec3(0.0f, 1.0f, 0.0f));
-			Z = rotate(Z, DeltaX, vec3(0.0f, 1.0f, 0.0f));
-		}
-
-		if(dy != 0)
-		{
-			float DeltaY = (float)dy * Sensitivity;
-
-			Y = rotate(Y, DeltaY, X);
-			Z = rotate(Z, DeltaY, X);
-
-			if(Y.y < 0.0f)
-			{
-				Z = vec3(0.0f, Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
-				Y = cross(Z, X);
-			}
-		}
-
-		Position = Reference + Z * length(Position);
-	}
-
 	/*
 	float angle = App->player->vehicle->vehicle->getChassisWorldTransform().getRotation().getAngle();
 
@@ -108,15 +71,62 @@ update_status ModuleCamera3D::Update(float dt)
 	LookAt(cameraTarget);
 	*/
 
-	/*
-	Position.x = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() - 15 * App->player->vehicle->vehicle->getForwardVector().getX();
-	Position.y = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() + 10 * App->player->vehicle->vehicle->getUpAxis();
-	Position.z = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() - 20 * App->player->vehicle->vehicle->getForwardVector().getZ();
-	float x_value = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() + 10 * App->player->vehicle->vehicle->getForwardVector().getX();
-	float z_value = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() + 10 * App->player->vehicle->vehicle->getForwardVector().getZ();
-	LookAt(vec3(x_value, App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY(), z_value));
-		*/
 	
+
+	// Mouse motion ----------------
+
+	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
+	{
+		int dx = -App->input->GetMouseXMotion();
+		int dy = -App->input->GetMouseYMotion();
+
+		float Sensitivity = 0.25f;
+
+		Position -= Reference;
+
+		if (dx != 0)
+		{
+			float DeltaX = (float)dx * Sensitivity;
+
+			X = rotate(X, DeltaX, vec3(0.0f, 1.0f, 0.0f));
+			Y = rotate(Y, DeltaX, vec3(0.0f, 1.0f, 0.0f));
+			Z = rotate(Z, DeltaX, vec3(0.0f, 1.0f, 0.0f));
+		}
+
+		if (dy != 0)
+		{
+			float DeltaY = (float)dy * Sensitivity;
+
+			Y = rotate(Y, DeltaY, X);
+			Z = rotate(Z, DeltaY, X);
+
+			if (Y.y < 0.0f)
+			{
+				Z = vec3(0.0f, Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
+				Y = cross(Z, X);
+			}
+		}
+
+		Position = Reference + Z * length(Position);
+	}
+	else
+	{
+		Position.x = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() - 40 * App->player->vehicle->vehicle->getForwardVector().getX();
+		Position.y = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() + 120 * App->player->vehicle->vehicle->getUpAxis();
+		Position.z = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() - 20 * App->player->vehicle->vehicle->getForwardVector().getZ();
+		//float x_value = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() + 10 * App->player->vehicle->vehicle->getForwardVector().getX();
+		//float z_value = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() + 10 * App->player->vehicle->vehicle->getForwardVector().getZ();
+	}
+
+	/*if (App->input->GetKey(SDL_SCANCODE_C) == KEY_REPEAT)
+	{
+		Position.x = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() + 15 * App->player->vehicle->vehicle->getForwardVector().getX();
+		Position.z = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() + 20 * App->player->vehicle->vehicle->getForwardVector().getZ();
+	}*/
+
+	LookAt(vec3(App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX(), App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY(), App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ()));
+	
+
 	// Recalculate matrix -------------
 	CalculateViewMatrix();
 

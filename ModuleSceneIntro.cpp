@@ -66,18 +66,61 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
     else if (body2->IsSensor())
     {
         LOG("Body2: Im a sensor my name is %s", body2->name.GetString());
+        
         if (body2->name == "sensor")
         {
           App->player->vehicle->SetPos(-164.75f, 1.026f, -19.035f);
         }
+        
         if (body2->name == "startcheckpoint")
         {
             checkpointList.add(body2);
         }
-      
-    }
-    
+        else if (body2->name == "secondcheckpoint")
+        {
+            // If the first checkpoint is achieved, just add the second one to the list
+            if (checkpointList.getFirst()->data->name == "startcheckpoint")
+            {
+                checkpointList.add(body2);
+            }
+            // If not, teleport the player to the previous checkpoint
+            else
+            {
+                btVector3 a = body2->GetPosition();
+                App->player->vehicle->SetPos(a.getX(), a.getY(), a.getZ());
+            }
 
+        }
+        else if (body2->name == "thirdcheckpoint")
+        {
+            if (checkpointList.find(checkpointList.getFirst()->next->data))
+            {
+                checkpointList.add(body2);
+            }
+            else
+            {
+                btVector3 a = body2->GetPosition();
+                App->player->vehicle->SetPos(a.getX(), a.getY(), a.getZ());
+            }
+        }
+        else if (body2->name == "fourthcheckpoint")
+        {
+            if (checkpointList.find(checkpointList.getFirst()->next->next->data))
+            {
+                checkpointList.add(body2);
+            }
+            else
+            {
+                btVector3 a = body2->GetPosition();
+                App->player->vehicle->SetPos(a.getX(), a.getY(), a.getZ());
+            }
+        }
+
+        if (checkpointList.getLast() != checkpointList.getFirst() && checkpointList.getLast()->data->name == "startCheckpoint")
+        {
+            // LAP DONE
+        }
+    }
 }
 
 Cube* ModuleSceneIntro::CreateCube(vec3 pos, vec3 size, Color rgb, float mass, SString name, bool isSensor)
@@ -161,17 +204,38 @@ void ModuleSceneIntro::MapCreation()
 
     
     // Checkpoints for the map
-       Cube* checkpoint1 = CreateCube(vec3(-150.387f, 1.904f, -18.939f), vec3(1.0f, 3.53f, 28.847f), White, 0, "startcheckpoint");
-       Cube* checkpoint2 = CreateCube(vec3(398.606f, 1.904f, -169.176f), vec3(1.0f, 3.53f, 28.847f), White, 0, "secondcheckpoint");
-       Cube* checkpoint3 = CreateCube(vec3(237.974f, 1.904f, 280.205f), vec3(51.939f, 3.53f, 2.399f), White, 0, "thirdcheckpoint");
-       Cube* checkpoint4 = CreateCube(vec3(159.448f, 1.904f, -736.108f), vec3(69.648f, 3.53f, 2.399f), White, 0, "fourthcheckpoint");
+    Cube* checkpoint1 = CreateCube(vec3(-150.387f, 1.904f, -18.939f), vec3(1.0f, 3.53f, 28.847f), White, 0, "startcheckpoint", true);
+    Cube* checkpoint2 = CreateCube(vec3(398.606f, 1.904f, -169.176f), vec3(1.0f, 3.53f, 28.847f), White, 0, "secondcheckpoint", true);
+    Cube* checkpoint3 = CreateCube(vec3(237.974f, 1.904f, 280.205f), vec3(51.939f, 3.53f, 2.399f), White, 0, "thirdcheckpoint", true);
+    Cube* checkpoint4 = CreateCube(vec3(159.448f, 1.904f, -736.108f), vec3(69.648f, 3.53f, 2.399f), White, 0, "fourthcheckpoint", true);
 
-       geometryList.add(checkpoint1);
-       geometryList.add(checkpoint2);
-       geometryList.add(checkpoint3);
-       geometryList.add(checkpoint4);
+    geometryList.add(checkpoint1);
+    geometryList.add(checkpoint2);
+    geometryList.add(checkpoint3);
+    geometryList.add(checkpoint4);
 
-    
+    Torus* checkp1 = new Torus(5, 20, 40, 40);
+    checkp1->SetPos(-150.387f, 1.904f, -18.939f);
+    checkp1->SetRotation(90, vec3(0, 1, 0));
+    checkp1->color = Blue;
+    torusCheckpointList.add(checkp1);
+
+    Torus* checkp2 = new Torus(5, 20, 40, 40);
+    checkp2->SetPos(398.606f, 1.904f, -169.176f);
+    checkp2->SetRotation(90, vec3(0, 1, 0));
+    checkp2->color = Blue;
+    torusCheckpointList.add(checkp2);
+
+    Torus* checkp3 = new Torus(5, 20, 40, 40);
+    checkp3->SetPos(237.974f, 1.904f, 280.205f);
+    checkp3->color = Blue;
+    torusCheckpointList.add(checkp3);
+
+    Torus* checkp4 = new Torus(11.5, 46, 40, 40);
+    checkp4->SetPos(159.448f, 1.904f, -736.108f);
+    checkp4->color = Blue;
+    torusCheckpointList.add(checkp4);
+
 
     // Circuit Ramps
     geometryList.add(CreateRamp(vec3(237.65f, 13.418f, -49.115f), vec3(48.89f, 57.7f, 1.0f), Red, -60.0f, vec3(1, 0, 0), "firstramp", 0));
@@ -509,7 +573,15 @@ void ModuleSceneIntro::display(void) {
         itemBodies = itemBodies->next;
     }
     
+    p2List_item<Torus*>* t = torusCheckpointList.getFirst();
+    while (t != nullptr)
+    {
+        t->data->Render();
+        t = t->next;
+    }
+
     donut.Render();
+    
 
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, texture[0]);

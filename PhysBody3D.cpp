@@ -68,3 +68,8 @@ bool PhysBody3D::IsSensor()
 {
 	return isSensor;
 }
+
+btVector3 PhysBody3D::GetPosition()
+{
+	return body->getCenterOfMassPosition();
+}
