@@ -154,6 +154,7 @@ bool ModulePlayer::Start()
 
 	vehicle->vehicle->getRigidBody()->setUserPointer(vehicle);
 
+	initialPosition = vehicle->vehicle->getChassisWorldTransform().getOrigin();
 
 
 	return true;
@@ -172,12 +173,12 @@ update_status ModulePlayer::Update(float dt)
 {
 	turn = acceleration = brake = handbrake = 0.0f;
 
-	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && vehicle->GetKmh() < 320)
+	if(App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && vehicle->GetKmh() < 320)
 	{
 		acceleration = MAX_ACCELERATION;
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+	if(App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
 		if (turn < TURN_DEGREES)
 		{
@@ -190,7 +191,7 @@ update_status ModulePlayer::Update(float dt)
 		}
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+	if(App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
 		if (turn > -TURN_DEGREES)
 		{
@@ -208,7 +209,7 @@ update_status ModulePlayer::Update(float dt)
 		handbrake = HANDBRAKE_POWER;
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 	{
 		if (vehicle->GetKmh() > 0)
 			brake = BRAKE_POWER;
@@ -222,12 +223,27 @@ update_status ModulePlayer::Update(float dt)
 
 	//if (App->scene_intro->laps == 2) brake = BRAKE_POWER;
 
-	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
+	if (vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() != initialPosition.getY() && 
+		vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() != initialPosition.getX())
 	{
-		vehicle->vehicle->getRigidBody()->applyTorqueImpulse(btVector3(0, 0, 1000));
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+		{
+			vehicle->vehicle->getRigidBody()->applyTorqueImpulse(btVector3(0, 0, -20));
+		}
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+		{
+			vehicle->vehicle->getRigidBody()->applyTorqueImpulse(btVector3(0, 0, 20));
+		}
+		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+		{
+			vehicle->vehicle->getRigidBody()->applyTorqueImpulse(btVector3(-80, 0, 0));
+		}
+		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+		{
+			vehicle->vehicle->getRigidBody()->applyTorqueImpulse(btVector3(80, 0, 0));
+		}
 	}
-
-
+	
 	vehicle->ApplyEngineForce(acceleration);
 	vehicle->Turn(turn);
 	vehicle->Brake(brake);

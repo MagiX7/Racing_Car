@@ -2,6 +2,7 @@
 #include "Module.h"
 #include "Globals.h"
 #include "p2Point.h"
+#include "Bullet/include/LinearMath/btVector3.h"
 
 struct PhysVehicle3D;
 
@@ -27,4 +28,6 @@ public:
 	float acceleration;
 	float brake;
 	float handbrake;
+
+	btVector3 initialPosition;
 };
