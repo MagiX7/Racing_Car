@@ -77,7 +77,6 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
         if (body2->name == "startcheckpoint" && checkpointList.count() == 0)
         {
             checkpointList.add(body2);
-            torusCheckpointList.getFirst()->data->color = Green;
         }
         else if (body2->name == "secondcheckpoint")
         {
@@ -155,7 +154,7 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
             checkpointList.clear();
             laps++;
 
-            p2List_item<Torus*>* restoreColor = torusCheckpointList.getFirst();
+            p2List_item<Torus*>* restoreColor = torusCheckpointList.getFirst()->next;
 
             while (restoreColor != nullptr)
             {
@@ -262,7 +261,7 @@ void ModuleSceneIntro::MapCreation()
     Torus* checkp1 = new Torus(5, 20, 40, 40);
     checkp1->SetPos(-150.387f, 1.904f, -18.939f);
     checkp1->SetRotation(90, vec3(0, 1, 0));
-    checkp1->color = Blue;
+    checkp1->color = Black;
     torusCheckpointList.add(checkp1);
 
     Torus* checkp2 = new Torus(5, 20, 40, 40);
