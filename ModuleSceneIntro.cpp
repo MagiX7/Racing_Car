@@ -93,7 +93,7 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
                     btVector3 a = body2->GetPosition();
                     App->player->vehicle->SetPos(a.getX(), a.getY(), a.getZ());
                 }
-                checkpointList.add(body2);
+                //checkpointList.add(body2);
                 torusCheckpointList.atIndex(1)->data->color = Green;
             }
             else
@@ -116,7 +116,7 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
                     btVector3 a = body2->GetPosition();
                     App->player->vehicle->SetPos(a.getX(), a.getY(), a.getZ());
                 }
-                checkpointList.add(body2);
+                //checkpointList.add(body2);
                 torusCheckpointList.atIndex(2)->data->color = Green;
             }
             else
@@ -138,7 +138,7 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
                     btVector3 a = body2->GetPosition();
                     App->player->vehicle->SetPos(a.getX(), a.getY(), a.getZ());
                 }
-                checkpointList.add(body2);
+                //checkpointList.add(body2);
                 torusCheckpointList.atIndex(3)->data->color = Green;
             }
             else

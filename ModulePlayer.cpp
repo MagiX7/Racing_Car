@@ -64,10 +64,10 @@ bool ModulePlayer::Start()
 	car.t_base_offset.Set(0, 2.7, 0);
 
 	car.mass = 1000.0f;
-	car.suspensionStiffness = 20.0f;
+	car.suspensionStiffness = 5.83f;
 	car.suspensionCompression = 0.83f;
 	car.suspensionDamping = 0.88f;
-	car.maxSuspensionTravelCm = 1000.0f;
+	car.maxSuspensionTravelCm = 500.0f;
 	car.frictionSlip = 40.5;
 	car.maxSuspensionForce = 6000.0f;
 
@@ -154,6 +154,8 @@ bool ModulePlayer::Start()
 
 	vehicle->vehicle->getRigidBody()->setUserPointer(vehicle);
 
+
+
 	return true;
 }
 
@@ -177,14 +179,28 @@ update_status ModulePlayer::Update(float dt)
 
 	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 	{
-		if(turn < TURN_DEGREES)
-			turn +=  TURN_DEGREES;
+		if (turn < TURN_DEGREES)
+		{
+			if (vehicle->GetKmh() > 60)
+			{
+				turn += TURN_DEGREES / (vehicle->GetKmh() / 90);
+			}
+			else
+				turn += TURN_DEGREES;
+		}
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 	{
-		if(turn > -TURN_DEGREES)
-			turn -= TURN_DEGREES;
+		if (turn > -TURN_DEGREES)
+		{
+			if (vehicle->GetKmh() > 60)
+			{
+				turn -= TURN_DEGREES / (vehicle->GetKmh() / 90);
+			}
+			else
+				turn -= TURN_DEGREES;
+		}
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
@@ -196,11 +212,21 @@ update_status ModulePlayer::Update(float dt)
 	{
 		if (vehicle->GetKmh() > 0)
 			brake = BRAKE_POWER;
-		else
+
+		else if (vehicle->GetKmh() > -80)
 			acceleration = -MAX_ACCELERATION;
+
+		else
+			acceleration = -79;
 	}
 
-	if (App->scene_intro->laps == 2) brake = BRAKE_POWER;
+	//if (App->scene_intro->laps == 2) brake = BRAKE_POWER;
+
+	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
+	{
+		vehicle->vehicle->getRigidBody()->applyTorqueImpulse(btVector3(0, 0, 1000));
+	}
+
 
 	vehicle->ApplyEngineForce(acceleration);
 	vehicle->Turn(turn);
