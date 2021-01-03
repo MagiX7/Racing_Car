@@ -18,6 +18,12 @@ bool ModuleSceneIntro::Start()
 {
 	LOG("Loading Intro assets");
 	bool ret = true;
+    
+
+    /*l.SetPos(1, 30, 65);
+    l.Active(true);
+    l.ambient = Red;
+    l.diffuse = Blue;*/
 
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
@@ -26,13 +32,27 @@ bool ModuleSceneIntro::Start()
     donut.SetPos(1, 30, 65);
     //donut.color.Set(1.0f, 0, 0, 1.0f);
 
-    laps = 1;
-
 	MapCreation();
+    vec3 pos(torusCheckpointList.getFirst()->data->GetTransform().M[12],
+             torusCheckpointList.getFirst()->data->GetTransform().M[13],
+             torusCheckpointList.getFirst()->data->GetTransform().M[14]);
+
+    // 20 is for outer radius
+    Cube* l1 = CreateCube(vec3(pos.x, 25, pos.z - 7), vec3(5, 3, 5), Black, 0, "firstlight");
+    l1->SetRotation(-24, vec3(1, 0, 0));
+    lights.add(l1);
+
+    lights.add(CreateCube(vec3(pos.x, 25, pos.z), vec3(5, 5, 5), Black, 0, "secondlight"));
+    Cube* l3 = CreateCube(vec3(pos.x, 25, pos.z + 7), vec3(5, 3, 5), Black, 0, "thirdlight");
+    l3->SetRotation(24, vec3(1, 0, 0));
+    lights.add(l3);
 
     myinit();
 
-	return ret;
+    laps = 1;
+    App->audio->PlayMusic("Assets/Audio/nine_thou.ogg");
+
+    return ret;
 }
 
 // Load assets
@@ -48,7 +68,11 @@ bool ModuleSceneIntro::CleanUp()
 // Update
 update_status ModuleSceneIntro::Update(float dt)
 {
+    //startCountDown -= dt;
+    //LOG("%i", startCountDown);
+    
     display();
+
 
 	/*Plane p(0, 1, 0, 0);
 	p.axis = true;
@@ -261,7 +285,7 @@ void ModuleSceneIntro::MapCreation()
     Torus* checkp1 = new Torus(5, 20, 40, 40);
     checkp1->SetPos(-150.387f, 1.904f, -18.939f);
     checkp1->SetRotation(90, vec3(0, 1, 0));
-    checkp1->color = Black;
+    checkp1->color = Grey;
     torusCheckpointList.add(checkp1);
 
     Torus* checkp2 = new Torus(5, 20, 40, 40);
@@ -340,6 +364,82 @@ void ModuleSceneIntro::MapCreation()
  //   geometryList.add(CreateRamp(vec3(-72.099f,6.866f,-133.19f), vec3(37.045f,2.187f,23.893f), White, 45, vec3(1, 0, 0), 0));
  //   geometryList.add(CreateRamp(vec3(66.429f,6.866f,-133.19f), vec3(37.045f,2.187f,23.893f), White, 45, vec3(1, 0, 0), 0));
     
+}
+
+void ModuleSceneIntro::display(void) {
+
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glBindTexture(GL_TEXTURE_2D, texture[1]);
+
+    glDisable(GL_TEXTURE_2D);
+
+    Plane p(0, 1, 0, 0);
+    p.axis = true;
+    //p.Render();
+
+    //l.Render();
+
+    p2List_item<Cube*>* itemCubes = geometryList.getFirst();
+
+    p2List_item<PhysBody3D*>* itemBodies = physBodies.getFirst();
+
+    while (itemBodies != nullptr && itemCubes != nullptr)
+    {
+        if (itemBodies->data->IsSensor() != true)
+        {
+        }
+        itemCubes->data->Render();
+        itemBodies->data->GetTransform(&itemCubes->data->transform);
+        itemCubes = itemCubes->next;
+        itemBodies = itemBodies->next;
+    }
+
+    itemCubes = lights.getFirst();
+    while (itemCubes != nullptr)
+    {
+        itemCubes->data->Render();
+        itemCubes = itemCubes->next;
+    }
+
+    p2List_item<Torus*>* t = torusCheckpointList.getFirst();
+    while (t != nullptr)
+    {
+        t->data->Render();
+        t = t->next;
+    }
+
+
+    donut.Render();
+
+
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, texture[0]);
+
+    glBegin(GL_QUADS);
+
+    glTexCoord2f(0.0, 0.0);
+
+    glVertex3f(-182.0, 0.0, 182.0);
+
+    glTexCoord2f(1.0, 0.0);
+
+    glVertex3f(182.0, 0.0, 182.0);
+
+    glTexCoord2f(1.0, 1.0);
+
+    glVertex3f(182.0, 0.0, -182.0);
+
+    glTexCoord2f(0.0, 1.0);
+
+    glVertex3f(-182.0, 0.0, -182.0);
+
+    glDisable(GL_TEXTURE_2D);
+
+    glEnd();
+
+    //glutSwapBuffers();
+
 }
 
 void ModuleSceneIntro::makeCheckImage(void) {
@@ -512,7 +612,7 @@ Image* ModuleSceneIntro::loadTexture() {
 
     }
 
-    if (!ImageLoad("sand.bmp", image1)) {
+    if (!ImageLoad("Assets/Textures/sand.bmp", image1)) {
 
         exit(1);
 
@@ -587,71 +687,5 @@ void ModuleSceneIntro::myinit(void)
     glEnable(GL_TEXTURE_2D);
 
     glShadeModel(GL_FLAT);
-
-}
-
-void ModuleSceneIntro::display(void) {
-
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    glBindTexture(GL_TEXTURE_2D, texture[1]);
-
-    glDisable(GL_TEXTURE_2D);
-
-    Plane p(0, 1, 0, 0);
-    p.axis = true;
-    //p.Render();
-
-    p2List_item<Cube*>* itemCubes = geometryList.getFirst();
-
-    p2List_item<PhysBody3D*>* itemBodies = physBodies.getFirst();
-
-    while (itemBodies != nullptr && itemCubes != nullptr)
-    {
-        if (itemBodies->data->IsSensor() != true)
-        {
-        }
-            itemCubes->data->Render();
-        itemBodies->data->GetTransform(&itemCubes->data->transform);
-        itemCubes = itemCubes->next;
-        itemBodies = itemBodies->next;
-    }
-    
-    p2List_item<Torus*>* t = torusCheckpointList.getFirst();
-    while (t != nullptr)
-    {
-        t->data->Render();
-        t = t->next;
-    }
-
-    donut.Render();
-    
-
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, texture[0]);
-
-    glBegin(GL_QUADS);
-
-    glTexCoord2f(0.0, 0.0);
-
-    glVertex3f(-182.0, 0.0, 182.0);
-
-    glTexCoord2f(1.0, 0.0);
-
-    glVertex3f(182.0, 0.0, 182.0);
-
-    glTexCoord2f(1.0, 1.0);
-
-    glVertex3f(182.0, 0.0, -182.0);
-
-    glTexCoord2f(0.0, 1.0);
-
-    glVertex3f(-182.0, 0.0, -182.0);
-
-    glDisable(GL_TEXTURE_2D);
-
-    glEnd();
-
-    //glutSwapBuffers();
 
 }

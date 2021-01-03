@@ -88,9 +88,14 @@ public:
 
 	GLubyte checkImage[checkImageWidth][checkImageHeight][3];
 
-	Light lights[MAX_LIGHTS];
+	//Light lights[MAX_LIGHTS];
+	p2List<Cube*> lights;
+	//Light l;
 
 	Torus donut;
 
 	int laps;
+
+	int startCountDown = 24;
+
 };
