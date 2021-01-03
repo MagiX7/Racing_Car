@@ -19,6 +19,9 @@ bool ModuleSceneIntro::Start()
 	LOG("Loading Intro assets");
 	bool ret = true;
     
+    startCountDown = 300;
+    countdownTickFx = App->audio->LoadFx("Assets/Audio/countdown_1.wav");
+    countdownGoFx = App->audio->LoadFx("Assets/Audio/countdown_go.wav");
 
     /*l.SetPos(1, 30, 65);
     l.Active(true);
@@ -70,7 +73,8 @@ update_status ModuleSceneIntro::Update(float dt)
 {
     //startCountDown -= dt;
     //LOG("%i", startCountDown);
-    
+    CountDown(dt);
+
     display();
 
 
@@ -439,6 +443,51 @@ void ModuleSceneIntro::display(void) {
     glEnd();
 
     //glutSwapBuffers();
+
+}
+
+void ModuleSceneIntro::CountDown(float dt)
+{
+    if (startCountDown > -200.0f) startCountDown -= 100 * dt;
+
+    if (startCountDown <= -200.0f)
+    {
+        p2List_item<Cube*>* it = lights.getFirst();
+        while (it != nullptr)
+        {
+            it->data->color = Black;
+            it = it->next;
+        }
+    }
+    else if (startCountDown <= 0.0f && go == false)
+    {
+        p2List_item<Cube*>* it = lights.getFirst();
+        while (it != nullptr)
+        {
+            it->data->color = Green;
+            it = it->next;
+        }
+        App->audio->PlayFx(countdownGoFx);
+        go = true;
+    }
+    else if (startCountDown <= 100 && third == false)
+    {
+        lights.atIndex(2)->data->color = Red;
+        App->audio->PlayFx(countdownTickFx);
+        third = true;
+    }
+    else if (startCountDown <= 200 && second == false)
+    {
+        lights.atIndex(1)->data->color = Red;
+        App->audio->PlayFx(countdownTickFx);
+        second = true;
+    }
+    else if (startCountDown <= 300 && first == false)
+    {
+        lights.atIndex(0)->data->color = Red;
+        App->audio->PlayFx(countdownTickFx);
+        first = true;
+    }
 
 }
 

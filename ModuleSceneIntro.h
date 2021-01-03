@@ -53,6 +53,8 @@ public:
 
 	void display(void);
 
+	void CountDown(float dt);
+
 public:
 	/*
 	PhysBody3D* pb_snake[MAX_SNAKE];
@@ -96,6 +98,12 @@ public:
 
 	int laps;
 
-	int startCountDown = 24;
+	float startCountDown;
+	int countdownTickFx;
+	int countdownGoFx;
+	bool first = false;
+	bool second = false;
+	bool third = false;
+	bool go = false;
 
 };
