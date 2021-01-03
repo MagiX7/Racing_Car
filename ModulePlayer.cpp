@@ -64,10 +64,10 @@ bool ModulePlayer::Start()
 	car.t_base_offset.Set(0, 2.7, 0);
 
 	car.mass = 1000.0f;
-	car.suspensionStiffness = 5.83f;
+	car.suspensionStiffness = 12.83f;
 	car.suspensionCompression = 0.83f;
 	car.suspensionDamping = 0.88f;
-	car.maxSuspensionTravelCm = 500.0f;
+	car.maxSuspensionTravelCm = 1000.0f;
 	car.frictionSlip = 40.5;
 	car.maxSuspensionForce = 6000.0f;
 
@@ -156,6 +156,7 @@ bool ModulePlayer::Start()
 
 	initialPosition = vehicle->vehicle->getChassisWorldTransform().getOrigin();
 
+	groundContact = true;
 
 	return true;
 }
@@ -173,10 +174,30 @@ update_status ModulePlayer::Update(float dt)
 {
 	turn = acceleration = brake = handbrake = 0.0f;
 
+	mat4x4 trans;
+	vehicle->GetTransform(&trans);
+	mat3x3 rot(trans);
+	
+	vec3 down(0, -1, 0);
+	vec3 dest = rot * down;
+
+	vec3 groundRaycast = App->physics->RayCast({ vehicle->GetPos().x, vehicle->GetPos().y + 1, vehicle->GetPos().z }, dest);
+	float l = length(groundRaycast);
+	if (l < 1.0f)
+		groundContact = true;
+
+	else
+		groundContact = false;
+
+	LOG("raycast: %f", l);
+
 	if(App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && vehicle->GetKmh() < 320)
 	{
 		if(App->input->GetKey(SDL_SCANCODE_SPACE) != KEY_REPEAT)
 			acceleration = MAX_ACCELERATION;
+
+		if (groundContact == false)
+				vehicle->vehicle->getRigidBody()->applyTorqueImpulse(btVector3(0, 0, -80));
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
@@ -190,6 +211,9 @@ update_status ModulePlayer::Update(float dt)
 			else
 				turn += TURN_DEGREES;
 		}
+
+		if (groundContact == false)
+			vehicle->vehicle->getRigidBody()->applyTorqueImpulse(btVector3(-20, 0, 0));
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
@@ -203,6 +227,9 @@ update_status ModulePlayer::Update(float dt)
 			else
 				turn -= TURN_DEGREES;
 		}
+
+		if(groundContact == false)
+			vehicle->vehicle->getRigidBody()->applyTorqueImpulse(btVector3(20, 0, 0));
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
@@ -220,30 +247,22 @@ update_status ModulePlayer::Update(float dt)
 
 		else
 			acceleration = -79;
+
+
+		if(groundContact == false)
+			vehicle->vehicle->getRigidBody()->applyTorqueImpulse(btVector3(0, 0, 80));
 	}
+
+
+	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
+		vehicle->SetLinearVelocity(0, 20, 0);
 
 	//if (App->scene_intro->laps == 2) brake = BRAKE_POWER;
 
-	if (vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() != initialPosition.getY() && 
-		vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() != initialPosition.getX())
-	{
-		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-		{
-			vehicle->vehicle->getRigidBody()->applyTorqueImpulse(btVector3(0, 0, -20));
-		}
-		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
-		{
-			vehicle->vehicle->getRigidBody()->applyTorqueImpulse(btVector3(0, 0, 20));
-		}
-		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
-		{
-			vehicle->vehicle->getRigidBody()->applyTorqueImpulse(btVector3(-80, 0, 0));
-		}
-		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
-		{
-			vehicle->vehicle->getRigidBody()->applyTorqueImpulse(btVector3(80, 0, 0));
-		}
-	}
+	//if (vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() != initialPosition.getY() && 
+	//	vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() != initialPosition.getX())
+	//{
+
 	
 	vehicle->ApplyEngineForce(acceleration);
 	vehicle->Turn(turn);

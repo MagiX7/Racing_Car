@@ -362,6 +362,29 @@ void ModulePhysics3D::AddConstraintHinge(PhysBody3D& bodyA, PhysBody3D& bodyB, c
 	hinge->setDbgDrawSize(2.0f);
 }
 
+vec3 ModulePhysics3D::RayCast(const vec3& origin, const vec3& direction)
+{
+	float mod = sqrt(pow(direction.x, 2) + (direction.y, 2) + (direction.z, 2));
+	vec3 dir = direction / mod;
+
+	btVector3 start = btVector3(origin.x, origin.y, origin.z);
+	btVector3 end = btVector3(origin.x + dir.x * 1000.f, origin.y + dir.y * 1000.f, origin.z + dir.z * 1000.f);
+
+	btCollisionWorld::ClosestRayResultCallback rayCallback(start, end);
+	
+	world->rayTest(start, end, rayCallback);
+	if (rayCallback.hasHit())
+	{
+		vec3 HitPoint = vec3(rayCallback.m_hitPointWorld.x(), rayCallback.m_hitPointWorld.y(), rayCallback.m_hitPointWorld.z());
+
+		vec3 ret(origin - HitPoint);
+
+		return ret;
+	}
+
+	return vec3(1000.0f, 1000.0f, 1000.0f);
+}
+
 // =============================================
 void DebugDrawer::drawLine(const btVector3& from, const btVector3& to, const btVector3& color)
 {

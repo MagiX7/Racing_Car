@@ -30,4 +30,6 @@ public:
 	float handbrake;
 
 	btVector3 initialPosition;
+
+	bool groundContact;
 };
