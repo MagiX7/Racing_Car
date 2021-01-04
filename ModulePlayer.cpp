@@ -158,6 +158,10 @@ bool ModulePlayer::Start()
 
 	groundContact = true;
 
+	turbo = 33.0f;
+
+	turbosLeft = 0;
+
 	return true;
 }
 
@@ -207,6 +211,8 @@ update_status ModulePlayer::Update(float dt)
 	vehicle->Brake(brake);
 	vehicle->Handbrake(handbrake);
 
+	vehicle->info.turbosLeft = turbosLeft;
+
 	vehicle->Render();
 
 	char title[80];
@@ -220,13 +226,31 @@ void ModulePlayer::HandleInputs(float dt)
 {
 	if (App->scene_intro->startCountDown <= 0.0f)
 	{
+		/*if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN && turbosLeft > 0)
+		{
+			turbosLeft--;
+
+			turbo = 100.0f;
+		}*/
+
 		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && vehicle->GetKmh() < 320)
 		{
 			if (App->input->GetKey(SDL_SCANCODE_SPACE) != KEY_REPEAT)
-				acceleration = MAX_ACCELERATION;
+			{				
+				acceleration = MAX_ACCELERATION;	
+			}
 
 			if (groundContact == false)
 				vehicle->vehicle->getRigidBody()->applyTorqueImpulse(RotateVecToLocal(100, 0, 0));
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT && turbo > 0.0f)
+		{
+			if (App->input->GetKey(SDL_SCANCODE_SPACE) != KEY_REPEAT)
+			{
+				acceleration = MAX_ACCELERATION * 3.5f;
+				turbo -= 25.0f * dt;
+			}	
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)

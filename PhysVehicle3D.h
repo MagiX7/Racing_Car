@@ -72,6 +72,8 @@ struct VehicleInfo
 	vec3 antenna_size;
 	vec3 antenna_offset;
 
+	int turbosLeft = 0;
+
 	float mass;
 	float suspensionStiffness; // default to 5.88 / 10.0 offroad / 50.0 sports car / 200.0 F1 car
 	float suspensionCompression; // default to 0.83

@@ -33,6 +33,9 @@ public:
 	float brake;
 	float handbrake;
 
+	float turbo;
+	int turbosLeft;
+
 	btVector3 initialPosition;
 
 	bool groundContact;

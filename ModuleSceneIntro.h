@@ -39,7 +39,7 @@ public:
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 
 	Cube* CreateCube(vec3 pos, vec3 size, Color rgb, float mass, SString name, bool isSensor = false);
-	Cube* CreateRamp(vec3 pos, vec3 size, Color rgb, float angle, vec3 pivot, SString name, float mass);
+	Cube* CreateRamp(vec3 pos, vec3 size, Color rgb, float angle, vec3 pivot, SString name, float mass, bool isSensor = false);
 
 	void MapCreation(); 
 
@@ -51,9 +51,11 @@ public:
 
 	void myinit(void);
 
-	void display(void);
+	void display(float dt);
 
 	void CountDown(float dt);
+
+	void ResetTurbos(float dt);
 
 public:
 	/*
@@ -81,6 +83,10 @@ public:
 
 	p2List<PhysBody3D*> checkpointList;
 	p2List<Torus*> torusCheckpointList;
+
+	p2List<PhysBody3D*> turbosList;
+	float turboResetTimer;
+	float angleTurbo = 0.0f;
 
 	Cube* cube;
 

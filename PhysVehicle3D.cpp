@@ -1,3 +1,6 @@
+#include "Globals.h"
+#include "Application.h"
+#include "ModulePlayer.h"
 #include "PhysVehicle3D.h"
 #include "Primitive.h"
 #include "Bullet/include/btBulletDynamicsCommon.h"

@@ -19,6 +19,8 @@ bool ModuleSceneIntro::Start()
 	LOG("Loading Intro assets");
 	bool ret = true;
     
+    turboResetTimer = 500.0f;
+
     startCountDown = 300;
     countdownTickFx = App->audio->LoadFx("Assets/Audio/countdown_1.wav");
     countdownGoFx = App->audio->LoadFx("Assets/Audio/countdown_go.wav");
@@ -74,9 +76,10 @@ update_status ModuleSceneIntro::Update(float dt)
     //startCountDown -= dt;
     //LOG("%i", startCountDown);
     CountDown(dt);
+    
+    ResetTurbos(dt);
 
-    display();
-
+    display(dt);
 
 	/*Plane p(0, 1, 0, 0);
 	p.axis = true;
@@ -97,6 +100,13 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
     {
         LOG("Body2: Im a sensor my name is %s", body2->name.GetString());
         
+        if (body2->name == "turbo")
+        {
+            App->player->turbo = 100.0f;
+            body2->name = "turboPicked";
+            turbosList.add(body2);
+        }
+
         if (body2->name == "sensor")
         {
         App->player->vehicle->SetPos(-164.75f, 1.026f, -19.035f);
@@ -201,13 +211,14 @@ Cube* ModuleSceneIntro::CreateCube(vec3 pos, vec3 size, Color rgb, float mass, S
 	cube->SetPos(pos.x,pos.y,pos.z);
 	cube->size = size;
 	cube->color = rgb;
+   
 	
 	physBodies.add(App->physics->AddBody(*cube, mass, isSensor, name));
 
 	return cube;
 }
 
-Cube* ModuleSceneIntro::CreateRamp(vec3 pos, vec3 size, Color rgb, float angle, vec3 pivot, SString name ,float mass)
+Cube* ModuleSceneIntro::CreateRamp(vec3 pos, vec3 size, Color rgb, float angle, vec3 pivot, SString name ,float mass, bool isSensor)
 {
 
 	Cube* cube = new Cube();
@@ -215,7 +226,7 @@ Cube* ModuleSceneIntro::CreateRamp(vec3 pos, vec3 size, Color rgb, float angle, 
 	cube->SetPos(pos.x, pos.y, pos.z);
 	cube->size = size;
 	cube->color = rgb;
-    physBodies.add(App->physics->AddBody(*cube, mass, false, name));
+    physBodies.add(App->physics->AddBody(*cube, mass, isSensor, name));
 	
 	return cube;
 }
@@ -224,12 +235,15 @@ void ModuleSceneIntro::MapCreation()
 {
     // Testing Sensor cube
     geometryList.add(CreateCube(vec3(0.0f, 2.0f, 20.0f), vec3(4.0f, 4.0f, 4.0f), Black, 0, "sensor" ,true));
-    
-    // Walls
-	//geometryList.add(CreateCube(vec3(0, 1.0f, -173.242f), vec3(360.0f,100.0f,1.0f), Blue,0, "Wall1", true));
-	//geometryList.add(CreateCube(vec3(-180.0f, 1.0f, 4.478f), vec3(1.0f,100.0f,355.597f), Blue, 0, "Wall2", true));
-	//geometryList.add(CreateCube(vec3(0,1.0f,181.802f), vec3(360.0f,100.0f,1.0f), Blue, 0, "Wall3", true));
-	//geometryList.add(CreateCube(vec3(179.432f,1.0f,4.478f), vec3(1.0f,100.0f,355.597f), Blue, 0, "Wall4", true));
+
+
+    // Turbos sensors
+    geometryList.add(CreateRamp(vec3(-41.036f, 2.659f, -25.965f), vec3(2.0f, 2.0f, 2.0f), Orange, 45.0f, vec3(1.0f,0.0f,1.0f), "turbo", 0,true));
+    geometryList.add(CreateRamp(vec3(220.665f, 2.659f, -139.767f), vec3(2.0f, 2.0f, 2.0f), Orange, 45.0f, vec3(1.0f,0.0f,1.0f), "turbo", 0,true));
+    geometryList.add(CreateRamp(vec3(471.305f, 2.659f, -139.767f), vec3(2.0f, 2.0f, 2.0f), Orange, 45.0f, vec3(1.0f,0.0f,1.0f), "turbo", 0,true));
+    geometryList.add(CreateRamp(vec3(237.303f, 2.659f, -197.916f), vec3(2.0f, 2.0f, 2.0f), Orange, 45.0f, vec3(1.0f,0.0f,1.0f), "turbo", 0,true));
+    geometryList.add(CreateRamp(vec3(-41.036f, 2.659f, -784.513f), vec3(2.0f, 2.0f, 2.0f), Orange, 45.0f, vec3(1.0f,0.0f,1.0f), "turbo", 0,true));
+
 
     // Start sensor
     geometryList.add(CreateCube(vec3(-150.387f, 1.904f, -18.939f), vec3(1.0f, 3.53f, 28.847f), Red, 0, "start", true));
@@ -370,7 +384,7 @@ void ModuleSceneIntro::MapCreation()
     
 }
 
-void ModuleSceneIntro::display(void) {
+void ModuleSceneIntro::display(float dt) {
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -390,14 +404,27 @@ void ModuleSceneIntro::display(void) {
 
     while (itemBodies != nullptr && itemCubes != nullptr)
     {
-        if (itemBodies->data->IsSensor() != true)
+        if (itemBodies->data->IsSensor() != true || itemBodies->data->name == "turbo")
         {
+            itemCubes->data->Render();
         }
-        itemCubes->data->Render();
         itemBodies->data->GetTransform(&itemCubes->data->transform);
         itemCubes = itemCubes->next;
         itemBodies = itemBodies->next;
     }
+
+    itemCubes = geometryList.getFirst();
+    itemBodies = physBodies.getFirst();
+    while (itemBodies != nullptr && itemCubes != nullptr)
+    {
+        if (itemBodies->data->name == "turbo")
+        {
+            itemCubes->data->transform.rotate(angleTurbo, vec3(0.0f, 1.0f, 1.0f));
+        }
+        itemCubes = itemCubes->next;
+        itemBodies = itemBodies->next;
+    }
+    angleTurbo += 100.0f * dt;
 
     itemCubes = lights.getFirst();
     while (itemCubes != nullptr)
@@ -487,6 +514,26 @@ void ModuleSceneIntro::CountDown(float dt)
         lights.atIndex(0)->data->color = Red;
         App->audio->PlayFx(countdownTickFx);
         first = true;
+    }
+
+}
+
+void ModuleSceneIntro::ResetTurbos(float dt)
+{
+    if (turbosList.count() > 0)
+    {
+        turboResetTimer -= 100.0f * dt;
+
+        if (turboResetTimer <= 0.0f)
+        {
+            if (turbosList.getFirst() != nullptr)
+            {
+                p2List_item<PhysBody3D*>* item = turbosList.getFirst();
+                item->data->name = "turbo";
+                turbosList.del(item);
+                turboResetTimer = 500.0f;
+            }
+        }
     }
 
 }
