@@ -21,6 +21,10 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
+	void HandleInputs(float dt);
+
+	btVector3 RotateVecToLocal(float x, float y, float z);
+
 public:
 
 	PhysVehicle3D* vehicle;
