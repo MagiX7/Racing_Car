@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "PhysVehicle3D.h"
 
 Application::Application()
 {
@@ -73,6 +74,11 @@ void Application::PrepareUpdate()
 {
 	dt = (float)ms_timer.Read() / 1000.0f;
 	ms_timer.Start();
+	
+	static char title[256];
+	sprintf_s(title, 256, "%f ms---	%f Km/h", dt, this->player->vehicle->GetKmh());
+
+	this->window->SetTitle(title);
 }
 
 // ---------------------------------------------

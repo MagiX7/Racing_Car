@@ -21,7 +21,7 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
-	void HandleInputs(float dt);
+	void HandleInputs(float dt, float raycastLength);
 
 	btVector3 RotateVecToLocal(float x, float y, float z);
 
@@ -37,6 +37,7 @@ public:
 	int turbosLeft;
 
 	btVector3 initialPosition;
+	btVector3 maxAngularVelocity; // Clamp the torque
 
 	bool groundContact;
 };

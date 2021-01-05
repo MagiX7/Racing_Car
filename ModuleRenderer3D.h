@@ -19,6 +19,9 @@ public:
 
 	void OnResize(int width, int height);
 
+	void Draw2D();
+	void Draw3D();
+
 public:
 
 	Light lights[MAX_LIGHTS];
