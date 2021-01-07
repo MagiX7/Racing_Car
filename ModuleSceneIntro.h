@@ -114,4 +114,10 @@ public:
 	bool third = false;
 	bool go = false;
 
+	bool swapCamera;
+
+	int fxCheckpoint;
+	int fxLapCompleted;
+
+
 };

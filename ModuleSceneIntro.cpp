@@ -56,7 +56,13 @@ bool ModuleSceneIntro::Start()
     myinit();
 
     laps = 1;
+    
+    fxCheckpoint = App->audio->LoadFx("Assets/Audio/checkpoint.wav");
+    fxLapCompleted = App->audio->LoadFx("Assets/Audio/lap.wav");
     App->audio->PlayMusic("Assets/Audio/nine_thou.ogg");
+
+    swapCamera = false;
+
 
     return ret;
 }
@@ -108,6 +114,15 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
     {
         LOG("Body2: Im a sensor my name is %s", body2->name.GetString());
         
+        if (body2->name == "loopsensor1")
+        {
+            swapCamera = true;
+        }
+        else if (body2->name == "loopsensor2")
+        {
+            swapCamera = false;
+        }
+
         if (body2->name == "turbo")
         {
             App->player->turbo = 100.0f;
@@ -123,6 +138,9 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
         if (body2->name == "startcheckpoint" && checkpointList.count() == 0)
         {
             checkpointList.add(body2);
+            if (laps == 2)
+                App->audio->PlayFx(fxLapCompleted);
+            
         }
         else if (body2->name == "secondcheckpoint")
         {
@@ -132,6 +150,7 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
                 if (checkpointList.getLast()->data->name == "startcheckpoint")
                 {
                     checkpointList.add(body2);
+                    App->audio->PlayFx(fxCheckpoint);
                 }
                 // If not, teleport the player to the previous checkpoint
                 if (checkpointList.getLast()->data->name != body2->name)
@@ -156,6 +175,7 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
                 if (checkpointList.getLast()->data->name == "secondcheckpoint")
                 {
                     checkpointList.add(body2);
+                    App->audio->PlayFx(fxCheckpoint);
                 }
                 if (checkpointList.getLast()->data->name != body2->name)
                 {
@@ -178,6 +198,7 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
                 if (checkpointList.getLast()->data->name == "thirdcheckpoint")
                 {
                     checkpointList.add(body2);
+                    App->audio->PlayFx(fxCheckpoint);
                 }
                 if (checkpointList.getLast()->data->name != body2->name)
                 {
@@ -211,6 +232,7 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
             LOG("%d", laps);
         }
     }
+
 }
 
 Cube* ModuleSceneIntro::CreateCube(vec3 pos, vec3 size, Color rgb, float mass, SString name, bool isSensor)
@@ -320,7 +342,7 @@ void ModuleSceneIntro::MapCreation()
     checkp2->color = Blue;
     torusCheckpointList.add(checkp2);
 
-    Torus* checkp3 = new Torus(5, 20, 40, 40);
+    Torus* checkp3 = new Torus(9, 36, 40, 40);
     checkp3->SetPos(237.974f, 1.904f, 280.205f);
     checkp3->color = Blue;
     torusCheckpointList.add(checkp3);
@@ -337,6 +359,9 @@ void ModuleSceneIntro::MapCreation()
     geometryList.add(CreateRamp(vec3(237.551f, 13.049f, -227.619f), vec3(47.549f, 58.977f, 1.0f), Red, 60.0f, vec3(1, 0, 0), "thirdramp", 0));
     
 	
+    geometryList.add(CreateRamp(vec3(237.65f, 10, -531.34f), vec3(55.445, 30, 2), Black, 0, vec3(1, 0, 0), "loopsensor1", 0, true));
+    geometryList.add(CreateRamp(vec3(159.46f, 10, -621.843f), vec3(70.707f, 30, 2), Black, 353.537f, vec3(1, 0, 0), "loopsensor2", 0, true));
+
     // Loop Geometry
     geometryList.add(CreateRamp(vec3(237.65f, 0.0f,-531.34f), vec3(55.445f, 20.333f,1.0f), Red, -90.0f, vec3(1, 0, 0), "Ramp", 0));
     geometryList.add(CreateRamp(vec3(231.879f,1.897f,-553.9f), vec3(67.319f,0.953f,13.055f), Red, 14.018f, vec3(1, 0, 0), "Ramp", 0));

@@ -147,6 +147,7 @@ bool ModulePlayer::Start()
 	initialPosition = vehicle->vehicle->getChassisWorldTransform().getOrigin();
 
 	groundContact = true;
+	allowFlip = false;
 
 	turbo = 33.0f;
 	turbosLeft = 0;
@@ -169,6 +170,8 @@ update_status ModulePlayer::Update(float dt)
 {
 	turn = acceleration = brake = handbrake = 0.0f;
 
+	CameraPosition();
+
 	mat4x4 trans;
 	vehicle->GetTransform(&trans);
 	mat3x3 rot(trans);
@@ -178,21 +181,30 @@ update_status ModulePlayer::Update(float dt)
 
 	vec3 groundRaycast = App->physics->RayCast({ vehicle->GetPos().x, vehicle->GetPos().y + 1, vehicle->GetPos().z }, dest);
 	float l = length(groundRaycast);
-	LOG("%f", l);
-	if (l < 1.0f)
-		groundContact = true;
-
+	//LOG("%f", l);
+	
+	if (l < 1.0f) groundContact = true;
 	else
+	{
 		groundContact = false;
+		btVector3 v = RotateVecToLocal(0, -200, 0);
+		vec3 force = vec3(v.getX(), v.getY(), v.getZ());
+		vehicle->Push(force.x, force.y, force.z);
+	}
 
-	//LOG("raycast: %f", l);
+	vec3 up(0, 1, 0);
+	vec3 upRotated = rot * up;
+	vec3 upVector = App->physics->RayCast({ vehicle->GetPos().x, vehicle->GetPos().y + 1, vehicle->GetPos().z }, upRotated);
+	float upVectorLength = length(upVector);
+
+	if (upVectorLength < 2.1f) allowFlip = true;
+	//else allowFlip = false;
+	LOG("%f", upVectorLength);
 
 	if (App->scene_intro->laps == 2) brake = BRAKE_POWER;
-	HandleInputs(dt, l);
-	
 
+	HandleInputs(dt);
 
-	
 	vehicle->ApplyEngineForce(acceleration);
 	vehicle->Turn(turn);
 	vehicle->Brake(brake);
@@ -209,7 +221,7 @@ update_status ModulePlayer::Update(float dt)
 	return UPDATE_CONTINUE;
 }
 
-void ModulePlayer::HandleInputs(float dt, float len)
+void ModulePlayer::HandleInputs(float dt)
 {
 	btVector3 currAngularVelocity = vehicle->vehicle->getRigidBody()->getAngularVelocity();
 
@@ -315,7 +327,13 @@ void ModulePlayer::HandleInputs(float dt, float len)
 		}
 
 
-		if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN /*&& len > 1500*/)
+		if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN && allowFlip)
+		{
+			allowFlip = false;
+			vehicle->SetLinearVelocity(0, 20, 0);
+		}
+
+		if(App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 			vehicle->SetLinearVelocity(0, 20, 0);
 	}
 }
@@ -324,9 +342,9 @@ void ModulePlayer::HandleInputs(float dt, float len)
 
 btVector3 ModulePlayer::RotateVecToLocal(float x, float y, float z)
 {
-	btVector3 force = btVector3(x, y, z);
+	btVector3 v = btVector3(x, y, z);
 	btMatrix3x3 rotation = vehicle->vehicle->getChassisWorldTransform().getBasis();
-	btVector3 ret = rotation * force;
+	btVector3 ret = rotation * v;
 	return ret;
 }
 
@@ -354,5 +372,29 @@ void ModulePlayer::ResetPlayer()
 	turbosLeft = 0;
 
 	groundContact = true;
+
+}
+
+void ModulePlayer::CameraPosition()
+{
+	//if (App->scene_intro->swapCamera == false)
+	//{
+	//	App->camera->Position.x = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() - 10 * App->player->vehicle->vehicle->getForwardVector().getX();
+	//	App->camera->Position.y = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() + 5 * App->player->vehicle->vehicle->getUpAxis();
+	//	App->camera->Position.z = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() - 10 * App->player->vehicle->vehicle->getForwardVector().getZ();
+	//	//float x_value = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() + 10 * App->player->vehicle->vehicle->getForwardVector().getX();
+	//	//float z_value = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() + 10 * App->player->vehicle->vehicle->getForwardVector().getZ();
+
+	//	App->camera->LookAt(vec3(App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX(), App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY(), App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ()));
+	//}
+	//else
+	//{
+	//	App->camera->Position.x = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() - App->player->vehicle->vehicle->getForwardVector().getX() - 1;
+	//	App->camera->Position.y = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() - App->player->vehicle->vehicle->getUpAxis() + 4;
+	//	App->camera->Position.z = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() - App->player->vehicle->vehicle->getForwardVector().getZ();
+
+	//	btVector3 lookat = RotateVecToLocal(vehicle->vehicle->getChassisWorldTransform().getOrigin().getX(), vehicle->vehicle->getChassisWorldTransform().getOrigin().getY(), vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ());
+	//	App->camera->LookAt(vec3(lookat.getX(), lookat.getY(), lookat.getZ()));
+	//}
 
 }

@@ -75,6 +75,25 @@ update_status ModuleCamera3D::Update(float dt)
 
 	// Mouse motion ----------------
 
+	//if(App->scene_intro->swapCamera == false)
+	//{
+		Position.x = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() - 10 * App->player->vehicle->vehicle->getForwardVector().getX();
+		Position.y = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() + 5 * App->player->vehicle->vehicle->getUpAxis();
+		Position.z = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() - 10 * App->player->vehicle->vehicle->getForwardVector().getZ();
+		//float x_value = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() + 10 * App->player->vehicle->vehicle->getForwardVector().getX();
+		//float z_value = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() + 10 * App->player->vehicle->vehicle->getForwardVector().getZ();
+		
+		LookAt(vec3(App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX(), App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY(), App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ()));
+	//}
+	//else if (App->scene_intro->swapCamera == true)
+	//{
+	//	Position.x = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() - App->player->vehicle->vehicle->getForwardVector().getX() - 1;
+	//	Position.y = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() - App->player->vehicle->vehicle->getUpAxis() + 4;
+	//	Position.z = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() - App->player->vehicle->vehicle->getForwardVector().getZ();
+
+	//	LookAt(vec3(App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX(), App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() + 3, App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ()));
+	//}
+	
 	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 	{
 		int dx = -App->input->GetMouseXMotion();
@@ -109,14 +128,9 @@ update_status ModuleCamera3D::Update(float dt)
 
 		Position = Reference + Z * length(Position);
 	}
-	else
-	{
-		Position.x = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() - 10 * App->player->vehicle->vehicle->getForwardVector().getX();
-		Position.y = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() + 5 * App->player->vehicle->vehicle->getUpAxis();
-		Position.z = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() - 10 * App->player->vehicle->vehicle->getForwardVector().getZ();
-		//float x_value = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() + 10 * App->player->vehicle->vehicle->getForwardVector().getX();
-		//float z_value = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() + 10 * App->player->vehicle->vehicle->getForwardVector().getZ();
-	}
+
+
+
 
 	/*if (App->input->GetKey(SDL_SCANCODE_C) == KEY_REPEAT)
 	{
@@ -124,7 +138,6 @@ update_status ModuleCamera3D::Update(float dt)
 		Position.z = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() + 20 * App->player->vehicle->vehicle->getForwardVector().getZ();
 	}*/
 
-	LookAt(vec3(App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX(), App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY(), App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ()));
 	
 
 	// Recalculate matrix -------------
