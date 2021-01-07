@@ -57,6 +57,8 @@ public:
 
 	void ResetTurbos(float dt);
 
+	void ResetScene();
+
 public:
 	/*
 	PhysBody3D* pb_snake[MAX_SNAKE];

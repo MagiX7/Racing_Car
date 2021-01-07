@@ -25,6 +25,8 @@ public:
 
 	btVector3 RotateVecToLocal(float x, float y, float z);
 
+	void ResetPlayer();
+
 public:
 
 	PhysVehicle3D* vehicle;

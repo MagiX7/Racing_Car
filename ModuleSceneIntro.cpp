@@ -19,6 +19,7 @@ bool ModuleSceneIntro::Start()
 	LOG("Loading Intro assets");
 	bool ret = true;
     
+    App->player->Enable();
     turboResetTimer = 500.0f;
 
     startCountDown = 300;
@@ -80,6 +81,13 @@ update_status ModuleSceneIntro::Update(float dt)
     ResetTurbos(dt);
 
     display(dt);
+
+  /*  if (App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN)
+    {
+        App->player->Disable();
+        CleanUp();
+        Start();
+    }*/
 
 	/*Plane p(0, 1, 0, 0);
 	p.axis = true;
@@ -536,6 +544,21 @@ void ModuleSceneIntro::ResetTurbos(float dt)
         }
     }
 
+}
+
+void ModuleSceneIntro::ResetScene()
+{
+    turbosList.clear();
+    turboResetTimer = 500.0f;
+    angleTurbo = 0.0f;
+
+    laps = 1;
+
+    startCountDown = 300.0f;
+    first = false;
+    second = false;
+    third = false;
+    go = false;
 }
 
 void ModuleSceneIntro::makeCheckImage(void) {

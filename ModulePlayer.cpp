@@ -63,7 +63,7 @@ bool ModulePlayer::Start()
 	car.t_base_size.Set(0.1, 0.2, 0.1);
 	car.t_base_offset.Set(0, 2.7, 0);
 
-	car.mass = 1000.0f;
+	car.mass = 700.0f;
 	car.suspensionStiffness = 12.83f;
 	car.suspensionCompression = 0.83f;
 	car.suspensionDamping = 0.88f;
@@ -138,17 +138,7 @@ bool ModulePlayer::Start()
 
 	vehicle = App->physics->AddVehicle(car);
 
-	btTransform tr;
-
-	tr.setIdentity();
-	btQuaternion quat;
-	quat.setEuler(-67.5f, 0, 0);
-
-	tr.setRotation(quat);
-
-	vehicle->vehicle->getRigidBody()->setCenterOfMassTransform(tr);
-
-	vehicle->SetPos(-164.75f, 1.026f, -19.035f);
+	ResetPlayer();
 
 	vehicle->collision_listeners.add(App->scene_intro);
 
@@ -197,10 +187,10 @@ update_status ModulePlayer::Update(float dt)
 
 	//LOG("raycast: %f", l);
 
+	if (App->scene_intro->laps == 2) brake = BRAKE_POWER;
 	HandleInputs(dt, l);
 	
 
-	//if (App->scene_intro->laps == 2) brake = BRAKE_POWER;
 
 	
 	vehicle->ApplyEngineForce(acceleration);
@@ -225,6 +215,12 @@ void ModulePlayer::HandleInputs(float dt, float len)
 
 	if (App->scene_intro->startCountDown <= 0.0f)
 	{
+		if (App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN)
+		{
+			ResetPlayer();	
+			App->scene_intro->ResetScene();
+
+		}
 		/*if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN && turbosLeft > 0)
 		{
 			turbosLeft--;
@@ -331,4 +327,31 @@ btVector3 ModulePlayer::RotateVecToLocal(float x, float y, float z)
 	btMatrix3x3 rotation = vehicle->vehicle->getChassisWorldTransform().getBasis();
 	btVector3 ret = rotation * force;
 	return ret;
+}
+
+void ModulePlayer::ResetPlayer()
+{
+	vehicle->SetLinearVelocity(0.0f, 0.0f, 0.0f);
+	btTransform tr;
+
+	tr.setIdentity();
+	btQuaternion quat;
+	quat.setEuler(-67.5f, 0, 0);
+
+	tr.setRotation(quat);
+
+	vehicle->vehicle->getRigidBody()->setCenterOfMassTransform(tr);
+
+	vehicle->SetPos(-164.75f, 1.026f, -19.035f);
+
+	turn = 0.0f;
+	acceleration = 0.0f;
+	brake = 0.0f;
+	handbrake = 0.0f;
+
+	turbo = 33.0f;
+	turbosLeft = 0;
+
+	groundContact = true;
+
 }

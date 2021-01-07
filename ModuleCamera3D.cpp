@@ -111,9 +111,9 @@ update_status ModuleCamera3D::Update(float dt)
 	}
 	else
 	{
-		Position.x = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() - 40 * App->player->vehicle->vehicle->getForwardVector().getX();
-		Position.y = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() + 120 * App->player->vehicle->vehicle->getUpAxis();
-		Position.z = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() - 20 * App->player->vehicle->vehicle->getForwardVector().getZ();
+		Position.x = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() - 10 * App->player->vehicle->vehicle->getForwardVector().getX();
+		Position.y = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() + 5 * App->player->vehicle->vehicle->getUpAxis();
+		Position.z = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() - 10 * App->player->vehicle->vehicle->getForwardVector().getZ();
 		//float x_value = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() + 10 * App->player->vehicle->vehicle->getForwardVector().getX();
 		//float z_value = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() + 10 * App->player->vehicle->vehicle->getForwardVector().getZ();
 	}
