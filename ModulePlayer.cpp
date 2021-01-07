@@ -64,15 +64,15 @@ bool ModulePlayer::Start()
 	car.t_base_offset.Set(0, 2.7, 0);
 
 	car.mass = 700.0f;
-	car.suspensionStiffness = 12.83f;
-	car.suspensionCompression = 0.83f;
-	car.suspensionDamping = 0.88f;
+	car.suspensionStiffness = 20.83f;
+	car.suspensionCompression = 1.f;
+	car.suspensionDamping = 2.88f;
 	car.maxSuspensionTravelCm = 1000.0f;
 	car.frictionSlip = 40.5;
 	car.maxSuspensionForce = 6000.0f;
 
 	// Wheel properties ---------------------------------------
-	float connection_height = 2.0f;
+	float connection_height = 1.9f;
 	float wheel_radius = 1.0f;
 	float wheel_width = 1.2;
 	float suspensionRestLength = 1.0f;
@@ -215,10 +215,11 @@ void ModulePlayer::HandleInputs(float dt, float len)
 
 	if (App->scene_intro->startCountDown <= 0.0f)
 	{
-		if (App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN)
+		if (App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN && App->scene_intro->laps == 2)
 		{
 			ResetPlayer();	
 			App->scene_intro->ResetScene();
+
 
 		}
 		/*if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN && turbosLeft > 0)
@@ -239,7 +240,7 @@ void ModulePlayer::HandleInputs(float dt, float len)
 				vehicle->vehicle->getRigidBody()->applyTorqueImpulse(RotateVecToLocal(100, 0, 0));
 		}
 
-		if (App->input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT && turbo > 0.0f)
+		if (App->input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT && turbo > 0.0f && vehicle->GetKmh() < 420)
 		{
 			if (App->input->GetKey(SDL_SCANCODE_SPACE) != KEY_REPEAT)
 			{
