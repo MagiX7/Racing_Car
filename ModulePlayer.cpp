@@ -201,10 +201,11 @@ update_status ModulePlayer::Update(float dt)
 	//else allowFlip = false;
 	LOG("%f", upVectorLength);
 
-	if (App->scene_intro->laps == 2) brake = BRAKE_POWER;
 
-	HandleInputs(dt);
-
+	if (App->scene_intro->laps != 2) HandleInputs(dt);
+	
+	if (App->scene_intro->laps == 2 && vehicle->GetKmh() > 8) acceleration = -MAX_ACCELERATION * 0.5f;
+	if (App->scene_intro->laps == 2 && vehicle->GetKmh() > 5) brake = BRAKE_POWER;
 	vehicle->ApplyEngineForce(acceleration);
 	vehicle->Turn(turn);
 	vehicle->Brake(brake);
@@ -231,8 +232,6 @@ void ModulePlayer::HandleInputs(float dt)
 		{
 			ResetPlayer();	
 			App->scene_intro->ResetScene();
-
-
 		}
 		/*if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN && turbosLeft > 0)
 		{

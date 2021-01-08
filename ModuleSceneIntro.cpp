@@ -320,7 +320,7 @@ void ModuleSceneIntro::MapCreation()
 
     
     // Checkpoints for the map
-    Cube* checkpoint1 = CreateCube(vec3(-150.387f, 1.904f, -18.939f), vec3(1.0f, 3.53f, 28.847f), White, 0, "startcheckpoint", true);
+    Cube* checkpoint1 = CreateCube(vec3(-120.387f, 1.904f, -18.939f), vec3(1.0f, 3.53f, 28.847f), White, 0, "startcheckpoint", true);
     Cube* checkpoint2 = CreateCube(vec3(398.606f, 1.904f, -169.176f), vec3(1.0f, 3.53f, 28.847f), White, 0, "secondcheckpoint", true);
     Cube* checkpoint3 = CreateCube(vec3(237.974f, 1.904f, 280.205f), vec3(51.939f, 3.53f, 2.399f), White, 0, "thirdcheckpoint", true);
     Cube* checkpoint4 = CreateCube(vec3(159.448f, 1.904f, -736.108f), vec3(69.648f, 3.53f, 2.399f), White, 0, "fourthcheckpoint", true);
@@ -331,7 +331,7 @@ void ModuleSceneIntro::MapCreation()
     geometryList.add(checkpoint4);
 
     Torus* checkp1 = new Torus(5, 20, 40, 40);
-    checkp1->SetPos(-150.387f, 1.904f, -18.939f);
+    checkp1->SetPos(-120.387f, 1.904f, -18.939f);
     checkp1->SetRotation(90, vec3(0, 1, 0));
     checkp1->color = Grey;
     torusCheckpointList.add(checkp1);
