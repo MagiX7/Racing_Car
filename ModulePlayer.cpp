@@ -187,10 +187,11 @@ update_status ModulePlayer::Update(float dt)
 	else
 	{
 		groundContact = false;
-		btVector3 v = RotateVecToLocal(0, -200, 0);
-		vec3 force = vec3(v.getX(), v.getY(), v.getZ());
+		//btVector3 v = 0, -200, 0);
+		vec3 force = vec3(0,-200,0);
 		vehicle->Push(force.x, force.y, force.z);
 	}
+	LOG("%f", l);
 
 	vec3 up(0, 1, 0);
 	vec3 upRotated = rot * up;
@@ -199,7 +200,7 @@ update_status ModulePlayer::Update(float dt)
 
 	if (upVectorLength < 2.1f) allowFlip = true;
 	//else allowFlip = false;
-	LOG("%f", upVectorLength);
+	//LOG("%f", upVectorLength);
 
 
 	if (App->scene_intro->laps != 2) HandleInputs(dt);
