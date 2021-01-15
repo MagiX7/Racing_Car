@@ -76,7 +76,7 @@ void Application::PrepareUpdate()
 	ms_timer.Start();
 	
 	static char title[256];
-	sprintf_s(title, 256, "%f ms---	%f Km/h", dt, this->player->vehicle->GetKmh());
+	sprintf_s(title, 256, "ms: %.4f   Km/h: %.3f", dt, this->player->vehicle->GetKmh());
 
 	this->window->SetTitle(title);
 }

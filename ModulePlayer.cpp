@@ -198,15 +198,16 @@ update_status ModulePlayer::Update(float dt)
 	vec3 upVector = App->physics->RayCast({ vehicle->GetPos().x, vehicle->GetPos().y + 1, vehicle->GetPos().z }, upRotated);
 	float upVectorLength = length(upVector);
 
-	if (upVectorLength < 2.1f) allowFlip = true;
+	//if (upVectorLength < 2.1f) allowFlip = true;
 	//else allowFlip = false;
 	//LOG("%f", upVectorLength);
 
 
 	if (App->scene_intro->laps != 2) HandleInputs(dt);
 	
-	if (App->scene_intro->laps == 2 && vehicle->GetKmh() > 8) acceleration = -MAX_ACCELERATION * 0.5f;
-	if (App->scene_intro->laps == 2 && vehicle->GetKmh() > 5) brake = BRAKE_POWER;
+	if (App->scene_intro->laps == 2 && vehicle->GetKmh() > 0) acceleration = -MAX_ACCELERATION * 0.5f;
+	if (App->scene_intro->laps == 2 && vehicle->GetKmh() > 2) brake = BRAKE_POWER;
+	
 	vehicle->ApplyEngineForce(acceleration);
 	vehicle->Turn(turn);
 	vehicle->Brake(brake);
@@ -215,10 +216,6 @@ update_status ModulePlayer::Update(float dt)
 	vehicle->info.turbosLeft = turbosLeft;
 
 	vehicle->Render();
-
-	char title[80];
-	sprintf_s(title, "%.1f Km/h", vehicle->GetKmh());
-	//App->window->SetTitle(title);
 
 	return UPDATE_CONTINUE;
 }
@@ -231,15 +228,9 @@ void ModulePlayer::HandleInputs(float dt)
 	{
 		if (App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN && App->scene_intro->laps == 2)
 		{
-			ResetPlayer();	
+			ResetPlayer();
 			App->scene_intro->ResetScene();
 		}
-		/*if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN && turbosLeft > 0)
-		{
-			turbosLeft--;
-
-			turbo = 100.0f;
-		}*/
 
 		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && vehicle->GetKmh() < 320)
 		{
@@ -270,7 +261,7 @@ void ModulePlayer::HandleInputs(float dt)
 		{
 			if (turn < TURN_DEGREES)
 			{
-				if (vehicle->GetKmh() > 60)
+				if (vehicle->GetKmh() > 100)
 				{
 					turn += TURN_DEGREES / (vehicle->GetKmh() / 90);
 				}
@@ -292,7 +283,7 @@ void ModulePlayer::HandleInputs(float dt)
 		{
 			if (turn > -TURN_DEGREES)
 			{
-				if (vehicle->GetKmh() > 60)
+				if (vehicle->GetKmh() > 100)
 				{
 					turn -= TURN_DEGREES / (vehicle->GetKmh() / 90);
 				}
@@ -326,18 +317,21 @@ void ModulePlayer::HandleInputs(float dt)
 				vehicle->vehicle->getRigidBody()->applyTorqueImpulse(RotateVecToLocal(-100, 0, 0));
 		}
 
-
-		if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN && allowFlip)
+		if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
 		{
-			allowFlip = false;
-			vehicle->SetLinearVelocity(0, 20, 0);
-		}
+			if (App->scene_intro->checkpointList.getLast() != nullptr)
+			{
+				mat4x4 torusTr = App->scene_intro->torusCheckpointList.getLast()->data->GetTransform();
+				torusTr.rotate(90, vec3(0, 1, 0));
+				vehicle->SetTransform(&torusTr);
 
-		if(App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
-			vehicle->SetLinearVelocity(0, 20, 0);
+				btVector3 v = App->scene_intro->checkpointList.getLast()->data->GetPosition();
+				vehicle->SetLinearVelocity(0, 0, 0);
+				vehicle->SetPos(v.x(), v.y(), v.z());
+			}
+		}
 	}
 }
-
 
 
 btVector3 ModulePlayer::RotateVecToLocal(float x, float y, float z)

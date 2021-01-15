@@ -132,7 +132,7 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 
         if (body2->name == "sensor")
         {
-        App->player->vehicle->SetPos(-164.75f, 1.026f, -19.035f);
+            App->player->vehicle->SetPos(-164.75f, 1.026f, -19.035f);
         }
         
         if (body2->name == "startcheckpoint" && checkpointList.count() == 0)
