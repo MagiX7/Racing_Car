@@ -44,12 +44,12 @@ bool ModuleSceneIntro::Start()
              torusCheckpointList.getFirst()->data->GetTransform().M[14]);
 
     // 20 is for outer radius
-    Cube* l1 = CreateCube(vec3(pos.x, 25, pos.z - 7), vec3(5, 3, 5), Black, 0, "firstlight");
+    Cube* l1 = CreateCube(vec3(pos.x - 5, 20, pos.z - 7), vec3(5, 3, 5), Black, 0, "firstlight");
     l1->SetRotation(-24, vec3(1, 0, 0));
     lights.add(l1);
 
-    lights.add(CreateCube(vec3(pos.x, 25, pos.z), vec3(5, 5, 5), Black, 0, "secondlight"));
-    Cube* l3 = CreateCube(vec3(pos.x, 25, pos.z + 7), vec3(5, 3, 5), Black, 0, "thirdlight");
+    lights.add(CreateCube(vec3(pos.x - 5, 21.5f, pos.z), vec3(5, 3, 5), Black, 0, "secondlight"));
+    Cube* l3 = CreateCube(vec3(pos.x - 5, 20, pos.z + 7), vec3(5, 3, 5), Black, 0, "thirdlight");
     l3->SetRotation(24, vec3(1, 0, 0));
     lights.add(l3);
 
@@ -61,8 +61,7 @@ bool ModuleSceneIntro::Start()
     fxLapCompleted = App->audio->LoadFx("Assets/Audio/lap.wav");
     App->audio->PlayMusic("Assets/Audio/nine_thou.ogg");
 
-    swapCamera = true;
-
+    swapCamera = false;
 
     return ret;
 }
@@ -128,11 +127,6 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
             App->player->turbo = 100.0f;
             body2->name = "turboPicked";
             turbosList.add(body2);
-        }
-
-        if (body2->name == "sensor")
-        {
-            App->player->vehicle->SetPos(-164.75f, 1.026f, -19.035f);
         }
         
         if (body2->name == "startcheckpoint" && checkpointList.count() == 0)
@@ -232,7 +226,6 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
             LOG("%d", laps);
         }
     }
-
 }
 
 Cube* ModuleSceneIntro::CreateCube(vec3 pos, vec3 size, Color rgb, float mass, SString name, bool isSensor)
@@ -250,7 +243,6 @@ Cube* ModuleSceneIntro::CreateCube(vec3 pos, vec3 size, Color rgb, float mass, S
 
 Cube* ModuleSceneIntro::CreateRamp(vec3 pos, vec3 size, Color rgb, float angle, vec3 pivot, SString name ,float mass, bool isSensor)
 {
-
 	Cube* cube = new Cube();
 	cube->SetRotation(angle, pivot);
 	cube->SetPos(pos.x, pos.y, pos.z);
@@ -263,10 +255,6 @@ Cube* ModuleSceneIntro::CreateRamp(vec3 pos, vec3 size, Color rgb, float angle, 
 
 void ModuleSceneIntro::MapCreation()
 {
-    // Testing Sensor cube
-    geometryList.add(CreateCube(vec3(0.0f, 2.0f, 20.0f), vec3(4.0f, 4.0f, 4.0f), Black, 0, "sensor" ,true));
-
-
     // Turbos sensors
     geometryList.add(CreateRamp(vec3(-41.036f, 2.659f, -25.965f), vec3(2.0f, 2.0f, 2.0f), Orange, 45.0f, vec3(1.0f,0.0f,1.0f), "turbo", 0,true));
     geometryList.add(CreateRamp(vec3(220.665f, 2.659f, -139.767f), vec3(2.0f, 2.0f, 2.0f), Orange, 45.0f, vec3(1.0f,0.0f,1.0f), "turbo", 0,true));
@@ -274,17 +262,10 @@ void ModuleSceneIntro::MapCreation()
     geometryList.add(CreateRamp(vec3(237.303f, 2.659f, -197.916f), vec3(2.0f, 2.0f, 2.0f), Orange, 45.0f, vec3(1.0f,0.0f,1.0f), "turbo", 0,true));
     geometryList.add(CreateRamp(vec3(-41.036f, 2.659f, -784.513f), vec3(2.0f, 2.0f, 2.0f), Orange, 45.0f, vec3(1.0f,0.0f,1.0f), "turbo", 0,true));
 
-
-    // Start sensor
-    geometryList.add(CreateCube(vec3(-150.387f, 1.904f, -18.939f), vec3(1.0f, 3.53f, 28.847f), Red, 0, "start", true));
-
-
     // Circuit walls
-   
     geometryList.add(CreateCube(vec3(-181.0f, 6.5f, -411.212f), vec3(1.0f, 13.0f, 815.0f), White, 0, "wall1"));
     geometryList.add(CreateCube(vec3(-151.028f, 6.5f, -394.152f), vec3(1.0f, 13.0f, 719.176f), White, 0, "wall2"));
 
-  
     geometryList.add(CreateCube(vec3(-21.028f, 6.5f, -34.393f), vec3(260.0f, 13.0f,1.0f), White, 0, "wall3"));
     geometryList.add(CreateCube(vec3(-21.033f, 6.5f, -4.0f), vec3(320.0f, 13.0f, 1.0f), White, 0, "wall4"));
 
@@ -318,7 +299,6 @@ void ModuleSceneIntro::MapCreation()
     geometryList.add(CreateCube(vec3(-13.058f, 6.5f, -753.415f), vec3(276.0f, 13.0f, 1.0f), White, 0, "wall23"));
     geometryList.add(CreateCube(vec3(6.763f, 6.5f, -818.984f), vec3(376.0f, 13.0f, 1.0f), White, 0, "wall24"));
 
-    
     // Checkpoints for the map
     Cube* checkpoint1 = CreateCube(vec3(-120.387f, 1.904f, -18.939f), vec3(1.0f, 3.53f, 28.847f), White, 0, "startcheckpoint", true);
     Cube* checkpoint2 = CreateCube(vec3(398.606f, 1.904f, -169.176f), vec3(1.0f, 3.53f, 28.847f), White, 0, "secondcheckpoint", true);
@@ -358,7 +338,6 @@ void ModuleSceneIntro::MapCreation()
     geometryList.add(CreateRamp(vec3(237.282f, 27.814f, -138.095f), vec3(47.0f, 1.082f, 128.9f), Red, 0, vec3(1, 0, 0), "secondramp", 0));
     geometryList.add(CreateRamp(vec3(237.551f, 13.049f, -227.619f), vec3(47.549f, 58.977f, 1.0f), Red, 60.0f, vec3(1, 0, 0), "thirdramp", 0));
     
-	
     geometryList.add(CreateRamp(vec3(237.65f, 10, -531.34f), vec3(55.445, 30, 2), Black, 0, vec3(1, 0, 0), "loopsensor1", 0, true));
     geometryList.add(CreateRamp(vec3(159.46f, 10, -621.843f), vec3(70.707f, 30, 2), Black, 353.537f, vec3(1, 0, 0), "loopsensor2", 0, true));
 
