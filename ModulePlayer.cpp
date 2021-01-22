@@ -321,9 +321,23 @@ void ModulePlayer::HandleInputs(float dt)
 		{
 			if (App->scene_intro->checkpointList.getLast() != nullptr)
 			{
-				mat4x4 torusTr = App->scene_intro->torusCheckpointList.getLast()->data->GetTransform();
-				torusTr.rotate(90, vec3(0, 1, 0));
-				vehicle->SetTransform(&torusTr);
+				//mat4x4 torusTr = App->scene_intro->torusCheckpointList.getLast()->data->GetTransform();
+				//torusTr.rotate(90, vec3(0, 1, 0));
+				
+				mat4x4 tr;
+				App->scene_intro->checkpointList.getLast()->data->GetTransform(&tr);
+				if (App->scene_intro->checkpointList.getLast()->data->name == "startcheckpoint" ||
+					App->scene_intro->checkpointList.getLast()->data->name == "secondcheckpoint")
+				{
+					tr.rotate(90, vec3(0, 1, 0));
+				}
+				else if (App->scene_intro->checkpointList.getLast()->data->name == "thirdcheckpoint" ||
+					App->scene_intro->checkpointList.getLast()->data->name == "fourthcheckpoint")
+				{
+					tr.rotate(180, vec3(0, 1, 0));
+				}
+				vehicle->vehicle->getRigidBody()->setAngularVelocity(btVector3(0, 0, 0));
+				vehicle->SetTransform(&tr);
 
 				btVector3 v = App->scene_intro->checkpointList.getLast()->data->GetPosition();
 				vehicle->SetLinearVelocity(0, 0, 0);
@@ -332,7 +346,6 @@ void ModulePlayer::HandleInputs(float dt)
 		}
 	}
 }
-
 
 btVector3 ModulePlayer::RotateVecToLocal(float x, float y, float z)
 {

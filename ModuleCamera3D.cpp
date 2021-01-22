@@ -43,20 +43,20 @@ update_status ModuleCamera3D::Update(float dt)
 	// Implement a debug camera with keys and mouse
 	// Now we can make this movememnt frame rate independant!
 
-	vec3 newPos(0,0,0);
+	vec3 newPos(0, 0, 0);
 	float speed = 3.0f * dt;
-	if(App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
 		speed = 200.0f * dt;
 
-	if(App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) newPos.y += speed;
-	if(App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) newPos.y -= speed;
+	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) newPos.y += speed;
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) newPos.y -= speed;
 
-	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT) newPos -= Z * speed;
-	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT) newPos += Z * speed;
+	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT) newPos -= Z * speed;
+	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT) newPos += Z * speed;
 
 
-	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT) newPos -= X * speed;
-	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) newPos += X * speed;
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT) newPos -= X * speed;
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) newPos += X * speed;
 
 	Position += newPos;
 	Reference += newPos;
@@ -71,28 +71,28 @@ update_status ModuleCamera3D::Update(float dt)
 	LookAt(cameraTarget);
 	*/
 
-	
+
 
 	// Mouse motion ----------------
 
-	if(App->scene_intro->swapCamera == false)
+	if (App->scene_intro->swapCamera == false)
 	{
 		Position.x = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() - 10 * App->player->vehicle->vehicle->getForwardVector().getX();
 		Position.y = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() + 5 * App->player->vehicle->vehicle->getUpAxis();
 		Position.z = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() - 10 * App->player->vehicle->vehicle->getForwardVector().getZ();
-		float x_value = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() + 10 * App->player->vehicle->vehicle->getForwardVector().getX();
-		float z_value = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() + 10 * App->player->vehicle->vehicle->getForwardVector().getZ();
-		//LookAt(vec3(App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX(), App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() + 3, App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ()));
+		//float x_value = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() + 10 * App->player->vehicle->vehicle->getForwardVector().getX();
+		//float z_value = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() + 10 * App->player->vehicle->vehicle->getForwardVector().getZ();
 	}
 	else if (App->scene_intro->swapCamera == true)
 	{
-		Position.x = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() - App->player->vehicle->vehicle->getForwardVector().getX() - 1;
-		Position.y = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() - App->player->vehicle->vehicle->getUpAxis() + 4;
-		Position.z = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() - App->player->vehicle->vehicle->getForwardVector().getZ();
+		/*Position.x = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() - 10 *App->player->vehicle->vehicle->getForwardVector().getX();
+		Position.y = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() + 5 * App->player->vehicle->vehicle->getUpAxis();
+		Position.z = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() - 8 * App->player->vehicle->vehicle->getForwardVector().getZ();
 
-		LookAt(vec3(App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() - 1, App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() + 4, App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ()));
+		LookAt(vec3(App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX(), App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() + 3, App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ()));
+	*/
 	}
-	
+
 	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 	{
 		int dx = -App->input->GetMouseXMotion();
@@ -141,12 +141,7 @@ update_status ModuleCamera3D::Update(float dt)
 		Position.z = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() + 15 * App->player->vehicle->vehicle->getForwardVector().getZ();
 	}
 
-	if (App->scene_intro->startCountDown > 0.0f)
-	{
-		LookAt(vec3(App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() + 10, App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() + 7, App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ()));
-	}
-	else
-		LookAt(vec3(App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX(), App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() + 2, App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ()));
+	LookAt(vec3(App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX(), App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() + 2, App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ()));
 
 	// Recalculate matrix -------------
 	CalculateViewMatrix();
@@ -155,7 +150,7 @@ update_status ModuleCamera3D::Update(float dt)
 }
 
 // -----------------------------------------------------------------
-void ModuleCamera3D::Look(const vec3 &Position, const vec3 &Reference, bool RotateAroundReference)
+void ModuleCamera3D::Look(const vec3& Position, const vec3& Reference, bool RotateAroundReference)
 {
 	this->Position = Position;
 	this->Reference = Reference;
@@ -164,7 +159,7 @@ void ModuleCamera3D::Look(const vec3 &Position, const vec3 &Reference, bool Rota
 	X = normalize(cross(vec3(0.0f, 1.0f, 0.0f), Z));
 	Y = cross(Z, X);
 
-	if(!RotateAroundReference)
+	if (!RotateAroundReference)
 	{
 		this->Reference = this->Position;
 		this->Position += Z * 0.05f;
@@ -174,7 +169,7 @@ void ModuleCamera3D::Look(const vec3 &Position, const vec3 &Reference, bool Rota
 }
 
 // -----------------------------------------------------------------
-void ModuleCamera3D::LookAt( const vec3 &Spot)
+void ModuleCamera3D::LookAt(const vec3& Spot)
 {
 	Reference = Spot;
 
@@ -187,7 +182,7 @@ void ModuleCamera3D::LookAt( const vec3 &Spot)
 
 
 // -----------------------------------------------------------------
-void ModuleCamera3D::Move(const vec3 &Movement)
+void ModuleCamera3D::Move(const vec3& Movement)
 {
 	Position += Movement;
 	Reference += Movement;
