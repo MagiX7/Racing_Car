@@ -90,7 +90,15 @@ update_status ModuleCamera3D::Update(float dt)
 		Position.z = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() - 8 * App->player->vehicle->vehicle->getForwardVector().getZ();
 
 		LookAt(vec3(App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX(), App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() + 3, App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ()));
-	*/
+		*/
+	}
+
+	if (App->scene_intro->swapCameraTop)
+	{
+		// 159.46f,4.609f,-621.843f
+		Position.x = 170.0f;
+		Position.y = 6.0f;
+		Position.z = -625.0f;
 	}
 
 	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)

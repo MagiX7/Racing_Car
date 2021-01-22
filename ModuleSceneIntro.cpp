@@ -122,9 +122,16 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
         {
             swapCamera = true;
         }
+
         else if (body2->name == "loopsensor2")
         {
+            swapCameraTop = true;
+        }
+
+        else if (body2->name == "loopsensor3" || body2->name == "loopsensor4" || body2->name == "loopsensor5" || body2->name == "loopsensor6" || body2->name == "loopsensor7" || body2->name == "loopsensor8")
+        {
             swapCamera = false;
+            swapCameraTop = false;
         }
 
         if (body2->name == "turbo")
@@ -267,41 +274,41 @@ void ModuleSceneIntro::MapCreation()
     geometryList.add(CreateRamp(vec3(-41.036f, 2.659f, -784.513f), vec3(2.0f, 2.0f, 2.0f), Orange, 45.0f, vec3(1.0f,0.0f,1.0f), "turbo", 0,true));
 
     // Circuit walls
-    geometryList.add(CreateCube(vec3(-181.0f, 6.5f, -411.212f), vec3(1.0f, 13.0f, 815.0f), White, 0, "wall1"));
-    geometryList.add(CreateCube(vec3(-151.028f, 6.5f, -394.152f), vec3(1.0f, 13.0f, 719.176f), White, 0, "wall2"));
+    geometryList.add(CreateCube(vec3(-181.0f, 6.5f, -411.212f), vec3(1.0f, 13.0f, 815.0f), Dark_Grey, 0, "wall1"));
+    geometryList.add(CreateCube(vec3(-151.028f, 6.5f, -394.152f), vec3(1.0f, 13.0f, 719.176f), Dark_Grey, 0, "wall2"));
 
-    geometryList.add(CreateCube(vec3(-21.028f, 6.5f, -34.393f), vec3(260.0f, 13.0f,1.0f), White, 0, "wall3"));
-    geometryList.add(CreateCube(vec3(-21.033f, 6.5f, -4.0f), vec3(320.0f, 13.0f, 1.0f), White, 0, "wall4"));
+    geometryList.add(CreateCube(vec3(-21.028f, 6.5f, -34.393f), vec3(260.0f, 13.0f,1.0f), Dark_Grey, 0, "wall3"));
+    geometryList.add(CreateCube(vec3(-21.033f, 6.5f, -4.0f), vec3(320.0f, 13.0f, 1.0f), Dark_Grey, 0, "wall4"));
 
-    geometryList.add(CreateCube(vec3(108.972f, 6.5f, -94.708f), vec3(1.0f, 13.0f, 120.0f), White, 0, "wall5"));
-    geometryList.add(CreateCube(vec3(138.972f, 6.5f, -64.0f), vec3(1.0f, 13.0f, 120.249f), White, 0, "wall6"));
+    geometryList.add(CreateCube(vec3(108.972f, 6.5f, -94.708f), vec3(1.0f, 13.0f, 120.0f), Dark_Grey, 0, "wall5"));
+    geometryList.add(CreateCube(vec3(138.972f, 6.5f, -64.0f), vec3(1.0f, 13.0f, 120.249f), Dark_Grey, 0, "wall6"));
 
-    geometryList.add(CreateCube(vec3(188.9742f, 6.5f, -154.393f), vec3(159.915f, 13.0f, 1.0f), White, 0, "wall7"));
-    geometryList.add(CreateCube(vec3(218.972f, 6.5f, -124.0f), vec3(159.969f, 13.0f, 1.0f), White, 0, "wall8"));
+    geometryList.add(CreateCube(vec3(188.9742f, 6.5f, -154.393f), vec3(159.915f, 13.0f, 1.0f), Dark_Grey, 0, "wall7"));
+    geometryList.add(CreateCube(vec3(218.972f, 6.5f, -124.0f), vec3(159.969f, 13.0f, 1.0f), Dark_Grey, 0, "wall8"));
 
-    geometryList.add(CreateCube(vec3(269.213f, 6.5f, -169.227f), vec3(1.0f, 13.0f, 30.537f), White, 0, "wall9"));
-    geometryList.add(CreateCube(vec3(298.409f, 6.5f, -139.388f), vec3(1.0f, 13.0f, 30.412f), White, 0, "wall10"));
+    geometryList.add(CreateCube(vec3(269.213f, 6.5f, -169.227f), vec3(1.0f, 13.0f, 30.537f), Dark_Grey, 0, "wall9"));
+    geometryList.add(CreateCube(vec3(298.409f, 6.5f, -139.388f), vec3(1.0f, 13.0f, 30.412f), Dark_Grey, 0, "wall10"));
 
-    geometryList.add(CreateCube(vec3(379.085f, 6.5f, -184.393f), vec3(220.666f, 13.0f, 1.0f), White, 0, "wall11"));
-    geometryList.add(CreateCube(vec3(375.748f, 6.5f, -154.119f), vec3(155.0f, 13.0f, 1.0f), White, 0, "wall12"));
+    geometryList.add(CreateCube(vec3(379.085f, 6.5f, -184.393f), vec3(220.666f, 13.0f, 1.0f), Dark_Grey, 0, "wall11"));
+    geometryList.add(CreateCube(vec3(375.748f, 6.5f, -154.119f), vec3(155.0f, 13.0f, 1.0f), Dark_Grey, 0, "wall12"));
 
-    geometryList.add(CreateCube(vec3(488.907f, 6.5f, 73.447f), vec3(1.0f, 13.0f, 515.0f), White, 0, "wall13"));
-    geometryList.add(CreateCube(vec3(452.223f, 6.5f, 67.09f), vec3(1.0f, 13.0f, 441.031f), White, 0, "wall14"));
+    geometryList.add(CreateCube(vec3(488.907f, 6.5f, 73.447f), vec3(1.0f, 13.0f, 515.0f), Dark_Grey, 0, "wall13"));
+    geometryList.add(CreateCube(vec3(452.223f, 6.5f, 67.09f), vec3(1.0f, 13.0f, 441.031f), Dark_Grey, 0, "wall14"));
 
-    geometryList.add(CreateCube(vec3(359.075f, 6.5f, 288.042f), vec3(187.778f, 13.0f, 1.0f), White, 0, "wall15"));
-    geometryList.add(CreateCube(vec3(349.358f, 6.5f, 330.812f), vec3(279.98f, 13.0f, 1.0f), White, 0, "wall16"));
+    geometryList.add(CreateCube(vec3(359.075f, 6.5f, 288.042f), vec3(187.778f, 13.0f, 1.0f), Dark_Grey, 0, "wall15"));
+    geometryList.add(CreateCube(vec3(349.358f, 6.5f, 330.812f), vec3(279.98f, 13.0f, 1.0f), Dark_Grey, 0, "wall16"));
 
-    geometryList.add(CreateCube(vec3(210.847f, 6.5f, 111.2f), vec3(1.0f, 13.0f, 441.031f), White, 0, "wall17"));
-    geometryList.add(CreateCube(vec3(264.689f, 6.5f, 93.014f), vec3(1.0f, 13.0f, 389.896f), White, 0, "wall18"));
+    geometryList.add(CreateCube(vec3(210.847f, 6.5f, 111.2f), vec3(1.0f, 13.0f, 441.031f), Dark_Grey, 0, "wall17"));
+    geometryList.add(CreateCube(vec3(264.689f, 6.5f, 93.014f), vec3(1.0f, 13.0f, 389.896f), Dark_Grey, 0, "wall18"));
 
-    geometryList.add(CreateCube(vec3(205.705f, 6.5f, -335.4f), vec3(1.0f, 13.0f, 361.872f), White, 0, "wall19"));
-    geometryList.add(CreateCube(vec3(268.817f, 6.5f, -347.152f), vec3(1.0f, 13.0f, 325.405f), White, 0, "wall20"));
+    geometryList.add(CreateCube(vec3(205.705f, 6.5f, -335.4f), vec3(1.0f, 13.0f, 361.872f), Dark_Grey, 0, "wall19"));
+    geometryList.add(CreateCube(vec3(268.817f, 6.5f, -347.152f), vec3(1.0f, 13.0f, 325.405f), Dark_Grey, 0, "wall20"));
 
-    geometryList.add(CreateCube(vec3(124.496f, 6.5f, -688.935f), vec3(1.0f, 13.0f, 129.394f), White, 0, "wall21"));
-    geometryList.add(CreateCube(vec3(194.752f, 6.5f, -723.446f), vec3(1.0f, 13.0f, 192.205f), White, 0, "wall22"));
+    geometryList.add(CreateCube(vec3(124.496f, 6.5f, -688.935f), vec3(1.0f, 13.0f, 129.394f), Dark_Grey, 0, "wall21"));
+    geometryList.add(CreateCube(vec3(194.752f, 6.5f, -723.446f), vec3(1.0f, 13.0f, 192.205f), Dark_Grey, 0, "wall22"));
 
-    geometryList.add(CreateCube(vec3(-13.058f, 6.5f, -753.415f), vec3(276.0f, 13.0f, 1.0f), White, 0, "wall23"));
-    geometryList.add(CreateCube(vec3(6.763f, 6.5f, -818.984f), vec3(376.0f, 13.0f, 1.0f), White, 0, "wall24"));
+    geometryList.add(CreateCube(vec3(-13.058f, 6.5f, -753.415f), vec3(276.0f, 13.0f, 1.0f), Dark_Grey, 0, "wall23"));
+    geometryList.add(CreateCube(vec3(6.763f, 6.5f, -818.984f), vec3(376.0f, 13.0f, 1.0f), Dark_Grey, 0, "wall24"));
 
     // Checkpoints for the map
     Cube* checkpoint1 = CreateCube(vec3(-120.387f, 1.904f, -18.939f), vec3(1.0f, 3.53f, 28.847f), White, 0, "startcheckpoint", true);
@@ -343,7 +350,13 @@ void ModuleSceneIntro::MapCreation()
     geometryList.add(CreateRamp(vec3(237.551f, 13.049f, -227.619f), vec3(47.549f, 58.977f, 1.0f), Red, 60.0f, vec3(1, 0, 0), "thirdramp", 0));
     
     geometryList.add(CreateRamp(vec3(237.65f, 10, -531.34f), vec3(55.445, 30, 2), Black, 0, vec3(1, 0, 0), "loopsensor1", 0, true));
-    geometryList.add(CreateRamp(vec3(159.46f, 10, -621.843f), vec3(70.707f, 30, 2), Black, 353.537f, vec3(1, 0, 0), "loopsensor2", 0, true));
+    geometryList.add(CreateRamp(vec3(200.0f, 100, -550.34f), vec3(60, 20, 2), Black, 0, vec3(1, 0, 0), "loopsensor2", 0, true));
+    geometryList.add(CreateRamp(vec3(162.46f, 10, -621.843f), vec3(70.707f, 30, 2), Black, 353.537f, vec3(1, 0, 0), "loopsensor3", 0, true));
+    geometryList.add(CreateRamp(vec3(271.46f, 30, -570.0f), vec3(5.0f, 170, 150), Black, 353.537f, vec3(1, 0, 0), "loopsensor4", 0, true));
+    geometryList.add(CreateRamp(vec3(125.46f, 30, -570.0f), vec3(5.0f, 170, 150), Black, 353.537f, vec3(1, 0, 0), "loopsensor5", 0, true));
+    geometryList.add(CreateRamp(vec3(195.46f, 110, -570.843f), vec3(160.707f, 5.0f, 170), Black, 353.537f, vec3(1, 0, 0), "loopsensor6", 0, true));
+    geometryList.add(CreateRamp(vec3(235.46f, 30, -620.0f), vec3(75, 170, 5.0f), Black, 353.537f, vec3(1, 0, 0), "loopsensor7", 0, true));
+    geometryList.add(CreateRamp(vec3(168.46f, 30, -490.0f), vec3(75, 170, 5.0f), Black, 353.537f, vec3(1, 0, 0), "loopsensor8", 0, true));
 
     // Loop Geometry
     geometryList.add(CreateRamp(vec3(237.65f, 0.0f,-531.34f), vec3(55.445f, 20.333f,1.0f), Red, -90.0f, vec3(1, 0, 0), "Ramp", 0));
@@ -400,7 +413,8 @@ void ModuleSceneIntro::MapCreation()
     
 }
 
-void ModuleSceneIntro::display(float dt) {
+void ModuleSceneIntro::display(float dt)
+{
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -472,19 +486,19 @@ void ModuleSceneIntro::display(float dt) {
 
     glTexCoord2f(0.0, 0.0);
 
-    glVertex3f(-182.0, 0.0, 182.0);
+    glVertex3f(-TEX_SIZE, 0.0, TEX_SIZE); // TEX_SIZE is image size
 
     glTexCoord2f(1.0, 0.0);
 
-    glVertex3f(182.0, 0.0, 182.0);
+    glVertex3f(TEX_SIZE, 0.0, TEX_SIZE);
 
     glTexCoord2f(1.0, 1.0);
 
-    glVertex3f(182.0, 0.0, -182.0);
+    glVertex3f(TEX_SIZE, 0.0, -TEX_SIZE);
 
     glTexCoord2f(0.0, 1.0);
 
-    glVertex3f(-182.0, 0.0, -182.0);
+    glVertex3f(-TEX_SIZE, 0.0, -TEX_SIZE);
 
     glDisable(GL_TEXTURE_2D);
 
@@ -574,13 +588,16 @@ void ModuleSceneIntro::ResetScene()
     go = false;
 }
 
-void ModuleSceneIntro::makeCheckImage(void) {
+void ModuleSceneIntro::makeCheckImage(void)
+{
 
     int i, j, c;
 
-    for (i = 0; i < checkImageWidth; i++) {
+    for (i = 0; i < checkImageWidth; i++)
+    {
 
-        for (j = 0; j < checkImageHeight; j++) {
+        for (j = 0; j < checkImageHeight; j++)
+        {
 
             c = ((((i & 0x8) == 0) ^ ((j & 0x8) == 0))) * 255;
 
@@ -594,7 +611,8 @@ void ModuleSceneIntro::makeCheckImage(void) {
     }
 }
 
-int ModuleSceneIntro::ImageLoad(char* filename, Image* image) {
+int ModuleSceneIntro::ImageLoad(char* filename, Image* image)
+{
 
     FILE* file;
 
@@ -610,7 +628,8 @@ int ModuleSceneIntro::ImageLoad(char* filename, Image* image) {
 
     // make sure the file is there.
 
-    if ((file = fopen(filename, "rb")) == NULL) {
+    if ((file = fopen(filename, "rb")) == NULL)
+    {
 
         printf("File Not Found : %s\n", filename);
 
@@ -624,7 +643,8 @@ int ModuleSceneIntro::ImageLoad(char* filename, Image* image) {
 
     // read the width
 
-    if ((i = fread(&image->sizeX, 4, 1, file)) != 1) {
+    if ((i = fread(&image->sizeX, 4, 1, file)) != 1)
+    {
 
         printf("Error reading width from %s.\n", filename);
 
@@ -636,7 +656,8 @@ int ModuleSceneIntro::ImageLoad(char* filename, Image* image) {
 
     // read the height
 
-    if ((i = fread(&image->sizeY, 4, 1, file)) != 1) {
+    if ((i = fread(&image->sizeY, 4, 1, file)) != 1)
+    {
 
         printf("Error reading height from %s.\n", filename);
 
@@ -652,7 +673,8 @@ int ModuleSceneIntro::ImageLoad(char* filename, Image* image) {
 
     // read the planes
 
-    if ((fread(&planes, 2, 1, file)) != 1) {
+    if ((fread(&planes, 2, 1, file)) != 1)
+    {
 
         printf("Error reading planes from %s.\n", filename);
 
@@ -660,7 +682,8 @@ int ModuleSceneIntro::ImageLoad(char* filename, Image* image) {
 
     }
    
-    if (planes != 1) {
+    if (planes != 1)
+    {
 
         printf("Planes from %s is not 1: %u\n", filename, planes);
 
@@ -670,7 +693,8 @@ int ModuleSceneIntro::ImageLoad(char* filename, Image* image) {
 
     // read the bitsperpixel
     
-    if ((i = fread(&bpp, 2, 1, file)) != 1) {
+    if ((i = fread(&bpp, 2, 1, file)) != 1)
+    {
 
         printf("Error reading bpp from %s.\n", filename);
 
@@ -679,7 +703,8 @@ int ModuleSceneIntro::ImageLoad(char* filename, Image* image) {
     }
 
    
-    if (bpp != 24) {
+    if (bpp != 24)
+    {
 
         printf("Bpp from %s is not 24: %u\n", filename, bpp);
 
@@ -695,7 +720,8 @@ int ModuleSceneIntro::ImageLoad(char* filename, Image* image) {
 
     image->data = (char*)malloc(size);
 
-    if (image->data == NULL) {
+    if (image->data == NULL)
+    {
 
         printf("Error allocating memory for color-corrected image data");
 
@@ -703,7 +729,8 @@ int ModuleSceneIntro::ImageLoad(char* filename, Image* image) {
 
     }
 
-    if ((i = fread(image->data, size, 1, file)) != 1) {
+    if ((i = fread(image->data, size, 1, file)) != 1)
+    {
 
         printf("Error reading image data from %s.\n", filename);
 
@@ -711,7 +738,8 @@ int ModuleSceneIntro::ImageLoad(char* filename, Image* image) {
 
     }
 
-    for (i = 0; i < size; i += 3) { // reverse all of the colors. (bgr -> rgb)
+    for (i = 0; i < size; i += 3) // reverse all of the colors. (bgr -> rgb)
+    {
 
         temp = image->data[i];
 
@@ -728,7 +756,8 @@ int ModuleSceneIntro::ImageLoad(char* filename, Image* image) {
 }
 
 
-Image* ModuleSceneIntro::loadTexture() {
+Image* ModuleSceneIntro::loadTexture()
+{
 
     Image* image1;
 
@@ -736,7 +765,8 @@ Image* ModuleSceneIntro::loadTexture() {
 
     image1 = (Image*)malloc(sizeof(Image));
 
-    if (image1 == NULL) {
+    if (image1 == NULL)
+    {
 
         printf("Error allocating space for image");
 
@@ -744,7 +774,8 @@ Image* ModuleSceneIntro::loadTexture() {
 
     }
 
-    if (!ImageLoad("Assets/Textures/sand.bmp", image1)) {
+    if (!ImageLoad("Assets/Textures/asphalt4.bmp", image1))
+    {
 
         exit(1);
 
@@ -757,10 +788,9 @@ Image* ModuleSceneIntro::loadTexture() {
 
 
 void ModuleSceneIntro::myinit(void)
-
 {
 
-    glClearColor(0.5, 0.5, 0.5, 0.0);
+    glClearColor(0.62, 0.88, 0.99, 0.0); // World color
 
     glEnable(GL_DEPTH_TEST);
 
@@ -768,7 +798,8 @@ void ModuleSceneIntro::myinit(void)
 
     Image* image1 = loadTexture();
 
-    if (image1 == NULL) {
+    if (image1 == NULL)
+    {
 
         printf("Image was not returned from loadTexture\n");
 

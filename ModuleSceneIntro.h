@@ -11,6 +11,7 @@
 #define checkImageWidth 64
 #define checkImageHeight 64
 #define MAX_LIGHTS 8
+#define TEX_SIZE 830.0
 
 struct PhysBody3D;
 struct PhysMotor3D;
@@ -117,6 +118,7 @@ public:
 	bool go = false;
 
 	bool swapCamera;
+	bool swapCameraTop = false;
 
 	int fxCheckpoint;
 	int fxLapCompleted;
