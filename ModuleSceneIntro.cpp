@@ -6,7 +6,7 @@
 #include "Primitive.h"
 #include "PhysBody3D.h"
 
-ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
+ModuleSceneIntro::ModuleSceneIntro(bool start_enabled) : Module(start_enabled)
 {
 }
 
@@ -44,14 +44,19 @@ bool ModuleSceneIntro::Start()
              torusCheckpointList.getFirst()->data->GetTransform().M[14]);
 
     // 20 is for outer radius
-    Cube* l1 = CreateCube(vec3(pos.x - 5, 20, pos.z - 7), vec3(5, 3, 5), Black, 0, "firstlight");
-    l1->SetRotation(-24, vec3(1, 0, 0));
+    Cube* l1 = CreateCube(vec3(pos.x, 12, pos.z - 7), vec3(4, 4, 4), Black, 0, "firstlight");
     lights.add(l1);
 
-    lights.add(CreateCube(vec3(pos.x - 5, 21.5f, pos.z), vec3(5, 3, 5), Black, 0, "secondlight"));
-    Cube* l3 = CreateCube(vec3(pos.x - 5, 20, pos.z + 7), vec3(5, 3, 5), Black, 0, "thirdlight");
-    l3->SetRotation(24, vec3(1, 0, 0));
+    lights.add(CreateCube(vec3(pos.x, 12, pos.z), vec3(4, 4, 4), Black, 0, "secondlight"));
+    Cube* l3 = CreateCube(vec3(pos.x, 12, pos.z + 7), vec3(4, 4, 4), Black, 0, "thirdlight");
     lights.add(l3);
+
+    Cube* fStick = CreateCube(vec3(-120.387f, 15, -26.1f), vec3(1, 5, 1), Black, 0, "fstick");
+    Cube* sStick = CreateCube(vec3(-120.387f, 15, -19.1f), vec3(1, 5, 1), Black, 0, "sstick");
+    Cube* tStick = CreateCube(vec3(-120.387f, 15, -12.1f), vec3(1, 5, 1), Black, 0, "tstick");
+    sticksList.add(fStick);
+    sticksList.add(sStick);
+    sticksList.add(tStick);
 
     myinit();
 
@@ -132,9 +137,8 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
         if (body2->name == "startcheckpoint" && checkpointList.count() == 0)
         {
             checkpointList.add(body2);
-            if (laps == 2)
+            if (laps == 4)
                 App->audio->PlayFx(fxLapCompleted);
-            
         }
         else if (body2->name == "secondcheckpoint")
         {
@@ -452,9 +456,14 @@ void ModuleSceneIntro::display(float dt) {
         t = t->next;
     }
 
+    p2List_item<Cube*>* c = sticksList.getFirst();
+    while (c)
+    {
+        c->data->Render();
+        c = c->next;
+    }
 
     donut.Render();
-
 
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, texture[0]);

@@ -5,7 +5,7 @@
 #include "PhysVehicle3D.h"
 #include "PhysBody3D.h"
 
-ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, start_enabled), vehicle(NULL)
+ModulePlayer::ModulePlayer(bool start_enabled) : Module(start_enabled), vehicle(NULL)
 {
 	turn = acceleration = brake = 0.0f;
 }
@@ -203,10 +203,16 @@ update_status ModulePlayer::Update(float dt)
 	//LOG("%f", upVectorLength);
 
 
-	if (App->scene_intro->laps != 2) HandleInputs(dt);
+	if (App->scene_intro->laps != 4) HandleInputs(dt);
+
+	if (App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN && App->scene_intro->laps == 4)
+	{
+		ResetPlayer();
+		App->scene_intro->ResetScene();
+	}
 	
-	if (App->scene_intro->laps == 2 && vehicle->GetKmh() > 0) acceleration = -MAX_ACCELERATION * 0.5f;
-	if (App->scene_intro->laps == 2 && vehicle->GetKmh() > 2) brake = BRAKE_POWER;
+	if (App->scene_intro->laps == 4 && vehicle->GetKmh() > 0) acceleration = -MAX_ACCELERATION * 0.5f;
+	if (App->scene_intro->laps == 4 && vehicle->GetKmh() > 2) brake = BRAKE_POWER;
 	
 	vehicle->ApplyEngineForce(acceleration);
 	vehicle->Turn(turn);
@@ -226,12 +232,6 @@ void ModulePlayer::HandleInputs(float dt)
 
 	if (App->scene_intro->startCountDown <= 0.0f)
 	{
-		if (App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN && App->scene_intro->laps == 2)
-		{
-			ResetPlayer();
-			App->scene_intro->ResetScene();
-		}
-
 		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && vehicle->GetKmh() < 320)
 		{
 			if (App->input->GetKey(SDL_SCANCODE_SPACE) != KEY_REPEAT)

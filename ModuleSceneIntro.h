@@ -29,7 +29,7 @@ struct Image {
 class ModuleSceneIntro : public Module
 {
 public:
-	ModuleSceneIntro(Application* app, bool start_enabled = true);
+	ModuleSceneIntro(bool start_enabled = true);
 	~ModuleSceneIntro();
 
 	bool Start();
@@ -85,6 +85,8 @@ public:
 
 	p2List<PhysBody3D*> checkpointList;
 	p2List<Torus*> torusCheckpointList;
+	
+	p2List<Cube*> sticksList;
 
 	p2List<PhysBody3D*> turbosList;
 	float turboResetTimer;

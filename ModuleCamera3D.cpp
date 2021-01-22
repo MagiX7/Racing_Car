@@ -5,7 +5,7 @@
 #include "ModulePlayer.h"
 #include "PhysVehicle3D.h"
 
-ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(app, start_enabled)
+ModuleCamera3D::ModuleCamera3D(bool start_enabled) : Module(start_enabled)
 {
 	CalculateViewMatrix();
 
@@ -128,7 +128,7 @@ update_status ModuleCamera3D::Update(float dt)
 		Position = Reference + Z * length(Position);
 	}
 
-	if (App->scene_intro->laps == 2)
+	if (App->scene_intro->laps == 4)
 	{
 		Position.x = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() + 10 * App->player->vehicle->vehicle->getForwardVector().getX();
 		Position.y = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() + 8 * App->player->vehicle->vehicle->getUpAxis();

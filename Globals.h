@@ -27,6 +27,9 @@ enum update_status
 	UPDATE_ERROR
 };
 
+class Application;
+extern Application* App;
+
 // Configuration -----------
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 1024
