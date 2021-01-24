@@ -12,10 +12,10 @@ The time you have to achieve must be less than 50 seconds to win.
 - C to look back.
 
 ## Developers
-- (Oriol Bernal Martínez)[https://github.com/UriKurae]
-- (Lucas Pérez García)[https://github.com/LucasPG14]
-- (Denis Deconinck Soriano)[https://github.com/Denisdrk6]
-- (David Jesús González López)[https://github.com/MagiX7]
+- [Oriol Bernal Martínez](https://github.com/UriKurae)
+- [Lucas Pérez García](https://github.com/LucasPG14)
+- [Denis Deconinck Soriano](https://github.com/Denisdrk6)
+- [David Jesús González López](https://github.com/MagiX7)
 
 
-Check the Github Repository (HERE)[https://github.com/MagiX7/Racing_Car]
+Check the Github Repository [HERE](https://github.com/MagiX7/Racing_Car)
