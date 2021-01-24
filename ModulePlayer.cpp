@@ -63,10 +63,10 @@ bool ModulePlayer::Start()
 	car.t_base_size.Set(0.1, 0.2, 0.1);
 	car.t_base_offset.Set(0, 2.7, 0);
 
-	car.mass = 700.0f;
+	car.mass = 600.0f;
 	car.suspensionStiffness = 20.83f;
-	car.suspensionCompression = 1.f;
-	car.suspensionDamping = 2.88f;
+	car.suspensionCompression = 1.0f;
+	car.suspensionDamping = 9.88f;
 	car.maxSuspensionTravelCm = 1000.0f;
 	car.frictionSlip = 40.5;
 	car.maxSuspensionForce = 6000.0f;
@@ -75,7 +75,7 @@ bool ModulePlayer::Start()
 	float connection_height = 1.9f;
 	float wheel_radius = 1.0f;
 	float wheel_width = 1.2;
-	float suspensionRestLength = 1.0f;
+	float suspensionRestLength = 1.4f;
 
 	// Don't change anything below this line ------------------
 

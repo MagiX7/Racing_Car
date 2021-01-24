@@ -281,7 +281,7 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info)
 	btCompoundShape* comShape = new btCompoundShape();
 	shapes.add(comShape);
 
-	btCollisionShape* chassisShape = new btBoxShape(btVector3(info.chassis_size.x * 0.5f, info.chassis_size.y * 0.5f, info.chassis_size.z * 0.7f));
+	btCollisionShape* chassisShape = new btBoxShape(btVector3(info.chassis_size.x * 0.5f, info.chassis_size.y * 0.6f + 0.7, info.chassis_size.z * 0.7f));
 	shapes.add(chassisShape);
 
 	btTransform chassisTrans;

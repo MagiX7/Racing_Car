@@ -66,6 +66,9 @@ bool ModuleSceneIntro::Start()
     
     fxCheckpoint = App->audio->LoadFx("Assets/Audio/checkpoint.wav");
     fxLapCompleted = App->audio->LoadFx("Assets/Audio/lap.wav");
+    fxWin = App->audio->LoadFx("Assets/Audio/you_win.wav");
+    fxLose = App->audio->LoadFx("Assets/Audio/you_lose.wav");
+
     App->audio->PlayMusic("Assets/Audio/nine_thou.ogg");
 
     laps = 1;
@@ -73,6 +76,7 @@ bool ModuleSceneIntro::Start()
     lapTime = 0;
     bestLapTime = 43600;
     lastLapTime = 0;
+    bestTimeLap = 0;
 
     return ret;
 }
@@ -102,7 +106,7 @@ update_status ModuleSceneIntro::Update(float dt)
     
     if (go && laps < 4)
     {
-        lapTime += 100 * dt;
+        lapTime += 1 * dt;
         LOG("%f===", lapTime)
     }
     else if (laps == 4)
@@ -111,7 +115,25 @@ update_status ModuleSceneIntro::Update(float dt)
         errno_t err = fopen_s(&timesFile, "Times.txt", "a+");
         if (!err)
         {
-            fprintf_s(timesFile, "Your best time was: %.3f seconds\n", bestLapTime);
+            if (bestTimeLap == 2)
+                fprintf_s(timesFile, "Your best time was: %.3f seconds at %i st lap\n", bestLapTime, bestTimeLap - 1);
+            else if (bestTimeLap == 3)
+                fprintf_s(timesFile, "Your best time was: %.3f seconds at %i nd lap\n", bestLapTime, bestTimeLap - 1);
+            else if (bestTimeLap == 4)
+                fprintf_s(timesFile, "Your best time was: %.3f seconds at %i rd lap\n", bestLapTime, bestTimeLap - 1);
+
+        }
+
+        // Lose and win FX
+        if (bestLapTime <= 50.0f && playOnceWinLoseFx)
+        {
+            playOnceWinLoseFx = false;
+            App->audio->PlayFx(fxWin);
+        }
+        else if(bestLapTime > 50.0f && playOnceWinLoseFx)
+        {
+            playOnceWinLoseFx = false;
+            App->audio->PlayFx(fxLose);
         }
     }
 
@@ -145,7 +167,7 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
             swapCameraTop = true;
         }
 
-        else if (body2->name == "loopsensor3" || body2->name == "loopsensor4" || body2->name == "loopsensor5" || body2->name == "loopsensor6" || body2->name == "loopsensor7" || body2->name == "loopsensor8")
+        else if (body2->name == "loopsensor3" || body2->name == "loopsensor4" || body2->name == "loopsensor5" || body2->name == "loopsensor6" || body2->name == "loopsensor7" || body2->name == "loopsensor8" || body2->name == "loopsensor9")
         {
             swapCamera = false;
             swapCameraTop = false;
@@ -164,10 +186,14 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 
             // Timer reset
             lastLapTime = lapTime;
-            if (lastLapTime < bestLapTime) bestLapTime = lastLapTime;
+            if (lastLapTime < bestLapTime && laps > 1)
+            {
+                bestLapTime = lastLapTime;
+                bestTimeLap = laps;
+            }
             lapTime = 0.0f;
 
-            if (laps == 2 || laps == 3)
+            if (laps > 1)
                 App->audio->PlayFx(fxLapCompleted);
         }
         else if (body2->name == "secondcheckpoint")
@@ -210,7 +236,6 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
                     btVector3 a = body2->GetPosition();
                     App->player->vehicle->SetPos(a.getX(), a.getY(), a.getZ());
                 }
-                //checkpointList.add(body2);
                 torusCheckpointList.atIndex(2)->data->color = Green;
             }
             else
@@ -233,7 +258,6 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
                     btVector3 a = body2->GetPosition();
                     App->player->vehicle->SetPos(a.getX(), a.getY(), a.getZ());
                 }
-                //checkpointList.add(body2);
                 torusCheckpointList.atIndex(3)->data->color = Green;
             }
             else
@@ -269,7 +293,6 @@ Cube* ModuleSceneIntro::CreateCube(vec3 pos, vec3 size, Color rgb, float mass, S
 	cube->size = size;
 	cube->color = rgb;
    
-	
 	physBodies.add(App->physics->AddBody(*cube, mass, isSensor, name));
 
 	return cube;
@@ -380,10 +403,14 @@ void ModuleSceneIntro::MapCreation()
     geometryList.add(CreateRamp(vec3(195.46f, 110, -570.843f), vec3(160.707f, 5.0f, 170), Black, 353.537f, vec3(1, 0, 0), "loopsensor6", 0, true));
     geometryList.add(CreateRamp(vec3(235.46f, 30, -620.0f), vec3(75, 170, 5.0f), Black, 353.537f, vec3(1, 0, 0), "loopsensor7", 0, true));
     geometryList.add(CreateRamp(vec3(168.46f, 30, -490.0f), vec3(75, 170, 5.0f), Black, 353.537f, vec3(1, 0, 0), "loopsensor8", 0, true));
+    geometryList.add(CreateRamp(vec3(235.46f, 0, -515.0f), vec3(75, 57, 5.0f), Black, 353.537f, vec3(1, 0, 0), "loopsensor9", 0, true));
+
+    // Wall to prevent rats from cheating
+    geometryList.add(CreateCube(vec3(159.575f, 1.853f, -626.894f), vec3(71.223f, 3.599f, 1.0f), Dark_Grey, 0, "wallLoop"));
 
     // Loop Geometry
-    geometryList.add(CreateRamp(vec3(237.65f, 0.0f,-531.34f), vec3(55.445f, 20.333f,1.0f), Red, -90.0f, vec3(1, 0, 0), "Ramp", 0));
-    geometryList.add(CreateRamp(vec3(231.879f,1.897f,-553.9f), vec3(67.319f,0.953f,13.055f), Red, 14.018f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(231.65f, 0.1f,-538.34f), vec3(67.319f, 20.333f, 1.0f), Red, -87.0f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(231.879f,1.897f,-553.9f), vec3(67.319f, 0.953f, 13.055f), Red, 14.018f, vec3(1, 0, 0), "Ramp", 0));
     geometryList.add(CreateRamp(vec3(230.907f,5.594f,-565.905f), vec3(67.319f, 0.953f, 13.055f), Red, 20.258f, vec3(1, 0, 0), "Ramp", 0));
     geometryList.add(CreateRamp(vec3(230.004f,11.401f,-576.966f), vec3(67.319f, 0.953f, 13.055f), Red, 37.067f, vec3(1, 0, 0), "Ramp", 0));
     geometryList.add(CreateRamp(vec3(228.828f,19.481f,-586.252f), vec3(67.319f, 0.953f, 13.055f), Red, 45.018f, vec3(1, 0, 0), "Ramp", 0));
@@ -406,14 +433,14 @@ void ModuleSceneIntro::MapCreation()
     geometryList.add(CreateRamp(vec3(177.014f,48.039f,-506.307f), vec3(70.707f, 0.953f, 13.055f), Red, 290.753f, vec3(1, 0, 0), "Ramp", 0));
     geometryList.add(CreateRamp(vec3(175.114f,36.793f,-512.918f), vec3(70.707f, 0.953f, 13.055f), Red, 310.139f, vec3(1, 0, 0), "Ramp", 0));
     geometryList.add(CreateRamp(vec3(171.147f,27.66f,-521.768f), vec3(70.707f, 0.953f, 13.055f), Red, 315.61f, vec3(1, 0, 0), "Ramp", 0));
-    geometryList.add(CreateRamp(vec3(169.141f,20.313f,-532.305f), vec3(70.707f, 0.953f, 13.055f), Red, 334.408f, vec3(1, 0, 0), "Ramp", 0));
-    geometryList.add(CreateRamp(vec3(166.531f,15.918f,-544.363f), vec3(70.707f, 0.953f, 13.055f), Red, 344.302f, vec3(1, 0, 0), "Ramp", 0));
-    geometryList.add(CreateRamp(vec3(162.573f,13.138f,-557.217f), vec3(70.707f, 0.953f, 13.055f), Red, 351.625f, vec3(1, 0, 0), "Ramp", 0));
-    geometryList.add(CreateRamp(vec3(159.46f,11.319f,-569.927f), vec3(70.707f, 0.953f, 13.055f), Red, 355.566f, vec3(1, 0, 0), "Ramp", 0));
-    geometryList.add(CreateRamp(vec3(159.46f,9.965f,-583.044f), vec3(70.707f, 0.953f, 13.055f), Red, 352.87f, vec3(1, 0, 0), "Ramp", 0));
-    geometryList.add(CreateRamp(vec3(159.46f,8.354f,-595.88f), vec3(70.707f, 0.953f, 13.055f), Red, 352.906f, vec3(1, 0, 0), "Ramp", 0));
-    geometryList.add(CreateRamp(vec3(159.46f,6.471f,-608.888f), vec3(70.707f, 0.953f, 13.055f), Red, 353.537f, vec3(1, 0, 0), "Ramp", 0));
-    geometryList.add(CreateRamp(vec3(159.46f,4.609f,-621.843f), vec3(70.707f, 0.953f, 13.055f), Red, 353.537f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(169.141f,19.813f,-532.305f), vec3(70.707f, 0.953f, 13.055f), Red, 336.008f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(166.531f,15.518f,-544.363f), vec3(70.707f, 0.953f, 13.055f), Red, 344.502f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(162.573f,12.638f,-557.217f), vec3(70.707f, 0.953f, 13.055f), Red, 351.625f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(159.46f,10.819f,-569.927f), vec3(70.707f, 0.953f, 13.055f), Red, 355.566f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(159.46f,9.465f,-583.044f), vec3(70.707f, 0.953f, 13.055f), Red, 352.87f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(159.46f,7.854f,-595.88f), vec3(70.707f, 0.953f, 13.055f), Red, 352.906f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(159.46f,5.971f,-608.888f), vec3(70.707f, 0.953f, 13.055f), Red, 353.537f, vec3(1, 0, 0), "Ramp", 0));
+    geometryList.add(CreateRamp(vec3(159.46f,4.109f,-621.843f), vec3(70.707f, 0.953f, 13.055f), Red, 353.537f, vec3(1, 0, 0), "Ramp", 0));
 
 
  //   // Second double ramp

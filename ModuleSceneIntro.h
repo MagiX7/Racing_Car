@@ -122,9 +122,13 @@ public:
 
 	int fxCheckpoint;
 	int fxLapCompleted;
+	int fxWin;
+	int fxLose;
+	bool playOnceWinLoseFx = true;
 
 
-	float lapTime;
-	float lastLapTime;
-	float bestLapTime;
+	float lapTime; // Current lap time
+	float lastLapTime; // Last time lap 
+	float bestLapTime; // Best lap time done
+	int bestTimeLap; // Lap at which best time was achieved
 };
