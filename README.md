@@ -3,6 +3,7 @@ This is a Racing Game where you have to beat the chrono to take the victory. You
 The time you have to achieve must be less than 50 seconds to win.
 
 The Physics engine used for this project is Bullet 3D, and for the graphics, OpenGL.
+Your best time will be into a text file with name: "Times".
 
 ## Controls
 - WASD to move the car.

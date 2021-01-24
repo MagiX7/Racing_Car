@@ -137,7 +137,6 @@ update_status ModuleSceneIntro::Update(float dt)
         }
     }
 
-
     ResetTurbos(dt);
 
     display(dt);
@@ -440,27 +439,7 @@ void ModuleSceneIntro::MapCreation()
     geometryList.add(CreateRamp(vec3(159.46f,9.465f,-583.044f), vec3(70.707f, 0.953f, 13.055f), Red, 352.87f, vec3(1, 0, 0), "Ramp", 0));
     geometryList.add(CreateRamp(vec3(159.46f,7.854f,-595.88f), vec3(70.707f, 0.953f, 13.055f), Red, 352.906f, vec3(1, 0, 0), "Ramp", 0));
     geometryList.add(CreateRamp(vec3(159.46f,5.971f,-608.888f), vec3(70.707f, 0.953f, 13.055f), Red, 353.537f, vec3(1, 0, 0), "Ramp", 0));
-    geometryList.add(CreateRamp(vec3(159.46f,4.109f,-621.843f), vec3(70.707f, 0.953f, 13.055f), Red, 353.537f, vec3(1, 0, 0), "Ramp", 0));
-
-
- //   // Second double ramp
- //   geometryList.add(CreateCube(vec3(-70.473f, 5.594f, 0), vec3(14.431f, 12.265f, 83.72f), Red, 0));
- //   geometryList.add(CreateRamp(vec3(-83.489f, 4.978f, -0.384f), vec3(1.409f, 17.848f, 82.1f), Red, -45, vec3(0, 0, 1), 0));
- //   geometryList.add(CreateRamp(vec3(-57.528f, 4.978f, -0.384f), vec3(1.409f, 17.848f, 82.1f), Red, 45, vec3(0, 0, 1), 0));
-	//
- //   // Starting ramp
- //   geometryList.add(CreateRamp(vec3(1.0f, 1.0f, 45.0f), vec3(20.0f, 30.0f, 1.0f), Red, 45, vec3(1, 0, 0),0));
-
-
- //   // Single Ramp with cube
- //   geometryList.add(CreateCube(vec3(-19.003f,5.187f,132.797f), vec3(14.431f,10.756f,13.135f), Red, 0));
- //   geometryList.add(CreateRamp(vec3(-33.173f,4.978f,132.721f), vec3(1.408f,17.748f,13.142f), Red, -55.444f, vec3(0, 0, 1), 0));
-
- //   // Outside ramp and build
- //   geometryList.add(CreateCube(vec3(0.0f,6.895f,-151.363f), vec3(279.942f,18.513f,21.03f), Red, 0));
- //   geometryList.add(CreateRamp(vec3(-72.099f,6.866f,-133.19f), vec3(37.045f,2.187f,23.893f), White, 45, vec3(1, 0, 0), 0));
- //   geometryList.add(CreateRamp(vec3(66.429f,6.866f,-133.19f), vec3(37.045f,2.187f,23.893f), White, 45, vec3(1, 0, 0), 0));
-    
+    geometryList.add(CreateRamp(vec3(159.46f,4.109f,-621.843f), vec3(70.707f, 0.953f, 13.055f), Red, 353.537f, vec3(1, 0, 0), "Ramp", 0));    
 }
 
 void ModuleSceneIntro::display(float dt)
@@ -900,5 +879,4 @@ void ModuleSceneIntro::myinit(void)
     glEnable(GL_TEXTURE_2D);
 
     glShadeModel(GL_FLAT);
-
 }

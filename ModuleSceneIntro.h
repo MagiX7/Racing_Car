@@ -101,9 +101,7 @@ public:
 
 	GLubyte checkImage[checkImageWidth][checkImageHeight][3];
 
-	//Light lights[MAX_LIGHTS];
 	p2List<Cube*> lights;
-	//Light l;
 
 	Torus donut;
 
