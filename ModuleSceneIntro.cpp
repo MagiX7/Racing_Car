@@ -6,6 +6,9 @@
 #include "Primitive.h"
 #include "PhysBody3D.h"
 
+#include <stdio.h>
+
+
 ModuleSceneIntro::ModuleSceneIntro(bool start_enabled) : Module(start_enabled)
 {
 }
@@ -60,23 +63,32 @@ bool ModuleSceneIntro::Start()
 
     myinit();
 
-    laps = 1;
     
     fxCheckpoint = App->audio->LoadFx("Assets/Audio/checkpoint.wav");
     fxLapCompleted = App->audio->LoadFx("Assets/Audio/lap.wav");
     App->audio->PlayMusic("Assets/Audio/nine_thou.ogg");
 
+    laps = 1;
     swapCamera = false;
+    lapTime = 0;
+    bestLapTime = 43600;
+    lastLapTime = 0;
 
     return ret;
 }
 
-// Load assets
+// UnLoad assets
 bool ModuleSceneIntro::CleanUp()
 {
 	LOG("Unloading Intro scene");
 
 	geometryList.clear();
+    physBodies.clear();
+    checkpointList.clear();
+    torusCheckpointList.clear();
+    sticksList.clear();
+    turbosList.clear();
+
 
 	return true;
 }
@@ -88,20 +100,25 @@ update_status ModuleSceneIntro::Update(float dt)
     //LOG("%i", startCountDown);
     CountDown(dt);
     
+    if (go && laps < 4)
+    {
+        lapTime += 100 * dt;
+        LOG("%f===", lapTime)
+    }
+    else if (laps == 4)
+    {
+        FILE* timesFile;
+        errno_t err = fopen_s(&timesFile, "Times.txt", "a+");
+        if (!err)
+        {
+            fprintf_s(timesFile, "Your best time was: %.3f seconds\n", bestLapTime);
+        }
+    }
+
+
     ResetTurbos(dt);
 
     display(dt);
-
-  /*  if (App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN)
-    {
-        App->player->Disable();
-        CleanUp();
-        Start();
-    }*/
-
-	/*Plane p(0, 1, 0, 0);
-	p.axis = true;
-	p.Render();*/
 	
 
 	return UPDATE_CONTINUE;
@@ -144,7 +161,13 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
         if (body2->name == "startcheckpoint" && checkpointList.count() == 0)
         {
             checkpointList.add(body2);
-            if (laps == 4)
+
+            // Timer reset
+            lastLapTime = lapTime;
+            if (lastLapTime < bestLapTime) bestLapTime = lastLapTime;
+            lapTime = 0.0f;
+
+            if (laps == 2 || laps == 3)
                 App->audio->PlayFx(fxLapCompleted);
         }
         else if (body2->name == "secondcheckpoint")
@@ -774,7 +797,7 @@ Image* ModuleSceneIntro::loadTexture()
 
     }
 
-    if (!ImageLoad("Assets/Textures/asphalt4.bmp", image1))
+    if (!ImageLoad("Assets/Textures/asphalt.bmp", image1))
     {
 
         exit(1);

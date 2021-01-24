@@ -181,27 +181,19 @@ update_status ModulePlayer::Update(float dt)
 
 	vec3 groundRaycast = App->physics->RayCast({ vehicle->GetPos().x, vehicle->GetPos().y + 1, vehicle->GetPos().z }, dest);
 	float l = length(groundRaycast);
-	//LOG("%f", l);
 	
 	if (l < 1.0f) groundContact = true;
 	else
 	{
 		groundContact = false;
-		//btVector3 v = 0, -200, 0);
 		vec3 force = vec3(0,-200,0);
 		vehicle->Push(force.x, force.y, force.z);
 	}
-	LOG("%f", l);
 
 	vec3 up(0, 1, 0);
 	vec3 upRotated = rot * up;
 	vec3 upVector = App->physics->RayCast({ vehicle->GetPos().x, vehicle->GetPos().y + 1, vehicle->GetPos().z }, upRotated);
 	float upVectorLength = length(upVector);
-
-	//if (upVectorLength < 2.1f) allowFlip = true;
-	//else allowFlip = false;
-	//LOG("%f", upVectorLength);
-
 
 	if (App->scene_intro->laps != 4) HandleInputs(dt);
 

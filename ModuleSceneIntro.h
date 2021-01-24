@@ -124,4 +124,7 @@ public:
 	int fxLapCompleted;
 
 
+	float lapTime;
+	float lastLapTime;
+	float bestLapTime;
 };
